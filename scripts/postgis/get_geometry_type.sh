@@ -14,7 +14,7 @@ if [ "$2" == "" ]; then
 fi
 
 # get config
-source /systemapic/config/env.sh
+source /mapic/config/env.sh
 
 export PGUSER=${SYSTEMAPIC_PGSQL_USERNAME}
 export PGPASSWORD=${SYSTEMAPIC_PGSQL_PASSWORD}

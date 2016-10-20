@@ -1,0 +1,1 @@
+/mapic/config/wu-config.js

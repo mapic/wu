@@ -413,26 +413,21 @@ module.exports = api.project = {
 		var user = req.user;
 		var ops = [];
 
-		console.log('###### CREATE PROJECT ))');
-
 		// return if missing info
 		if (!store.name) {
 			return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['name']));
 		}
 
 
-		console.log('1');
 		// get access
 		var storeAccess = api.project.defaultStoreAccess(store.access);
 		var isPublic = storeAccess.options.isPublic;
 
 		// check access
 		ops.push(function (callback) {
-		console.log('2');
 
 			// if public, allowed to create project
 			if (isPublic) return callback(null);
-		console.log('3');
 
 			// check if user can create private project
 			user.canCreatePrivateProject() ? callback(null) : callback({
@@ -442,7 +437,6 @@ module.exports = api.project = {
 		});
 
 		ops.push(function (callback) {
-		console.log('4');
 			
 			Project
 			.findOne({
@@ -450,9 +444,7 @@ module.exports = api.project = {
 				createdBy : user.uuid
 			})
 			.exec(function (err, project) {
-		console.log('5');
 				if (err) return callback(err);
-		console.log('7');
 
 				if (!project) return callback()
 
@@ -466,7 +458,6 @@ module.exports = api.project = {
 
 		// create project
 		ops.push(function (callback) {
-		console.log('8');
 			api.project._create({
 				user : user,
 				store : store
@@ -475,7 +466,6 @@ module.exports = api.project = {
 
 		// set default mapbox account
 		ops.push(function (project, callback) { // todo: refactor. takes a long time to GET mapbox...
-		console.log('9');
 			api.provider.mapbox.setDefault({
 				project : project
 			}, callback);
@@ -483,7 +473,6 @@ module.exports = api.project = {
 
 		// add norkart layers
 		ops.push(function (project, callback) {
-		console.log('11');
 			api.provider.norkart.setDefaults({
 				project : project
 			}, callback);
@@ -491,7 +480,6 @@ module.exports = api.project = {
 
 		// add google layers
 		ops.push(function (project, callback) {
-		console.log('12');
 			api.provider.google.setDefault({
 				project : project
 			}, callback);
@@ -499,7 +487,6 @@ module.exports = api.project = {
 
 		// get updated project
 		ops.push(function (project, callback) {
-		console.log('13');
 			Project
 				.findOne({uuid : project.uuid})
 				.populate('layers')
@@ -508,23 +495,16 @@ module.exports = api.project = {
 
 		// set some default settings
 		ops.push(function (project, callback) {
-		console.log('14');
 			api.project.setDefaults(project, callback);
 		});
 
 		// run ops
 		async.waterfall(ops, function (err, project) {
-		console.log('15');
 			if (err) {
 				return next(err);
 			}
 
-			// slack
-			// api.slack.createdProject({
-			// 	project : project,
-			// 	user : user
-			// });
-
+			
 			// return
 			api.project._returnProject(req, res, project, next);
 		});

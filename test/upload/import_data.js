@@ -10,7 +10,7 @@ var chai = require('chai');
 var expect = chai.expect;
 
 // configs
-var config = require('../config.js').serverConfig;
+var config = require('../../config.js').serverConfig;
 var User = require('../../models/user');
 var Project = require('../../models/project');
 var Layer = require('../../models/layer');

@@ -8,24 +8,23 @@ var timestamps = require('mongoose-times');
 // define the schema for our file model
 var fileSchema = mongoose.Schema({
 
-	uuid            :  String,
-	family          :  String,       // uuid of family - ie. versions of same file
-	createdBy       :  String,
-	createdByName   :  String, 
+	uuid            : String,
+	family          : String,       // uuid of family - ie. versions of same file
+	createdBy       : String,
+	createdByName   : String, 
 	files           : [String],
-	folder          :  String,
-	absfolder       :  String,
-	name            :  String,
-	originalName 	:  String,
-	description     :  String,
-	copyright 	:  String,
+	folder          : String,
+	absfolder       : String,
+	name            : String,
+	originalName 	: String,
+	description     : String,
+	copyright 		: String,
 	keywords        : [String],
-	category        :  String,
-	version         :  Number,        
-	status          :  String,        // current, archived, etc...
-	type            :  String,
+	category        : String,
+	version         : Number,        
+	status          : String,        // current, archived, etc...
+	type            : String,
 	format          : [String],       // .shp, .kml, .zip, .jpg
-   
    	styleTemplates  : [String], // array of JSON
 
 	data : {
@@ -38,13 +37,6 @@ var fileSchema = mongoose.Schema({
 			metadata : String,
 			file_id : String
 		}, 	
-
-		// deprecated, rasters now in postgis
-		// raster : {
-		// 	file_id : String,
-		// 	metadata : String
-		// },	
-	
 
 		// todo: clean this up!
 		image : {
@@ -75,7 +67,6 @@ var fileSchema = mongoose.Schema({
 			}]
 		}
 	},
-
 
 	dataSize : String,              // datasize in bytes, for progress bar
 

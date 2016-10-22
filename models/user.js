@@ -7,7 +7,10 @@ var timestamps = require('mongoose-times');
 // define the schema for our user model
 var userSchema = mongoose.Schema({
 
-        uuid        : String,
+       
+        // id.mapic.io
+        // ===========
+        // uuid        : String, // both places
         firstName   : String,
         lastName    : String,
         company     : String,
@@ -16,48 +19,20 @@ var userSchema = mongoose.Schema({
         mobile      : String,
         createdBy   : String,
         invitedBy   : String,
-
-        // tile server auth token
-        token       : String,
-
+        username    : String,
+        email       : String,
+        avatar      : String,
+        token       : String, // tile server auth token
         access_token : String,
-
-        postgis_database : String,
-
-        username : String,
-        email : String,
-        avatar : String,
-
-        // temp status notifications
         status : {
+            // temp status notifications
             contact_requests : [String]
         },
-
         state : {
             lastProject : [String]  // projectUuid of last opened project
         },
 
-        access : {
-
-            // for reference
-            account_type : { type: String, default: 'free' },
-
-            // storage limits
-            storage_quota : { type: Number, default: '200000000' }, // 200MB
-            remaining_quota : { type: Number, default: '200000000' },
-
-            // allowed private projects
-            private_projects : { type: Boolean, default: true },
-
-            // super
-            super : { type : Boolean, default : false}
-
-        },
-
         contact_list : [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-
-        files : [{ type: mongoose.Schema.Types.ObjectId, ref: 'File' }],
-
         local : {
                 email        : String,      // login name
                 password     : String
@@ -80,6 +55,27 @@ var userSchema = mongoose.Schema({
                 email        : String,
                 name         : String
         },
+
+
+
+        // locally
+        // =======
+        uuid : String,
+        postgis_database : String,
+
+        access : {
+            super : { type : Boolean, default : false},
+
+            // just debug keys
+            account_type : { type: String, default: 'free' },
+            storage_quota : { type: Number, default: '200000000' }, // 200MB
+            remaining_quota : { type: Number, default: '200000000' },
+            private_projects : { type: Boolean, default: true },
+        },
+
+        // list of files that belong to user (todo: move to file only? why is this here?)
+        files : [{ type: mongoose.Schema.Types.ObjectId, ref: 'File' }],
+       
 });
 
 // methods ======================
@@ -115,9 +111,7 @@ userSchema.methods.isBot = function () {
     return this.local.email == 'bot@systemapic.com';
 };
 userSchema.methods.isSuper = function () {
-    // return this.local.email == 'bot@systemapic.com' && this.access.account_type == 'bot';
     return this.access.super;
-    // return this.access.account_type == 'super';
 };
 
 // timestamps plugin

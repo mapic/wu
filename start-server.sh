@@ -8,7 +8,7 @@ source /mapic/config/env.sh
 # npm install
 
 # start prodmode
-if $SYSTEMAPIC_PRODMODE; then
+if $MAPIC_PRODMODE; then
 	cd server
 	echo 'Production mode'
 	grunt prod 

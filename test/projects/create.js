@@ -1,7 +1,7 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
+// var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var helpers = require('../helpers');
 var token = helpers.token;
 var httpStatus = require('http-status');
@@ -9,22 +9,31 @@ var expected = require('../../shared/errors');
 var endpoints = require('../endpoints.js');
 var Project = require('../../models/project');
 var _ = require('lodash');
+var forge = require('node-forge');
+
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
 
 module.exports = function () {
+
     describe(endpoints.projects.create, function () {
-        var tmpProject = '';
+        
+        var test_project = {};
 
         after(function (done) {
-            helpers.delete_project_by_id(tmpProject, done);
+            helpers.delete_project_by_id(test_project.uuid, done);
         });
 
         // test 1
         it('should be able to create empty project and get valid project in response', function (done) {
+            this.slow(10000);
             token(function (err, access_token) {
+                test_project.name = 'mocha-project-' + forge.util.bytesToHex(forge.random.getBytesSync(5));
                 api.post(endpoints.projects.create)
                     .send({
                         access_token: access_token,
-                        name: 'empty-mocha-test-project'             
+                        name: test_project.name       
                     })
                     .expect(httpStatus.OK)
                     .end(function (err, res) {
@@ -32,8 +41,8 @@ module.exports = function () {
                         var project = helpers.parse(res.text).project;
                         expect(project).to.exist;
                         expect(project.uuid).to.exist;
-                        expect(project.name).to.be.equal('empty-mocha-test-project');
-                        tmpProject = project.uuid;
+                        expect(project.name).to.be.equal(test_project.name);
+                        test_project.uuid = project.uuid;
                         done();
                     });
             });
@@ -44,7 +53,7 @@ module.exports = function () {
         it("should respond with status code 401 when not authenticated", function (done) {
             api.post(endpoints.projects.create)
                 .send({
-                    name: 'mocha-test-project'
+                    name: test_project.name
                 })
                 .expect(httpStatus.UNAUTHORIZED)
                 .end(done);
@@ -75,7 +84,6 @@ module.exports = function () {
             token(function (err, access_token) {
                 api.post(endpoints.projects.create)
                     .send({
-                        foo: 'mocha-test-updated-name',
                         access_token: access_token
                     })
                     .expect(httpStatus.BAD_REQUEST)
@@ -96,7 +104,7 @@ module.exports = function () {
             token(function (err, access_token) {
                 api.post(endpoints.projects.create)
                     .send({
-                        name: 'empty-mocha-test-project',
+                        name: test_project.name,
                         access_token: access_token
                     })
                     .expect(httpStatus.BAD_REQUEST)

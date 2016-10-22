@@ -5,19 +5,25 @@ var fs = require('fs');
 var crypto = require('crypto');
 var request = require('request');
 var _ = require('lodash');
+var supertest = require('supertest');
+
+// configs
+var config = require('../config.js').serverConfig;
 var User = require('../models/user');
 var File = require('../models/file');
 var Layer = require('../models/layer');
 var Project = require('../models/project');
-var config = require(
-  process.env.WU_CONFIG_PATH ||
-  '../../config/wu-config.js'
-).serverConfig;
-var supertest = require('supertest');
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var endpoints = require('./endpoints.js');
 var apiModule = require('../api/api.js');
 var testData = require('./shared/helpers.json');
+
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
+
+// Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
+// See https://github.com/systemapic/pile/issues/38
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 mongoose.connect(config.mongo.url); 
 

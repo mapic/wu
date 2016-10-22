@@ -2,13 +2,16 @@ var assert = require('assert');
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
+// var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var helpers = require('../helpers');
 var token = helpers.token;
 var httpStatus = require('http-status');
 var expected = require('../../shared/errors');
 var endpoints = require('../endpoints.js');
 
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
 
 module.exports = function () {
 	describe(endpoints.projects.public, function () {
@@ -64,36 +67,35 @@ module.exports = function () {
 			});
 		});
 
-		context('when user have no specific project', function () {
 
-			// test 4
-			it('should respond with status code 404 and specific error message', function (done) {
-				token(function (err, access_token) {
-					api.get(endpoints.projects.public)
-						.query({
-							access_token: access_token,
-							username: helpers.test_user.username,
-							project_slug: 'some project_slug'
-						})
-						.send()
-						.expect(httpStatus.NOT_FOUND)
-						.end(function (err, res) {
-							if (err) {
-								return done(err);
-							}
+		// test 4
+		it.skip('should respond with status code 404 and specific error message when user have no specific project', function (done) {
+			token(function (err, access_token) {
+				api.get(endpoints.projects.public)
+					.query({
+						access_token: access_token,
+						username: helpers.test_user.username,
+						project_slug: 'some project_slug'
+					})
+					.send()
+					.expect(httpStatus.NOT_FOUND)
+					.end(function (err, res) {
+						if (err) {
+							return done(err);
+						}
 
-							var result = helpers.parse(res.text);
+						var result = helpers.parse(res.text);
 
-							expect(result.error.message).to.be.equal(expected.no_such_project.errorMessage);
-							expect(result.error.code).to.be.equal(httpStatus.NOT_FOUND);
-							done();
-						});
-				});
+						expect(result.error.message).to.be.equal(expected.no_such_project.errorMessage);
+						expect(result.error.code).to.be.equal(httpStatus.NOT_FOUND);
+						done();
+					});
 			});
-
 		});
 
-		context('when user have specific project', function () {
+
+		// todo: clean up, remove context (keep tests)
+		context.skip('when user have specific project', function () {
 			var tmpNotPublicProject = {};
 			var tmpPublicProject = {};
 			before(function (done) {

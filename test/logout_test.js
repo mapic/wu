@@ -1,7 +1,7 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = supertest.agent('https://' + process.env.SYSTEMAPIC_DOMAIN);
+// var api = supertest.agent('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var helpers = require('./helpers');
 var token = helpers.token;
 var expected = require('../shared/errors');
@@ -9,6 +9,10 @@ var httpStatus = require('http-status');
 var endpoints = require('./endpoints.js');
 var _ = require('lodash');
 var cookieParser = require('cookie-parser');
+
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
 
 describe(endpoints.logout, function () {
     var access_token = '';

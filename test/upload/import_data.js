@@ -34,7 +34,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 module.exports = function () {
 
     describe('Shapefile', function () {
-       
+        this.slow(10000);
+        this.timeout(10000);
+
         // prepare test
         before(function(callback) {
             // create tmp user, project
@@ -48,7 +50,7 @@ module.exports = function () {
         describe('POST ' + endpoints.import.post, function () {
             this.slow(500);
 
-            // context('shapefile.polygon.zip', function () {
+                // context('shapefile.polygon.zip', function () {
                 this.timeout(21000);
                 
                 it('upload shapefile.polygon.zip', function (done) {

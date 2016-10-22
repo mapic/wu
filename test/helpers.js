@@ -6,6 +6,7 @@ var crypto = require('crypto');
 var request = require('request');
 var _ = require('lodash');
 var supertest = require('supertest');
+var forge = require('node-forge');
 
 // configs
 var config = require('../config.js').serverConfig;
@@ -135,9 +136,10 @@ module.exports = util = {
 
     create_project : function (done) {
         util.token(function (err, access_token) {
+            var project_name = 'mocha-test-project' + forge.util.bytesToHex(forge.random.getBytesSync(5));
             api.post(endpoints.projects.create)
             .send({
-                name : 'mocha-test-project', 
+                name : project_name, 
                 access_token : access_token
             })
             .end(function (err, res) {
@@ -146,7 +148,7 @@ module.exports = util = {
                 var project = util.parse(res.text).project;
                 assert.ok(project);
                 assert.ok(project.uuid);
-                assert.equal(project.name, 'mocha-test-project');
+                assert.equal(project.name, project_name);
                 util.test_user.pid = project.uuid;
                 done();
             });

@@ -1,7 +1,7 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
+// var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var helpers = require('./../helpers');
 var _ = require('lodash');
 var token = helpers.token;
@@ -12,6 +12,12 @@ var async = require('async');
 var httpStatus = require('http-status');
 var endpoints = require('../endpoints.js');
 var testData = require('../shared/layers/delete.json');
+
+
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
+
 
 module.exports = function () {
 

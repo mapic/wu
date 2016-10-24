@@ -2,4 +2,4 @@
 
 
 # Install
-See [Mapic Dockerized](https://github.com/mapic/dockerized) for installation instructions.
+See [mapic/mapic](https://github.com/mapic/mapic) for installation instructions.

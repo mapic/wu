@@ -110,6 +110,7 @@
     "documentation": "^4.0.0-beta10",
     "gdal": "0.9.3",
     "grunt": "^1.0.1",
+    "grunt-chokidar": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-cssmin": "^1.0.2",
     "grunt-contrib-htmlmin": "^2.0.0",

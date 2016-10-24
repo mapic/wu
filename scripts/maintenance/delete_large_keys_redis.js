@@ -4,7 +4,7 @@ var redis = require('redis');
 var async = require('async');
 
 // config
-var config = require('/systemapic/config/wu-config').serverConfig;
+var config = require('../../config.js').serverConfig;
 
 // connect redis
 var redis = require('redis');

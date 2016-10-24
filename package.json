@@ -1,21 +1,37 @@
 {
-  "name": "systemapic-wu",
-  "description": "bringing geographical data to life",
-  "version": "1.3.5",
-  "private": true,
-  "main": "server.js",
+  "name": "mapic/engine",
+  "description": "Open source map engine and web mapping tool",
+  "version": "2.0.1",
+  "private": false,
+  "main": "start-server.sh",
   "scripts": {
     "test": "mocha -R spec --slow 200",
     "apidocs": "./tools/gen_apidocs.sh"
   },
   "apidoc": {
-    "title": "Systemapic API Documentation",
-    "name": "Systemapic API Documentation",
+    "title": "Mapic API Documentation",
+    "name": "Mapic API Documentation",
     "url": "",
     "header": {
-      "title": "Systemapic API"
+      "title": "Mapic API"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mapic/engine.git"
+  },
+  "contributors": [
+    "knutole@mapic.io",
+    "jorgen@systemapic.com",
+    "strk@keybit.net",
+    "icygler@hwdtech.ru",
+    "mgdfot@gmail.com"
+  ],
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/mapic/engine/issues"
+  },
+  "homepage": "https://github.com/mapic/engine",
   "dependencies": {
     "acl": "^0.4.9",
     "archiver": "^1.1.0",

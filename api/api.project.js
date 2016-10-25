@@ -418,6 +418,7 @@ module.exports = api.project = {
 			return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['name']));
 		}
 
+
 		// get access
 		var storeAccess = api.project.defaultStoreAccess(store.access);
 		var isPublic = storeAccess.options.isPublic;
@@ -431,29 +432,28 @@ module.exports = api.project = {
 			// check if user can create private project
 			user.canCreatePrivateProject() ? callback(null) : callback({
 				message: errors.no_access.errorMessage,
-				code: httpStatus.BAD_REQUEST
+				code: httpStatus.FORBIDDEN
 			});
 		});
 
 		ops.push(function (callback) {
-			Project.findOne({
+			
+			Project
+			.findOne({
 				name : store.name,
 				createdBy : user.uuid
 			})
-				.exec(function (err, project) {
-					if (err) {
-						return callback(err);
-					}
+			.exec(function (err, project) {
+				if (err) return callback(err);
 
-					if (project) {
-						return callback ({
-							message: errors.project_with_such_name_already_exist.errorMessage,
-							code: httpStatus.BAD_REQUEST
-						});
-					}
+				if (!project) return callback()
 
-					callback();
+				callback({
+					message: errors.project_with_such_name_already_exist.errorMessage,
+					code: httpStatus.BAD_REQUEST
 				});
+
+			});
 		});
 
 		// create project
@@ -465,7 +465,7 @@ module.exports = api.project = {
 		});
 
 		// set default mapbox account
-		ops.push(function (project, callback) {
+		ops.push(function (project, callback) { // todo: refactor. takes a long time to GET mapbox...
 			api.provider.mapbox.setDefault({
 				project : project
 			}, callback);
@@ -504,12 +504,7 @@ module.exports = api.project = {
 				return next(err);
 			}
 
-			// slack
-			// api.slack.createdProject({
-			// 	project : project,
-			// 	user : user
-			// });
-
+			
 			// return
 			api.project._returnProject(req, res, project, next);
 		});
@@ -536,14 +531,14 @@ module.exports = api.project = {
 		project.createdByUsername = user.username;
 		project.slug 		= projectSlug;
 		project.name 		= projectName;
-		project.description 	= store.description || '';
+		project.description = store.description || '';
 		project.keywords 	= store.keywords || '';
 		project.position 	= store.position || api.project._getDefaultPosition(); // defaults
 		project.access 		= store.access;
 
 		// save
-		project.save(function (err, project, numAffected) { 	// major GOTCHA!!! product.save(function (err, product, numberAffected) 
-			done(err, project);				// returns three args!!!
+		project.save(function (err, project, numAffected) { 	// major GOTCHA!!! product.save(function (err, product, numberAffected) returns three args!!!
+			done(err, project); 
 		});
 	},
 

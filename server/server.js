@@ -48,8 +48,8 @@ var sessionOptions = {
 // use cookie session
 app.use(clientSession(sessionOptions));
 
-// socket auth middleware
-app.io.use(function(socket, next){
+// helper fn
+function socket_auth_middleware (socket, next) {
 	if (!socket || !socket.headers || !socket.headers.cookie) return next(new Error('No socket, fatal.'));
 	var a = socket.headers.cookie.split('=');
 	var decoded_cookie = clientSession.util.decode(sessionOptions, a[a.length-1]);
@@ -62,13 +62,18 @@ app.io.use(function(socket, next){
 		socket.session.user_id = user._id;
 		next();
 	});
-});
+}
 
-// app.use(flash());
+// socket auth middleware
+app.io.use(socket_auth_middleware);
+
+// set favicon
 app.use(favicon(__dirname + '/../public/images/favicon.ico'));
 
 // enable compression
 app.use(compress());
+
+// enable cors
 app.use(cors());
 
 // static files
@@ -90,5 +95,4 @@ require('../routes/socket.routes.js')(app);
 // launch 
 var server = app.listen(port);
 
-// brag
 console.log('The magic happens @ ', port);

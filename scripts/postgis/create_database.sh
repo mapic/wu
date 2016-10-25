@@ -11,7 +11,7 @@ OWNER_NAME=$2
 OWNER_UUID=$3
 
 # get config or die
-source /systemapic/config/env.sh || exit 1
+source /mapic/config/env.sh || exit 1
 
 export PGUSER=${SYSTEMAPIC_PGSQL_USERNAME}
 export PGPASSWORD=${SYSTEMAPIC_PGSQL_PASSWORD}

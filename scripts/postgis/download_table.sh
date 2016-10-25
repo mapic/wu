@@ -21,7 +21,7 @@ fi
 
 
 # get config
-source /systemapic/config/env.sh
+source /mapic/config/env.sh
 
 export PGPASSWORD=$SYSTEMAPIC_PGSQL_PASSWORD
 export PGUSERNAME=$SYSTEMAPIC_PGSQL_USERNAME

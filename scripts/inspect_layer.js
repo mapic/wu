@@ -21,7 +21,7 @@ var Role 	 = require('../models/role');
 var Group 	 = require('../models/group');
 
 // config
-var config  = require('../../config/wu-config.js').serverConfig;
+var config  = require('../../config.js').serverConfig;
 
 // global paths
 var VECTORPATH   = '/data/vector_tiles/';

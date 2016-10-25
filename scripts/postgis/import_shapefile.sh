@@ -15,7 +15,7 @@ fi
 
 
 # get config
-source /systemapic/config/env.sh
+source /mapic/config/env.sh
 
 # env
 SHAPEFILE=$1

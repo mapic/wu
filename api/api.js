@@ -4,12 +4,8 @@
 var api = {};
 api.version = '2.0.1';
 
-
 // config
-var config = require(
-  process.env.WU_CONFIG_PATH ||
-  '../../config/wu-config.js'
-);
+var config = require('../config.js');
 api.config = config.serverConfig;
 api.clientConfig = config.clientConfig;
 

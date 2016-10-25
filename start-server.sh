@@ -1,14 +1,13 @@
 #!/bin/bash
 
 # source config
-source /systemapic/config/env.sh
+source /mapic/config/env.sh
 
-# ensure npm modules are installed
-echo 'Installing modules...'
-npm install
+# ensure log folder
+mkdir -p log
 
 # start prodmode
-if $SYSTEMAPIC_PRODMODE; then
+if $MAPIC_PRODMODE; then
 	cd server
 	echo 'Production mode'
 	grunt prod 
@@ -20,8 +19,8 @@ else
 	cd server
 	echo 'Development mode'
 	grunt dev 
-	grunt watch &
+	# grunt watch &
 	echo 'Running in development mode...'
-	nodemon --watch ../api --watch /systemapic/config --watch server.js --watch ../routes server.js
+	nodemon --watch ../api --watch /mapic/config --watch server.js --watch ../routes server.js
 fi
 cd ..

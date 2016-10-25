@@ -1,9 +1,11 @@
-![alt tag](https://systemapic.com/wp-content/uploads/2013/08/bbox.png)
+![Mapic Logo](https://cloud.githubusercontent.com/assets/2197944/19607635/5c434458-97cb-11e6-941b-e74e83b385ba.png)
 
-Check out [wiki](https://github.com/systemapic/systemapic.js/wiki) for details.
 
-## Environment variables
+## Install
+See [mapic/mapic](https://github.com/mapic/mapic) for installation instructions.
 
-`WU_CONFIG_PATH`   - full path to wu-config.js, defaults to
-                     ../../config/wu-config.js
-                     only needed for tests
+
+## Licence
+Mapic is built entirely open source. We believe in a collaborative environment for creating strong solutions for an industry that is constantly moving. The Mapic platform is open for anyone to use and contribute to, which makes it an ideal platform for government organisations as well as NGO's and for-profit businesses.
+
+Mapic is licenced under the [GPLv3 licence](https://github.com/mapic/mapic/blob/master/LICENCE.md)

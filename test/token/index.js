@@ -1,16 +1,21 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
+// var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var helpers = require('../helpers');
 var httpStatus = require('http-status');
 var expected = require('../../shared/errors');
 var token = util.token;
 var endpoints = require('../endpoints.js');
 
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
+
 module.exports = function () {
 
     describe(endpoints.users.token.token, function () {
+        this.slow(5000);
         it('should respond with status code 400 and error if username and email don\'t exist in request body', function (done) {
 
             api.get(endpoints.users.token.token)

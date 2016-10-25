@@ -44,7 +44,7 @@ var mongoose = require('mongoose');
 var prompt = require('prompt');
 
 // config
-var config  = require('../config/wu-config.js').serverConfig;
+var config  = require('../config.js').serverConfig;                                                                            
 
 var global;
 

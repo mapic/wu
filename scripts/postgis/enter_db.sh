@@ -3,7 +3,7 @@
 . `dirname $0`/run_in_docker.inc
 
 # get config
-source /systemapic/config/env.sh
+source /mapic/config/env.sh
 
 export PAGER="/usr/bin/less -S"
 export PGPASSWORD=$SYSTEMAPIC_PGSQL_PASSWORD 

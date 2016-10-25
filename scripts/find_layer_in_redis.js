@@ -20,7 +20,7 @@ var RASTERPATH   = '/data/raster_tiles/';
 var GRIDPATH     = '/data/grid_tiles/';
 
 // config
-var config = require('/systemapic/config/wu-config').serverConfig;
+var config = require('../config.js').serverConfig;
 
 console.log('cinfig', config);
 

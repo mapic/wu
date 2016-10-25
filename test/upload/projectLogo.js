@@ -1,13 +1,17 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
+// var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var helpers = require('../helpers');
 var token = helpers.token;
 var httpStatus = require('http-status');
 var expected = require('../../shared/errors');
 var fs = require('fs');
 var path = require('path');
+
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
 
 module.exports = function () {
     describe('/api/project/uploadlogo', function () {

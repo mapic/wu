@@ -468,50 +468,6 @@ module.exports = api.user = {
 			error : null
 		});
 
-		// return callback(null, 'oko');
-
-
-		// 1. if exisitng user, add access and notify
-		// 2. if not existing, send create user link and store access in redis or whatever
-
-
-		// if not existing
-		// ---------------
-		// 
-		// - need to send link to user with token. 
-		// - token must be stored in redis and contain: email, project, type access, who invited, when invited 
-		// - possible to sign up with that email address only
-		// - when following link, taken to sign-up site: 
-		// 	1) enter details (name, organization, type profession?, etc.)
-		//	2) will create account on that email, give view/edit access to project.
-		// 	3) log user in immediately, activate project
-		// 	
-		// - should take invited user < 1 min to sign up.
-		//
-		// - new user has access to:
-		// 	1) view/edit project invited for
-		// 	2) NOT create new project ...
-		// 	3) NOT upload data 
-		// 	4) invite others for VIEW
-		// 	
-		// 	- should set certain limitations on others' servers. ie, if GLOBESAR has a server, others should perhaps not
-		//		be able to invite to it. perhaps invite to SYSTEMAPIC server instead?
-		// 	- actually, only GLOBESAR should be able to invite uploaders to his own portal.
-		// 	- need to syncronize servers soon! 
-
-
-
-		// PILOT FLOW:
-		// 1. frano can only invite VIEWERS
-		// 2. if he wants more admins, we'll add them for him.
-		// 3. anybody can invite VIEWERS to own projects ?
-		//
-		// 4. ALSO would be really cool: just send anyone a link, and they can login/register and get access to project.
-
-
-
-		// callback(null, options);
-
 	},
 
 
@@ -525,7 +481,8 @@ module.exports = api.user = {
 		var missing = [];
 		var ops = {};
 
-		console.log('api.user.create', req.session);
+		console.log('api.user.create2');
+		console.log(req);
 
 		// check valid fields
 		if (!username) 	missing.push('username');
@@ -842,16 +799,12 @@ module.exports = api.user = {
 
 
 	deleteUser : function (req, res, next) {
-		console.log('api.user.deleteUser', req.body, req.user, typeof req.user);
-		console.log('REQ.USER -->');
-		console.log(req.user);
-		console.log(JSON.parse(req.user));
-		// if (!req.user) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['user']));
-
+		
 		var user_id = req.body.user_id || req.body.uuid;
+		console.log('deleteUser user_id, req.user.uuid', user_id, req.user.uuid);
 
 		// only allow deleting of self
-		if (req.user.uuid != user_id) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['user']));
+		if (req.user.uuid != user_id) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['user_id']));
 
 		User
 	        .findOne({uuid : user_id})
@@ -1058,34 +1011,6 @@ module.exports = api.user = {
 		});
 
 	},
-
-
-
-
-	// _create : function (job, callback) {
-	// 	var options = job.options,
-	// 	    account = job.account;
-
-	// 	if (!options || !account) return callback('Missing information.5');
-
-	// 	// create the user
-	// 	var user            	= new User();
-	// 	var password 		= crypto.randomBytes(16).toString('hex');
-	// 	user.uuid 		= 'user-' + uuid.v4();
-	// 	user.local.email    	= options.email;	
-	// 	user.local.password 	= user.generateHash(password);
-	// 	user.firstName 		= options.firstName;
-	// 	user.lastName 		= options.lastName;
-	// 	user.company 		= options.company;
-	// 	user.position 		= options.position;
-	// 	user.phone 		= options.phone;
-	// 	user.createdBy		= account.getUuid();
-		
-	// 	// save the user
-	// 	user.save(function(err, user) { 
-	// 		callback(err, user, password); // todo: password plaintext
-	// 	});
-	// },
 
 	// validate request parameters for update user
 	_validateUserUpdates : function (req) {
@@ -1325,7 +1250,6 @@ module.exports = api.user = {
 
 	// check unique username
 	checkUniqueUsername : function (req, res, next) {
-		console.log('req.body userna', req.body);
 		if (!req.body) {
 			return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['body']));
 		}
@@ -1381,18 +1305,6 @@ module.exports = api.user = {
 			};	
 		}
 		
-		
-		
-		// ops.contact_list = function (callback) {
-
-		// 	// find users on contact list (todo!)
-		// 	User
-		// 	.find({id : {$in : user.contact_list}})
-		// 	.exec(function (err, users) {
-		// 		callback(null, users);
-		// 	})
-		// };
-
 		async.series(ops, done);
 	},
 
@@ -1439,7 +1351,6 @@ module.exports = api.user = {
 		});
 
 	},
-
 
 	_getUserByUuid : function (userUuid, done) {
 		User

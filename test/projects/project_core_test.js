@@ -8,6 +8,10 @@ var getPrivate = require('./getPrivate');
 var getProjectLayers = require('./getProjectLayers');
 var setAccess = require('./setAccess');
 
+// Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
+// See https://github.com/systemapic/pile/issues/38
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
 describe('Project', function () {
     this.slow(500);
     before(function(done) { helpers.create_user(done); });
@@ -20,6 +24,5 @@ describe('Project', function () {
     getProjectLayers();
 	getPublic();
 	getPrivate();
-    getProjectLayers();
     setAccess();
 });

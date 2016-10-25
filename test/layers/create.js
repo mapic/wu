@@ -2,13 +2,19 @@ var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
 var _ = require('lodash');
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
+// var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var helpers = require('../helpers');
 var token = helpers.token;
 var httpStatus = require('http-status');
 var Layer = require('../../models/layer');
 var endpoints = require('../endpoints.js');
 var testData = require('../shared/layers/create.json');
+
+
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
+
 
 module.exports = function () {
     describe(endpoints.layers.create, function () {

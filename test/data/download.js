@@ -1,20 +1,25 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
+var httpStatus = require('http-status');
+var async = require('async');
+var fs = require('fs');
+
+// configs
+var config = require('../../config.js').serverConfig;
 var helpers = require('../helpers');
 var token = helpers.token;
 var expected = require('../../shared/errors');
-var httpStatus = require('http-status');
-var async = require('async');
 var Project = require('../../models/project');
-var config = require(
-  process.env.WU_CONFIG_PATH ||
-  '../../../config/wu-config.js'
-).serverConfig;
-var fs = require('fs');
 var endpoints = require('../endpoints.js');
 
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
+
+// Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
+// See https://github.com/systemapic/pile/issues/38
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 module.exports = function () {
 

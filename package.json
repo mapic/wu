@@ -1,5 +1,5 @@
 {
-  "name": "mapic/engine",
+  "name": "mapic-engine",
   "description": "Open source map engine and web mapping tool",
   "version": "2.0.1",
   "private": false,
@@ -27,7 +27,7 @@
     "icygler@hwdtech.ru",
     "mgdfot@gmail.com"
   ],
-  "license": "GPLv3",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/mapic/engine/issues"
   },
@@ -94,7 +94,7 @@
     "pdfkit": "^0.8.0",
     "pg": "^6.1.0",
     "pg-native": "^1.10.0",
-    "phantom": "^2.1.21",
+    "phantom": "^3.0.1",
     "proj4": "^2.3.14",
     "prompt": "^1.0.0",
     "python-shell": "0.4.0",
@@ -111,7 +111,7 @@
     "sphericalmercator": "^1.0.4",
     "srs": "^1.2.0",
     "superagent": "^2.3.0",
-    "togeojson": "^0.14.2",
+    "togeojson": "^0.16.0",
     "topojson": "^1.6.19",
     "universal-analytics": "^0.4.6",
     "unzip": "^0.1.11",

@@ -18,10 +18,10 @@ module.exports = function(grunt) {
 
         chokidar :{
             
-            css : {
-                files:[  'scss/*', 'public/css/**/*.css' ],
-                tasks:[  'sass', 'cssmin' ]
-            },
+            // css : {
+            //     files:[  'scss/*', 'public/css/**/*.css' ],
+            //     tasks:[  'sass', 'cssmin' ]
+            // },
 
             jsPortal : {
                 files:['public/js/src/**/*.js'],                

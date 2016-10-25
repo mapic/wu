@@ -3,9 +3,8 @@
 # source config
 source /mapic/config/env.sh
 
-# ensure npm modules are installed
-# echo 'Installing modules...'
-# npm install
+# ensure log folder
+mkdir -p log
 
 # start prodmode
 if $MAPIC_PRODMODE; then

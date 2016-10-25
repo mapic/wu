@@ -160,7 +160,7 @@ projectSchema.methods.isDownloadable = function () {
     return this.access.options.download;
 };
 projectSchema.methods.isEditable = function (user_uuid) {
-    return _.contains(this.access.edit, user_uuid) || this.createdBy == user_uuid;
+    return _.includes(this.access.edit, user_uuid) || this.createdBy == user_uuid;
 };
 projectSchema.methods.getUuid = function (user_uuid) {
     return this.uuid;

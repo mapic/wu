@@ -19,7 +19,7 @@ else
 	cd server
 	echo 'Development mode'
 	grunt dev 
-	grunt watch &
+	# grunt watch &
 	echo 'Running in development mode...'
 	nodemon --watch ../api --watch /mapic/config --watch server.js --watch ../routes server.js
 fi

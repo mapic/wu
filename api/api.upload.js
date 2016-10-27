@@ -66,6 +66,7 @@ module.exports = api.upload = {
 	 *      https://dev.systemapic.com/api/data/import
 	 */
 	upload : function (req, res) {
+		console.log('api.upload.upload');
 		if (!req.files || !req.files.data) return api.error.missingInformation(res, 'Missing file.');
 
 		var files = req.files;
@@ -91,6 +92,8 @@ module.exports = api.upload = {
 			// table_name : null,
 			// database_name : null,
 		};
+
+		console.log('uploadStatus', uploadStatus);
 
 		// set upload status
 		var key = 'uploadStatus:' + uploadStatus.file_id;

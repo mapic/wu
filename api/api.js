@@ -10,10 +10,10 @@ api.config = config.serverConfig;
 api.clientConfig = config.clientConfig;
 
 // exports
-module.exports 		= api;
-module.exports.log 	= require('./api.log');
+module.exports 		    = api;
+module.exports.log 	    = require('./api.log');
 module.exports.redis 	= require('./api.redis');
-module.exports.geo 	= require('./api.geo');
+module.exports.geo 	    = require('./api.geo');
 module.exports.file 	= require('./api.file');
 module.exports.auth 	= require('./api.auth');
 module.exports.user 	= require('./api.user');

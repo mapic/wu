@@ -389,7 +389,7 @@ module.exports = api.portal = {
 					systemapic_api : api.version, 
 					postgis : versions.postgis,
 					postgres : versions.postgres, 
-					mongodb : versions.mongo,
+					// mongodb : versions.mongo,
 					redis : versions.redis
 				});
 			});
@@ -455,18 +455,18 @@ module.exports = api.portal = {
 			});
 		};
 
-		ops.mongo = function (callback) {
+		// ops.mongo = function (callback) {
 
-			var mongoose = require('mongoose');
+		// 	var mongoose = require('mongoose');
 
-			mongoose.connect('mongodb://localhost/test', function(err){
-				var admin = new mongoose.mongo.Admin(mongoose.connection.db);
-					admin.buildInfo(function (err, info) {
-					console.log(info.version);
-					callback(null, info.version);
-				});
-			});
-		};
+		// 	mongoose.connect('mongodb://localhost/test', function(err){
+		// 		var admin = new mongoose.mongo.Admin(mongoose.connection.db);
+		// 			admin.buildInfo(function (err, info) {
+		// 			console.log(info.version);
+		// 			callback(null, info.version);
+		// 		});
+		// 	});
+		// };
 
 		ops.redis = function (callback) {
 

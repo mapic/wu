@@ -66,10 +66,7 @@ module.exports = function(app) {
 
 	// get stats
 	app.io.route('analytics', function (req) {
-		
-		// api.socket.userEvent(req);
 		api.analytics.event(req);
-		
 	});
 
 	// get stats

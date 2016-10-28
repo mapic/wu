@@ -17,7 +17,7 @@ var async 	= require('async');
 var carto 	= require('carto');
 var colors 	= require('colors');
 var crypto      = require('crypto');
-var fspath 	= require('path');
+var fspath 		= require('path');
 var request 	= require('request');
 var nodepath    = require('path');
 var formidable  = require('formidable');
@@ -61,6 +61,7 @@ module.exports = function(app) {
 
 	// get stats
 	app.io.route('get_server_stats', function (req) {
+		console.log('get_server_stats');
 		
 		api.socket.getServerStats(req);
 	});

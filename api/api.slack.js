@@ -130,7 +130,8 @@ module.exports = api.slack = {
 		});
 
 		ops.push(function (callback) {
-			var text = user + ' ' + event + ' ' + description;
+			var text = '`' + user + '`' + ' ' + event;
+			if (description) text += ' ' + description;
 
 			// create attachments
 			var attachments = api.slack._createAttachments(options);

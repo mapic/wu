@@ -57,6 +57,12 @@ module.exports = api.analytics = {
 
 		console.log('analytics data:', data);
 
+		// send to slack
+		api.slack.userEvent({
+			user : data.user_name,
+			event : data.event,
+		});
+
 	},
 
 

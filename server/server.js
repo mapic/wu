@@ -13,6 +13,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser'); 
 var clientSession = require('client-sessions');
 var fs = require('fs');
+var _ = require('lodash');
 
 // api
 var api = require('../api/api');
@@ -41,7 +42,7 @@ var sessionOptions = {
 		path: '/', 
 		ephemeral: false, // when true, cookie expires when the browser closes
 		httpOnly: true, // when true, cookie is not accessible from javascript
-		secureProxy : true,
+		// secureProxy : true,
 	}
 };
 
@@ -50,9 +51,14 @@ app.use(clientSession(sessionOptions));
 
 // helper fn
 function socket_auth_middleware (socket, next) {
+	try {
 	if (!socket || !socket.headers || !socket.headers.cookie) return next(new Error('No socket, fatal.'));
-	var a = socket.headers.cookie.split('=');
-	var decoded_cookie = clientSession.util.decode(sessionOptions, a[a.length-1]);
+	var c = socket.headers.cookie;
+	var session_cookie_raw = _.find(c.split('; '), function (sc) {
+		return _.includes(sc, 'session');
+	});
+	var session_cookie = session_cookie_raw.split('=')[1];
+	var decoded_cookie = clientSession.util.decode(sessionOptions, session_cookie);
 	if (!decoded_cookie) return next(new Error('Invalid access token.'));
 	var tokens = decoded_cookie.content ? decoded_cookie.content.tokens : false;
 	if (!tokens || !tokens.access_token) return next(new Error('Invalid access token.')); // public will fail here, returns 500...
@@ -62,6 +68,9 @@ function socket_auth_middleware (socket, next) {
 		socket.session.user_id = user._id;
 		next();
 	});
+	} catch (e) {
+		next(new Error('Something went wrong.'));
+	}
 }
 
 // socket auth middleware

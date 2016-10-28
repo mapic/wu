@@ -61,8 +61,6 @@ module.exports = function(app) {
 
 	// get stats
 	app.io.route('get_server_stats', function (req) {
-		console.log('get_server_stats');
-		
 		api.socket.getServerStats(req);
 	});
 

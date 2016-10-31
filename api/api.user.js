@@ -481,9 +481,6 @@ module.exports = api.user = {
 		var missing = [];
 		var ops = {};
 
-		console.log('api.user.create2');
-		console.log(req);
-
 		// check valid fields
 		if (!username) 	missing.push('username');
 		if (!firstname) missing.push('firstname');
@@ -533,10 +530,6 @@ module.exports = api.user = {
 		api.token._authenticate(access_token, function (err, user_b) {
 			if (err) return callback(err);
 
-			console.log('found user:');
-			console.log(user_b);
-
-			console.log('users adding contcts', user_a.uuid, user_b.uuid);
 			api.user._addContacts(user_a.uuid, user_b.uuid, callback);
 		});
 

@@ -339,7 +339,7 @@ module.exports = api.token = {
 
 	getPublicUser : function (done) {
 		User
-		.findOne({uuid : 'systemapic-public'})
+		.findOne({uuid : 'mapic-bot'})
 		.exec(function (err, public_user) {
 			if (err) return done(err);
 			if (!public_user) return api.token.createPublicUser(done);
@@ -353,13 +353,11 @@ module.exports = api.token = {
 
 		// create the user
 		var public_user	= new User();
-		public_user.local.email = 'info@systemapic.com';
-		public_user.local.password = 'systemapic-public';
-		public_user.uuid = 'systemapic-public';
+		public_user.local.email = 'public@mapic.io';
+		public_user.local.password = 'mapic-public';
+		public_user.uuid = 'mapic-public';
 		public_user.username = 'public';
-		public_user.company = 'Systemapic';
-		public_user.position = 'Public';
-		public_user.firstName = 'Systemapic';
+		public_user.firstName = 'Mapic';
 		public_user.lastName = 'Public';
 		public_user.invitedBy = 'self';
 

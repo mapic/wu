@@ -44,18 +44,16 @@ var api = module.parent.exports;
 // exports
 module.exports = api.analytics = {
 
-
-
-
-
-
 	event : function (req) {
-
-		console.log('analytics event!', req);
 
 		var data = req.data;
 
-		console.log('analytics data:', data);
+		// send to slack
+		api.slack.userEvent({
+			user : data.user_name,
+			event : data.event,
+			options : data.options
+		});
 
 	},
 

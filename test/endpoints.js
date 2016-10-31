@@ -6,7 +6,10 @@ module.exports = endpoint = {
         layers          : '/v2/data/layers',
         update          : '/v2/data/update',
         share           : '/v2/data/share',
-        download        : '/v2/data/download'
+        download        : '/v2/data/download',
+        import          : '/v2/data/import',
+        status          : '/v2/data/status',
+        download        : '/v2/data/import' // GET
     },
 
     projects : {
@@ -73,10 +76,8 @@ module.exports = endpoint = {
     portal              : '/v2/portal',
     status              : '/v2/status',
     import : {
-        // post            : '/api/import',
         post            : '/v2/data/import',
-        status          : '/v2/data/import/status',
-        // download        : '/api/upload/get'
+        status          : '/v2/data/status',
         download        : '/v2/data/import' // GET
         
 

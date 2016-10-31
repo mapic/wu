@@ -100,7 +100,6 @@ module.exports = api.slack = {
 		var custom_options = options.options;
 		var ops = [];
 
-
 		// custom options (screenshot)
 		if (custom_options && custom_options.screenshot) ops.push(function (callback) {
 
@@ -130,11 +129,23 @@ module.exports = api.slack = {
 		});
 
 		ops.push(function (callback) {
-			var text = user + ' ' + event + ' ' + description;
+			
+			// create slack string
+			var text = '[' + process.env.MAPIC_DOMAIN + '] ';
+			text += user + ' `' +  event + '`';
+			if (description) text += ' ' + description;
+			if (custom_options && custom_options.info) {
+				text += ' `(';
+				_.forEach(custom_options.info, function (value, key) {
+					text += key + ' : ' + value + ' ' ;
+				})
+				text += ')`';
+			}
 
 			// create attachments
 			var attachments = api.slack._createAttachments(options);
 
+			// send to slack
 			api.slack._send({
 				text : text,
 				channel : api.config.slack.monitor,
@@ -143,10 +154,8 @@ module.exports = api.slack = {
 		});
 
 		async.series(ops, function (err) {
-		
 			if (err) console.log('ERR 83838: ', err);
 		});
-	
 
 	},
 
@@ -178,6 +187,7 @@ module.exports = api.slack = {
 	deletedProject : function (options) {
 		var project = options.project;
 		var user = options.user;
+		
 		// set vars
 		var baseurl 	= api.config.slack.baseurl;
 		var projectName = project.name;
@@ -188,8 +198,6 @@ module.exports = api.slack = {
 		// send to slack
 		api.slack._send({text: text});
 	},
-
-
 
 	loggedIn : function (options) {
 		var user = options.user;

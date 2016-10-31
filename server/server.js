@@ -13,6 +13,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser'); 
 var clientSession = require('client-sessions');
 var fs = require('fs');
+var _ = require('lodash');
 
 // api
 var api = require('../api/api');
@@ -48,22 +49,6 @@ var sessionOptions = {
 // use cookie session
 app.use(clientSession(sessionOptions));
 
-// helper fn
-function socket_auth_middleware (socket, next) {
-	if (!socket || !socket.headers || !socket.headers.cookie) return next(new Error('No socket, fatal.'));
-	var a = socket.headers.cookie.split('=');
-	var decoded_cookie = clientSession.util.decode(sessionOptions, a[a.length-1]);
-	if (!decoded_cookie) return next(new Error('Invalid access token.'));
-	var tokens = decoded_cookie.content ? decoded_cookie.content.tokens : false;
-	if (!tokens || !tokens.access_token) return next(new Error('Invalid access token.')); // public will fail here, returns 500...
-	api.token._authenticate(tokens.access_token, function (err, user) {
-		if (err) return next(err);
-		socket.session = socket.session || {};
-		socket.session.user_id = user._id;
-		next();
-	});
-}
-
 // socket auth middleware
 app.io.use(socket_auth_middleware);
 
@@ -96,3 +81,29 @@ require('../routes/socket.routes.js')(app);
 var server = app.listen(port);
 
 console.log('The magic happens @ ', port);
+
+// helper fn
+function socket_auth_middleware (socket, next) {
+	try {
+	if (!socket || !socket.headers || !socket.headers.cookie) return next(new Error('No socket, fatal.'));
+	var c = socket.headers.cookie;
+	var session_cookie_raw = _.find(c.split('; '), function (sc) {
+		return _.includes(sc, 'session');
+	});
+	if (!session_cookie_raw) return next(new Error('No session.'));
+	var session_cookie = session_cookie_raw.split('=')[1];
+	if (!session_cookie) return next(new Error('No session.'));
+	var decoded_cookie = clientSession.util.decode(sessionOptions, session_cookie);
+	if (!decoded_cookie) return next(new Error('Invalid access token.'));
+	var tokens = decoded_cookie.content ? decoded_cookie.content.tokens : false;
+	if (!tokens || !tokens.access_token) return next(new Error('Invalid access token.')); // public will fail here, returns 500...
+	api.token._authenticate(tokens.access_token, function (err, user) {
+		if (err) return next(err);
+		socket.session = socket.session || {};
+		socket.session.user_id = user._id;
+		next();
+	});
+	} catch (e) {
+		next(new Error('Something went wrong.'));
+	}
+}

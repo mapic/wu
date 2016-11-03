@@ -386,7 +386,7 @@ module.exports = api.portal = {
 
 				var versions = versions || {};
 				callback(null, {
-					systemapic_api : api.version, 
+					mapic_engine : api.version, 
 					postgis : versions.postgis,
 					postgres : versions.postgres, 
 					// mongodb : versions.mongo,

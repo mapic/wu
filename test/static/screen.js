@@ -16,7 +16,7 @@ var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 
 var api = supertest(domain);
 
 module.exports = function () {
-    describe(endpoints.static.screen, function () {
+    describe.skip(endpoints.static.screen, function () {
     	
     	var tempFileuuid = '';
         var tmpProject = {};

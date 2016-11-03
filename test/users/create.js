@@ -1,7 +1,7 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
+// var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var helpers = require('../helpers');
 var token = helpers.token;
 var httpStatus = require('http-status');
@@ -11,6 +11,10 @@ var testData = require('../shared/users/create.json');
 var User = require('../../models/user');
 var test_user_data = testData.testUserWithCamelCaseEmail;
 var test_user = {};
+
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
 
 module.exports = function () {
 

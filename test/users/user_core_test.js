@@ -14,6 +14,10 @@ var userAcceptInvite = require('./acceptInvite');
 var helpers = require('../helpers');
 var createUser = require('./create');
 
+// Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
+// See https://github.com/systemapic/pile/issues/38
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
 describe('User', function () {
     beforeEach(function(done) { helpers.create_user(done); });
     afterEach(function(done) { helpers.delete_user(done); });

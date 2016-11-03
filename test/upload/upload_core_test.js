@@ -9,7 +9,7 @@ var geom_zPolygonShapefileZip = require('./geom_z_polygon_shapefile_200_zip');
 var parklandPolygonGeojson = require('./parkland_polygon_200_geojson');
 var snowRasterTif = require('./snow_raster_200_tif');
 
-describe('Import', function () {
+describe('Uploading data', function () {
 
     before(function(done) { helpers.create_user(done); });
     after(function(done) { helpers.delete_user(done); });

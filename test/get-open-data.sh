@@ -1,3 +1,3 @@
 #!/bin/bash
-rm "open-data" -r
-git clone git@github.com:systemapic/open-data.git
+rm -r "open-data"
+git clone git@github.com:mapic/open-data.git

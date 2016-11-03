@@ -185,7 +185,7 @@ module.exports = function () {
                     .end(function (err, res) {
                         if (err) return done(err);
                         var status = helpers.parse(res.text);
-                        expect(status.err).to.be.undefined;
+                        expect(status.err).to.be.null;
                         expect(status.success).to.be.true;
                         done();
                     });

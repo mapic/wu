@@ -1,7 +1,7 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
+// var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var helpers = require('../helpers');
 var token = helpers.token;
 var httpStatus = require('http-status');
@@ -10,6 +10,14 @@ var Hash 	= require('../../models/hash');
 var Project 	= require('../../models/project');
 var endpoints = require('../endpoints.js');
 var testData = require('../shared/hashes/set.json');
+
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
+
+// Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
+// See https://github.com/systemapic/pile/issues/38
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 module.exports = function () {
 	describe(endpoints.hashes.set, function () {
@@ -306,13 +314,13 @@ module.exports = function () {
 	                        expect(result.error.errors).to.be.an.array;
 	                        expect(result.error.errors).to.be.not.empty;
 	                        expect(result.error.errors['position.lat'].value.lat).to.be.equal(shouldBeAStringButItIsObject);
-	                        expect(result.error.errors['position.lat'].message).to.be.equal('Cast to String failed for value "[object Object]" at path "position.lat"');
+	                        expect(result.error.errors['position.lat'].message).to.be.equal('Cast to String failed for value "{ lat: \'should be string, but now it is an object\' }" at path "position.lat"');
 	                        expect(result.error.errors['position.lng'].value.lng).to.be.equal(shouldBeAStringButItIsObject);
-	                        expect(result.error.errors['position.lng'].message).to.be.equal('Cast to String failed for value "[object Object]" at path "position.lng"');
+	                        expect(result.error.errors['position.lng'].message).to.be.equal('Cast to String failed for value "{ lng: \'should be string, but now it is an object\' }" at path "position.lng"');
 	                        expect(result.error.errors['position.zoom'].value.zoom).to.be.equal(shouldBeAStringButItIsObject);
-	                        expect(result.error.errors['position.zoom'].message).to.be.equal('Cast to String failed for value "[object Object]" at path "position.zoom"');
+	                        expect(result.error.errors['position.zoom'].message).to.be.equal('Cast to String failed for value "{ zoom: \'should be string, but now it is an object\' }" at path "position.zoom"');
 	                        expect(result.error.errors['layers'].value.layers).to.be.equal(shouldBeArrayOfStringButItIsObject);
-	                        expect(result.error.errors['layers'].message).to.be.equal('Cast to Array failed for value "[object Object]" at path "layers"');
+	                        expect(result.error.errors['layers'].message).to.be.equal('Cast to Array failed for value "{ layers: \'should be array of strings, but now it is an object\' }" at path "layers"');
 	                        done();
 	                    });
 	            });

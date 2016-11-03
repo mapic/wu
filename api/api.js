@@ -36,4 +36,4 @@ module.exports.provider = require('./api.provider');
 module.exports.analytics = require('./api.analytics');
 
 // print version
-console.log('Systemapic API version is ', api.version);
+console.log('Mapic Engine version is ', api.version);

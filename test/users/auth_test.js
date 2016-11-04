@@ -7,9 +7,8 @@ var request = require('request');
 var supertest = require('supertest');
 
 // configs
-var User = require('../models/user');
-var config = require('../config.js').serverConfig;
-var helpers = require('./helpers');
+var User = require('../../models/user');
+var helpers = require('../helpers');
 var token = helpers.token;
 
 // api

@@ -1,11 +1,11 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var helpers = require('./helpers');
+var helpers = require('../helpers');
 var token = helpers.token;
 var httpStatus = require('http-status');
-var expected = require('../shared/errors');
-var endpoints = require('./endpoints.js');
+var expected = require('../../shared/errors');
+var endpoints = require('../endpoints.js');
 
 // api
 var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
@@ -32,9 +32,7 @@ describe('Status', function () {
         it('should respond with status code 200 and version object', function (done) {
             token(function (err, access_token) {
                 api.get(endpoints.status)
-                .query({
-                    access_token: access_token
-                })
+                .query({ access_token: access_token })
                 .send()
                 .expect(httpStatus.OK)
                 .end(function (err, res) {

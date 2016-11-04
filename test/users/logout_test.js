@@ -1,13 +1,12 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-// var api = supertest.agent('https://' + process.env.SYSTEMAPIC_DOMAIN);
-var helpers = require('./helpers');
-var token = helpers.token;
-var expected = require('../shared/errors');
-var httpStatus = require('http-status');
-var endpoints = require('./endpoints.js');
 var _ = require('lodash');
+var helpers = require('../helpers');
+var token = helpers.token;
+var expected = require('../../shared/errors');
+var httpStatus = require('http-status');
+var endpoints = require('../endpoints.js');
 var cookieParser = require('cookie-parser');
 
 // api

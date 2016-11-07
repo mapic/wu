@@ -1,7 +1,7 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
+// var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
 var helpers = require('../helpers');
 var token = helpers.token;
 var httpStatus = require('http-status');
@@ -9,6 +9,10 @@ var expected = require('../../shared/errors');
 var endpoints = require('../endpoints.js');
 var coreTestData = require('../shared/core.json');
 var second_test_user = coreTestData.secondTestUser;
+
+// api
+var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;
+var api = supertest(domain);
 
 module.exports = function () {
 
@@ -116,21 +120,19 @@ module.exports = function () {
                     })
                     .expect(httpStatus.BAD_REQUEST)
                     .end(function (err, res) {
-                        if (err) {
-                            return done(err);
-                        }
+                        if (err) return done(err);
 
                         var result = helpers.parse(res.text);
                         expect(result.error.errors.company.value.company).to.be.equal(shouldBeAStringButItIsObject);
-                        expect(result.error.errors.company.message).to.be.equal('Cast to String failed for value "[object Object]" at path "company"');
+                        expect(result.error.errors.company.message).to.be.equal('Cast to String failed for value "{ company: \'should be string, but now it is an object\' }" at path "company"');
                         expect(result.error.errors.position.value.position).to.be.equal(shouldBeAStringButItIsObject);
-                        expect(result.error.errors.position.message).to.be.equal('Cast to String failed for value "[object Object]" at path "position"');
+                        expect(result.error.errors.position.message).to.be.equal('Cast to String failed for value "{ position: \'should be string, but now it is an object\' }" at path "position"');
                         expect(result.error.errors.phone.value.phone).to.be.equal(shouldBeAStringButItIsObject);
-                        expect(result.error.errors.phone.message).to.be.equal('Cast to String failed for value "[object Object]" at path "phone"');
+                        expect(result.error.errors.phone.message).to.be.equal('Cast to String failed for value "{ phone: \'should be string, but now it is an object\' }" at path "phone"');
                         expect(result.error.errors.firstName.value.firstName).to.be.equal(shouldBeAStringButItIsObject);
-                        expect(result.error.errors.firstName.message).to.be.equal('Cast to String failed for value "[object Object]" at path "firstName"');
+                        expect(result.error.errors.firstName.message).to.be.equal('Cast to String failed for value "{ firstName: \'should be string, but now it is an object\' }" at path "firstName"');
                         expect(result.error.errors.lastName.value.lastName).to.be.equal(shouldBeAStringButItIsObject);
-                        expect(result.error.errors.lastName.message).to.be.equal('Cast to String failed for value "[object Object]" at path "lastName"');
+                        expect(result.error.errors.lastName.message).to.be.equal('Cast to String failed for value "{ lastName: \'should be string, but now it is an object\' }" at path "lastName"');
                         done();
                     });
             }); 

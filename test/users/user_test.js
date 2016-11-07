@@ -4,12 +4,11 @@ var async = require('async');
 var fs = require('fs');
 var crypto = require('crypto');
 var request = require('request');
-var User = require('../models/user');
-var helpers = require('./helpers');
+var User = require('../../models/user');
+var helpers = require('../helpers');
 var token = helpers.token;
 var supertest = require('supertest');
-// var api = supertest('https://' + process.env.SYSTEMAPIC_DOMAIN);
-var endpoints = require('./endpoints.js');
+var endpoints = require('../endpoints.js');
 
 // api
 var domain = (process.env.MAPIC_DOMAIN == 'localhost') ? 'https://172.17.0.1' : 'https://' + process.env.MAPIC_DOMAIN;

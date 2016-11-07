@@ -117,7 +117,7 @@ module.exports = function(grunt) {
                     'public/js/lib/async/async.js',
                     
                     // leaflet + mapbox
-                    'public/js/lib/leaflet.js/leaflet-src.js',
+                    'public/js/lib/leaflet.js/leaflet-1.0.1-src.js',
                     'public/js/lib/leaflet.js/plugins/leaflet.utfgrid.js',
                     'public/js/lib/leaflet.js/plugins/leaflet-draw/leaflet.draw-src.js',
                     'public/js/lib/leaflet.js/plugins/leaflet.label-src.js',

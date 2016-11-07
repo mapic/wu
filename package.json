@@ -5,7 +5,7 @@
   "private": false,
   "main": "start-server.sh",
   "scripts": {
-    "test": "mocha -R spec --slow 200",
+    "test": " mocha test/ --recursive",
     "apidocs": "./tools/gen_apidocs.sh"
   },
   "apidoc": {

@@ -1,13 +1,12 @@
 var supertest = require('supertest');
 var chai = require('chai');
 var expect = chai.expect;
-// var api = supertest.agent('https://' + process.env.SYSTEMAPIC_DOMAIN);
-var helpers = require('./helpers');
-var token = helpers.token;
-var expected = require('../shared/errors');
-var httpStatus = require('http-status');
-var endpoints = require('./endpoints.js');
 var _ = require('lodash');
+var helpers = require('../helpers');
+var token = helpers.token;
+var expected = require('../../shared/errors');
+var httpStatus = require('http-status');
+var endpoints = require('../endpoints.js');
 var cookieParser = require('cookie-parser');
 
 // api
@@ -28,10 +27,7 @@ describe(endpoints.logout, function () {
         .send()
         .expect(httpStatus.OK)
         .end(function (err, res) {
-            if (err) {
-                return done(err);
-            }
-            
+            if (err) return done(err);
             var tokens = util.parse(res.text);
             expect(tokens.token_type).to.be.equal('multipass');
             expect(_.size(tokens.access_token)).to.be.equal(43);
@@ -43,41 +39,33 @@ describe(endpoints.logout, function () {
 
     it('should respond with status code 200', function (done) {
         api.get(endpoints.users.session)
-            .send()
-            .expect(httpStatus.OK)
-            .end(function (err, res) {
-                var tokens = util.parse(res.text);
-                
-                access_token = tokens.access_token;
-                expect(access_token).to.be.not.equal('public');
-                api.post(endpoints.users.token.check)
-                    .send({access_token: access_token})
-                    .expect(httpStatus.OK)
-                    .end(done);
-            });
+        .send()
+        .expect(httpStatus.OK)
+        .end(function (err, res) {
+            var tokens = util.parse(res.text);
+            access_token = tokens.access_token;
+            api.post(endpoints.users.token.check)
+                .send({access_token: access_token})
+                .expect(httpStatus.OK)
+                .end(done);
+        });
     });
 
     it('should respond with status code 302', function (done) {
         api.get(endpoints.logout)
-            .send({access_token: access_token})
-            .expect(httpStatus.FOUND)
-            .end(function (err, response) {
-                if (err) {
-                    return done(err);
-                }
-                done();
-            });
+        .send({access_token: access_token})
+        .expect(httpStatus.FOUND)
+        .end(done);
     });
 
     it('should respond with status code 401', function (done) {
         api.get(endpoints.users.session)
-            .send()
-            .expect(httpStatus.OK)
-            .end(function (err, res) {
-                var tokens = util.parse(res.text);
-
-                expect(tokens.access_token).to.be.equal('public');
-                done();
-            });
+        .send()
+        .expect(httpStatus.OK)
+        .end(function (err, res) {
+            var tokens = util.parse(res.text);
+            expect(tokens.access_token).to.be.equal('public');
+            done();
+        });
     });
 });

@@ -25,7 +25,7 @@ var api = supertest(domain);
 
 module.exports = function () {
 
-    describe('Import', function () {
+    describe('Shapefile with missing projection', function () {
 
         before(function(callback) {
             async.series([helpers.create_project], callback);
@@ -34,64 +34,44 @@ module.exports = function () {
         after(function(callback) {
             async.series([helpers.delete_project], callback);
         });
-
-        describe(endpoints.import.post, function () {
-	        this.slow(500);
-
-	        context('shapefile.missing-prj.zip', function () {
-	            this.timeout(21000);
-	            
-	            it('upload', function (done) {
-	                token(function (err, access_token) {
-	                    api.post(endpoints.import.post)
-		                    .type('form')
-		                    .field('access_token', access_token)
-		                    .field('data', fs.createReadStream(path.resolve(__dirname, '../open-data/shapefile.missing-prj.zip')))
-		                    .expect(httpStatus.OK)
-		                    .end(function (err, res) {
-		                    	if (err) {
-		                    		return done(err);
-		                    	}
-
-		                        var result = helpers.parse(res.text);
-
-		                        expect(result.file_id).to.exist;
-		                        expect(result.user_id).to.exist;
-		                        expect(result.upload_success).to.exist;
-		                        expect(result.filename).to.be.equal('shapefile.missing-prj.zip');
-		                        expect(result.status).to.be.equal('Processing');
-
-		                        tmp.file_id = result.file_id;
-		                        done();
-		                    });
-	                });
-	            });
-
-        	});
-		});
-
-    });
-
-    describe('Process', function () {
+        
         this.slow(500);
+        this.timeout(21000);
+	            
+        it('should upload', function (done) {
+            token(function (err, access_token) {
+                api.post(endpoints.import.post)
+                .type('form')
+                .field('access_token', access_token)
+                .field('data', fs.createReadStream(path.resolve(__dirname, '../open-data/shapefile.missing-prj.zip')))
+                .expect(httpStatus.OK)
+                .end(function (err, res) {
+                	if (err) return done(err);
+                    var result = helpers.parse(res.text);
+                    expect(result.file_id).to.exist;
+                    expect(result.user_id).to.exist;
+                    expect(result.upload_success).to.exist;
+                    expect(result.filename).to.be.equal('shapefile.missing-prj.zip');
+                    expect(result.status).to.be.equal('Processing');
+                    tmp.file_id = result.file_id;
+                    done();
+                });
+            });
+        });
 
+    
         it('should be processed', function (done) {
             this.timeout(11000);
             this.slow(5000);
 
             // check for processing status
             var processingInterval = setInterval(function () {
-                process.stdout.write('.');
                 token(function (err, access_token) {
                     api.get(endpoints.import.status)
                     .query({ file_id : tmp.file_id, access_token : access_token})
                     .end(function (err, res) {
-                    	if (err) {
-                    		return done(err);
-                    	}
-
+                    	if (err) return done(err);
                         var status = helpers.parse(res.text);
-                        
                         if (status.status === 'Failed') {
                             clearInterval(processingInterval);
                             done();
@@ -108,12 +88,8 @@ module.exports = function () {
                 .query({file_id : tmp.file_id, access_token : access_token})
                 .expect(httpStatus.OK)
                 .end(function (err, res) {
-                	if (err) {
-                		return done(err);
-                	}
-
+                	if (err) return done(err);
                     var status = helpers.parse(res.text);
-
                     expect(status.upload_success).to.exist;
                     expect(status.status).to.be.equal('Failed');
                     expect(status.error_text).to.be.equal('Please provide a projection file.');

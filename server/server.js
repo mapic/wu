@@ -77,21 +77,34 @@ require('../routes/routes.js')(app);
 // load our socket api
 require('../routes/socket.routes.js')(app);
 
-// launch 
-var server = app.listen(port);
 
-console.log('The magic happens @ ', port);
+console.log('####')
+console.log('####')
+console.log('####')
+console.log('####')
+console.log('####')
+console.log('mongo debug');
+
 
 // ensure admin user is present
-api.user.ensureAdminUser(function (err, options) {
-	if (err) return console.log('There was an error creating mapic-admin user.', err);
-	if (options.created) {
-		console.log('User mapic-admin has been created. Log in to the portal with these credentials:')
-		console.log('Email:', options.user.local.email);
-		console.log('Password:', options.password);
-	}
-});
+sessionStore.connection.on('open', function (ref) {
 
+	// launch 
+	var server = app.listen(port);
+
+	console.log('The magic happens @ ', port);
+
+  	console.log('Connected to mongo server.');
+  	// create admin user
+	api.user.ensureAdminUser(function (err, options) {
+		if (err) return console.log('There was an error creating mapic-admin user.', err);
+		if (options.created) {
+			console.log('User mapic-admin has been created. Log in to the portal with these credentials:')
+			console.log('Email:', options.user.local.email);
+			console.log('Password:', options.password);
+		}
+	});
+});
 
 // helper fn
 function socket_auth_middleware (socket, next) {
@@ -118,3 +131,8 @@ function socket_auth_middleware (socket, next) {
 		next(new Error('Something went wrong.'));
 	}
 }
+
+
+
+
+

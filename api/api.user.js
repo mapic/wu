@@ -58,7 +58,7 @@ module.exports = api.user = {
 
             // create mapic-admin user
             var user = new User();
-            var password = api.utils.getRandom(10);
+            var password = 'localhost-password';
             user.uuid = 'user-' + uuid.v4();
             user.local.email = 'localhost@mapic.io';
             user.local.password = user.generateHash(password);

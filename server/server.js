@@ -14,6 +14,7 @@ var cookieParser = require('cookie-parser');
 var clientSession = require('client-sessions');
 var fs = require('fs');
 var _ = require('lodash');
+var sleep = require('sleep'); 
 
 // api
 var api = require('../api/api');
@@ -24,7 +25,8 @@ var port = config.port;
 var app = express().http().io();
 
 // connect to our database
-var sessionStore = mongoose.connect(config.mongo.url); 
+// var sessionStore = mongoose.connect(config.mongo.url); 
+var mongoSession = connect_to_mongo();
 
 // set up our express application
 app.use(bodyParser.urlencoded({limit: '2000mb', extended : true}));
@@ -78,7 +80,7 @@ require('../routes/routes.js')(app);
 require('../routes/socket.routes.js')(app);
 
 // when mongoose is ready
-sessionStore.connection.on('open', function (ref) {
+mongoSession.connection.on('open', function (ref) {
 
 	// launch 
 	var server = app.listen(port);
@@ -94,6 +96,19 @@ sessionStore.connection.on('open', function (ref) {
 		}
 	});
 });
+
+function connect_to_mongo () {
+	console.log('Attempting to connect to mongo.');
+
+	try {
+		var mongoSession = mongoose.connect(config.mongo.url);
+		return mongoSession; 
+	} catch (e) {
+		sleep.sleep(1);
+		return connect_to_mongo();
+	}
+
+}
 
 // helper fn
 function socket_auth_middleware (socket, next) {
@@ -121,11 +136,11 @@ function socket_auth_middleware (socket, next) {
 	}
 }
 
-// process.on('uncaughtException', function(err) {
-// 	// todo: add sentry.io
-//     console.log('Uncaught Exception!', err);
-//     throw new Error(err);
-// });
+process.on('uncaughtException', function(err) {
+	// todo: add sentry.io
+    console.log('Uncaught Exception!', err);
+    throw new Error(err);
+});
 
 
 

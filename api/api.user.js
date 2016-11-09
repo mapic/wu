@@ -52,7 +52,7 @@ module.exports = api.user = {
 
             // mapic-admin user exists
             if (!err && user) return done(null, {
-                created : false
+                created : false,
                 user : user,
             });
 
@@ -72,7 +72,7 @@ module.exports = api.user = {
                 
                 // mapic-admin created!
                 return done(null, {
-                    created : true
+                    created : true,
                     user : user, 
                     password : password,
                 });

@@ -77,24 +77,13 @@ require('../routes/routes.js')(app);
 // load our socket api
 require('../routes/socket.routes.js')(app);
 
-
-console.log('####')
-console.log('####')
-console.log('####')
-console.log('####')
-console.log('####')
-console.log('mongo debug');
-
-
-// ensure admin user is present
+// when mongoose is ready
 sessionStore.connection.on('open', function (ref) {
 
 	// launch 
 	var server = app.listen(port);
-
 	console.log('The magic happens @ ', port);
 
-  	console.log('Connected to mongo server.');
   	// create admin user
 	api.user.ensureAdminUser(function (err, options) {
 		if (err) return console.log('There was an error creating mapic-admin user.', err);
@@ -132,7 +121,11 @@ function socket_auth_middleware (socket, next) {
 	}
 }
 
-
+process.on('uncaughtException', function(err) {
+	// todo: add sentry.io
+    console.log('Uncaught Exception!', err);
+    throw new Error(err);
+});
 
 
 

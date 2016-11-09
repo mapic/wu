@@ -121,11 +121,11 @@ function socket_auth_middleware (socket, next) {
 	}
 }
 
-process.on('uncaughtException', function(err) {
-	// todo: add sentry.io
-    console.log('Uncaught Exception!', err);
-    throw new Error(err);
-});
+// process.on('uncaughtException', function(err) {
+// 	// todo: add sentry.io
+//     console.log('Uncaught Exception!', err);
+//     throw new Error(err);
+// });
 
 
 

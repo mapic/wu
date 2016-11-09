@@ -82,6 +82,17 @@ var server = app.listen(port);
 
 console.log('The magic happens @ ', port);
 
+// ensure admin user is present
+api.user.ensureAdminUser(function (err, options) {
+	if (err) return console.log('There was an error creating mapic-admin user.', err);
+	if (options.created) {
+		console.log('User mapic-admin has been created. Log in to the portal with these credentials:')
+		console.log('Email:', options.user.local.email);
+		console.log('Password:', options.password);
+	}
+});
+
+
 // helper fn
 function socket_auth_middleware (socket, next) {
 	try {

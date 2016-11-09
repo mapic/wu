@@ -67,6 +67,7 @@ module.exports = api.user = {
             user.company = ''
             user.position = ''
             user.username = 'mapic-admin';
+            user.access.super = true;
             user.save(function (err, user) {
                 if (err) return done(err);
                 

@@ -33,7 +33,7 @@ var userPassword = process.argv[6];
 var userUuid = 'user-' + uuid.v4();
 
 if (!userEmail || !userFirstname || !userLastname || !username) {
-	console.log('Usage: node create_betauser.js EMAIL USERNAME FIRST_NAME LAST_NAME [password]'.yellow);
+	console.log('Usage: node create_user.js EMAIL USERNAME FIRST_NAME LAST_NAME [password]'.yellow);
 	process.exit(1);
 }
 

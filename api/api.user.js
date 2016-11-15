@@ -47,7 +47,7 @@ module.exports = api.user = {
 
         // check for admin user
         User
-        .findOne({username : 'mapic-admin'})
+        .findOne({username : 'mapic'})
         .exec(function (err, user) {
 
             // mapic-admin user exists
@@ -63,15 +63,15 @@ module.exports = api.user = {
             user.local.email = 'localhost@mapic.io';
             user.local.password = user.generateHash(password);
             user.firstName = 'Mapic'
-            user.lastName = 'Admin'
+            user.lastName = 'Localhost'
             user.company = ''
             user.position = ''
-            user.username = 'mapic-admin';
+            user.username = 'mapic';
             user.access.super = true;
             user.save(function (err, user) {
                 if (err) return done(err);
                 
-                // mapic-admin created!
+                // mapic created!
                 return done(null, {
                     created : true,
                     user : user, 

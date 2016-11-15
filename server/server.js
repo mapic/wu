@@ -21,6 +21,20 @@ var api = require('../api/api');
 var config = api.config;
 var port = config.port;
 
+// cookie session options
+var sessionOptions = {
+	cookieName: 'session',
+	secret: 'eg[isfd-8yF9-7w2335df{}+Ijsli;;to8', 
+	duration: 3 * 24 * 60 * 60 * 1000, // 3d
+	activeDuration: 60 * 60 * 10000, // 10h
+	cookie: {
+		path: '/', 
+		ephemeral: false, // when true, cookie expires when the browser closes
+		httpOnly: true, // when true, cookie is not accessible from javascript
+		secureProxy : true,
+	}
+};
+
 // socket enabled server
 var app = express().http().io();
 
@@ -33,20 +47,7 @@ connect_to_mongo(function (err) {
 	app.set('view engine', 'ejs'); // set up ejs for templating
 	app.use(multipart()); // for resumable.js uploads
 
-	// cookie session options
-	var sessionOptions = {
-		cookieName: 'session',
-		secret: 'eg[isfd-8yF9-7w2335df{}+Ijsli;;to8', 
-		duration: 3 * 24 * 60 * 60 * 1000, // 3d
-		activeDuration: 60 * 60 * 10000, // 10h
-		cookie: {
-			path: '/', 
-			ephemeral: false, // when true, cookie expires when the browser closes
-			httpOnly: true, // when true, cookie is not accessible from javascript
-			secureProxy : true,
-		}
-	};
-
+	
 	// use cookie session
 	app.use(clientSession(sessionOptions));
 
@@ -109,18 +110,24 @@ function connect_to_mongo (done) {
 
 // helper fn
 function socket_auth_middleware (socket, next) {
+	console.log('socket_auth_middleware');
 	try {
 	if (!socket || !socket.headers || !socket.headers.cookie) return next(new Error('No socket, fatal.'));
 	var c = socket.headers.cookie;
+	console.log('c', c);
 	var session_cookie_raw = _.find(c.split('; '), function (sc) {
 		return _.includes(sc, 'session');
 	});
 	if (!session_cookie_raw) return next(new Error('No session.'));
 	var session_cookie = session_cookie_raw.split('=')[1];
+	console.log('session_cookie', session_cookie);
 	if (!session_cookie) return next(new Error('No session.'));
+	console.log('decoding');
 	var decoded_cookie = clientSession.util.decode(sessionOptions, session_cookie);
+	console.log('decoded_cookie', decoded_cookie);
 	if (!decoded_cookie) return next(new Error('Invalid access token.'));
 	var tokens = decoded_cookie.content ? decoded_cookie.content.tokens : false;
+	console.log('tokens:', tokens);
 	if (!tokens || !tokens.access_token) return next(new Error('Invalid access token.')); // public will fail here, returns 500...
 	api.token._authenticate(tokens.access_token, function (err, user) {
 		if (err) return next(err);
@@ -129,6 +136,8 @@ function socket_auth_middleware (socket, next) {
 		next();
 	});
 	} catch (e) {
+		console.log('error ->');
+		console.log(e);
 		next(new Error('Something went wrong.'));
 	}
 }

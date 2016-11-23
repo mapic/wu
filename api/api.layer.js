@@ -215,8 +215,6 @@ module.exports = api.layer = {
 
     _createDefaultLayers : function (options, done) {
 
-        console.log('_createDefault options: ', options);
-
         // - get default style json
         // - create carto from json
         // - create pile layer
@@ -231,11 +229,8 @@ module.exports = api.layer = {
             var defaultStyleJSON = api.layer.defaultStyleJSON;
 
             api.geo._json2carto(defaultStyleJSON, function (err, cartoCSS) {
-
-                console.log('json2carto: ', err, cartoCSS);
-                
                 callback(err);
-            })
+            });
 
 
         });
@@ -322,8 +317,6 @@ module.exports = api.layer = {
         // var project = req.body.project;
         var project = req.query.project;
         var user = req.user.uuid;
-
-        console.log('apilauyer.get proejcT:', project);
 
         // error if no project or user
         if (!project || !user) {
@@ -451,6 +444,7 @@ module.exports = api.layer = {
 
     },
 
+
     deleteLayer : function (req, res, next) {
         var options = req.body,
             layerUuid = options.layer_id,
@@ -484,7 +478,6 @@ module.exports = api.layer = {
             Layer
             .findOneAndRemove({uuid : layerUuid})
             .exec(function (err, layer) {
-                console.log('removed layer: ', err, layer);
                 if (!layer || !layer._id) {
                     return callback({
                         message: errors.no_such_layers.errorMessage,
@@ -518,11 +511,9 @@ module.exports = api.layer = {
         });
 
         async.waterfall(ops, function (err, results) {
-            console.log('all done? ', err, results);
+            console.log('Deleted layer', err);
 
-            if (err) {
-                return next(err);
-            }
+            if (err) return next(err);
 
             res.send({
                 success : true,
@@ -532,65 +523,6 @@ module.exports = api.layer = {
 
 
     },
-
-    // deleteLayer : function (req, res) {
-
-    //  var projectUuid  = req.body.projectUuid,
-    //      userid = req.user.uuid,
-    //      layerUuids = req.body.layerUuids,
-    //      ops = [],
-    //      _lids = [];
-
-    //  // validate
-    //  if (!projectUuid || !userid) return api.error.missingInformation(req, res);
-
-    //  // find layer _ids for removing in project
-    //  ops.push(function (callback) {
-    //      Layer.find({uuid : {$in : layerUuids}}, function (err, layers) {
-    //          if (err || !layers) return callback(err || 'No layers.');
-
-    //          layers.forEach(function (layer) {
-    //              _lids.push(layer._id);
-    //          });
-
-    //          callback(err);
-    //      });
-    //  });
-
-
-
-    //  // delete layer from project
-    //  ops.push(function (callback) {
-            
-    //      Project
-    //      .findOne({uuid : projectUuid})
-    //      .exec(function (err, project) {
-    //          if (err || !project) return callback(err || 'No project.');
-
-    //          // pull layers
-    //          _lids.forEach(function (l) {
-    //              project.layers.pull(l)
-    //          })
-                
-    //          // project.markModified('files');
-    //          project.markModified('layers');
-    //          project.save(function (err) {
-    //              callback(err);
-    //          });
-    //      });
-    //  });
-
-    
-    //  // run queries
-    //  async.series(ops, function(err) {
-    //      if (err) return api.error.general(req, res, err);       
-
-    //      res.end(JSON.stringify({
-    //          error : err
-    //      }));
-    //  });
-
-    // },
 
 
     // reload layer meta
@@ -617,16 +549,11 @@ module.exports = api.layer = {
             });
         }
 
-        // // return on err
-        // if (!fileUuid || !layerUuid) return api.error.missingInformation(req, res);
-
         // get meta
         api.layer.getMeta(fileUuid, function (err, meta) {
 
             // return on err
-            if (err) {
-                return next(err);
-            }
+            if (err) return next(err);
 
             if (!meta) return api.error.general(req, res, err || 'No meta.');
 
@@ -649,9 +576,7 @@ module.exports = api.layer = {
         File
         .findOne({uuid : fileUuid})
         .exec(function (err, file) {
-            if (err) {
-                return callback(err);
-            }
+            if (err) return callback(err);
 
             if (!file) {
                 return callback({
@@ -854,8 +779,6 @@ module.exports = api.layer = {
 
     createModel : function (options, callback) {
 
-        console.log('createModel :::::: ', options);
-
         // metadata sometimes come as object... todo: check why!
         if (_.isObject(options.metadata)) {
             options.metadata = JSON.stringify(options.metadata);
@@ -879,12 +802,11 @@ module.exports = api.layer = {
 
         layer.save(function (err, savedLayer) {
             if (err) return callback(err);
-            console.log('savedLayer', savedLayer);
+
+            console.log('Created layer...');
 
             if (options.projectUuid) {
-                console.log('got projectUuid', options.projectUuid);
                 return api.layer.addToProject(layer._id, options.projectUuid, function (err) {
-                    console.log('added to project!', err);
                     callback && callback(err, savedLayer);
                 });
             }
@@ -915,12 +837,7 @@ module.exports = api.layer = {
 
 
     getWMSLayers : function (req, res) {
-
-        console.log('getWMSLayers', req.body);
-
-        
         res.send({wms : 'debug'});
-
     },
 };
 

@@ -103,17 +103,6 @@ module.exports = api.geo = {
         carto += '    marker-opacity: @point_opacity;\n';
         carto += '    marker-fill: black;\n'; // default color
         
-
-        console.log('----------------');
-        console.log('----------------');
-        console.log('----------------');
-        console.log('----------------');
-        console.log('----------------');
-        console.log('csv meta', meta);
-        console.log('----------------');
-        console.log('----------------');
-        console.log('----------------');
-
         var csv_meta = meta.csv;
 
         var colors = {
@@ -127,8 +116,6 @@ module.exports = api.geo = {
         }
 
         csv_meta.forEach(function (c) {
-
-            console.log('cc --- >>', c);
 
             // add tilstandsklasse
             if (c.type == 't1') {
@@ -178,9 +165,6 @@ module.exports = api.geo = {
         });
 
         carto += '}';
-
-        console.log('CREATED CARTOCSS -->>', carto);
-
 
         // return
         done(null,carto);
@@ -232,9 +216,6 @@ module.exports = api.geo = {
         // close #layer
         style.layer += '}';
         
-        // debug
-        // console.log('created style: ', style);
-
         // concat
         var finalCarto = style.headers + style.layer;
 
@@ -1291,12 +1272,10 @@ module.exports = api.geo = {
         if (!path || !fileUuid) return callback('Missing information.14');
 
         var dest = api.config.path.file + fileUuid;
-        // console.log('copyToVileRasterFolder!!! 1, from , to', path, dest);
 
         // do nothing if already there
         if (path == dest) return callback(null);
 
-        // console.log('copyToVileRasterFolder!!! 2');
         fs.copy(path, dest, function(err) {
             if (err) console.log('copy err!'.red, err);
             callback(null);
@@ -1339,14 +1318,12 @@ module.exports = api.geo = {
 
         mapnikOmnivore.digest(path, function(err, metadata) {
             if (err) {
-                console.log('digest.err!'.red, err, path);
                 return callback(err);
             }
             return callback(null, JSON.stringify(metadata, null, 2));
         });
 
         } catch (e) {
-            console.log('omni crash'.red, e, path);
             return callback(e);
         }
     },
@@ -1466,7 +1443,6 @@ module.exports = api.geo = {
                         // callback
         api.geo.moveShapefiles(options, function (err) {
             if (err) {
-                console.log('geomove err: '.red + err);
                 return callback(err);
             }
 
@@ -1499,7 +1475,6 @@ module.exports = api.geo = {
 
         var exec = require('child_process').exec;
         exec(cmd, function (err, stdout, stdin) {
-            // console.log('did cmn'.yellow);
             
             if (err) console.log('ogre fb err: '.red + err);
             if (err) return callback(err);
@@ -1542,8 +1517,6 @@ module.exports = api.geo = {
             outFolder = '/data/raster_tiles/' + fileUuid + '/raster/',
             processingTimer, // global timer 
             ops = [];
-
-            console.log('infile, outfolder', inFile, outFolder);
 
         ops.push(function (callback) {
             var out = api.config.path.file + fileUuid + '/' + fileUuid;
@@ -1678,9 +1651,7 @@ module.exports = api.geo = {
             var target = gdal.SpatialReference.fromProj4(ourProj4);
             var isSame = source.isSame(target);
 
-            // console.log('priojection: ', proj4);
-            // console.log('spurce:', source);
-            // console.log('target: ', target);
+          
 
             // debug
             return callback(null, meta);
@@ -1723,7 +1694,6 @@ module.exports = api.geo = {
 
             // zoom levels to render
             var zoomLevels = [14, 15].join('-');
-            console.log('zoomLevels', zoomLevels);
             var percentDone = 20;
             // -z ' + zoomLevels + '
 
@@ -1743,7 +1713,6 @@ module.exports = api.geo = {
 
             // script command
             // var cmd = api.config.path.tools + 'gdal2tiles_parallel.py --processes=6 -w none -a 200,200,0  -p mercator --no-kml "' + inFile + '" "' + outFolder + '"';
-            console.log('cmd: ', cmd);
 
             // child process script
             var exec = require('child_process').exec;
@@ -1798,7 +1767,6 @@ module.exports = api.geo = {
 
             // processing feedback
             proc.stdout.on('data', function(data, b, c) {
-                console.log('tiling stdout: ', data, b, c); 
 
                 // incr progress
                 percentDone++;
@@ -1884,7 +1852,6 @@ module.exports = api.geo = {
             ]
         }
         
-        console.log('setting metadataExtent', metadataExtent);
 
         return metadataExtent;
     },
@@ -1893,7 +1860,6 @@ module.exports = api.geo = {
 
     getTilesetMeta : function (req, done) {
 
-        console.log('getTilesetMeta', req.user);
 
         var file_id = req.data.file_id;
         var user_id = req.user._id;
@@ -1907,7 +1873,6 @@ module.exports = api.geo = {
             var cmd = 'find ' + folder + ' -type f | wc -l'
             var exec = require('child_process').exec;
             var proc = exec(cmd, { maxBuffer: 2000 * 1024 * 1024}, function (err, stdout, stdin) {
-                console.log('tile_count exec:', err, stdout, stdin);
                 var tile_count = parseInt(stdout);
                 callback(err, tile_count);
             });
@@ -1919,7 +1884,6 @@ module.exports = api.geo = {
             var cmd = 'du -s ' + folder;
             var exec = require('child_process').exec;
             var proc = exec(cmd, { maxBuffer: 2000 * 1024 * 1024}, function (err, stdout, stdin) {
-                console.log('tile_size exec:', err, stdout, stdin);
                 var tile_size = parseInt(stdout.split('  ')[0]); // KB
                 callback(err, tile_size);
             });
@@ -1946,10 +1910,6 @@ module.exports = api.geo = {
         var zoom_max = req.data.zoom_max;
         var ops = [];
 
-        console.log('reaq.data', req.data);
-        console.log('########### req', req);
-        console.log('cookie', req.session.cookie);
-
         ops.push(function (callback) {
             File
             .findOne({uuid : file_id})
@@ -1964,8 +1924,6 @@ module.exports = api.geo = {
             var metadata = api.utils.parse(file.data.raster.metadata);
 
             var extent = metadata.extent;
-
-            console.log('metadata extent:', extent, metadata);
 
             // http://tools.geofabrik.de/tiledb?map=geofabrik_standard&
             // l=5.538061999999896
@@ -1995,14 +1953,11 @@ module.exports = api.geo = {
             
             request(url, function (err, response, body) {
                 // err handling
-                // console.log('err, response, body)', err, response, body)
 
                 // parse result
                 var tile_count = JSON.parse(body);
 
                 var tiles = tile_count.tiles;
-
-                console.log('tiles: ', tiles);
 
                 // calc tiles
                 var lower = tiles[zoom_max];
@@ -2124,8 +2079,6 @@ module.exports = api.geo = {
 
     _generateTiles : function (options, done) {
 
-        console.log('_generateTiles', options);
-
         var file_id = options.file_id;
         var zoom_min = options.zoom_min;
         var zoom_max = options.zoom_max;
@@ -2141,7 +2094,6 @@ module.exports = api.geo = {
             api.redis.layers.get(key, function (err, stat) {
                 status = api.utils.parse(stat);
 
-                console.log('stauts', status);
                 callback(err);
             });
         });
@@ -2168,12 +2120,6 @@ module.exports = api.geo = {
                 '"' + outFolder + '"',
             ].join(' ');
 
-            console.log('zoomLevels', zoomLevels);
-            console.log('cmd: ', cmd);
-            console.log('infile', inFile);
-
-            console.log('metadata pre parse', status.metadata);
-
 
             meta = status.metadata;
 
@@ -2184,8 +2130,6 @@ module.exports = api.geo = {
             var exec = require('child_process').exec;
             var proc = exec(cmd, { maxBuffer: 2000 * 1024 * 1024}, function (err, stdout, stdin) {
 
-                console.log('exec err', err, stdout, stdin);
-        
                 // get tile info
                 var nodeDir = require('node-dir');
                 nodeDir.files(outFolder, function (err, files) {

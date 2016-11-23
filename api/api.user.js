@@ -351,13 +351,11 @@ module.exports = api.user = {
                 user_a.contact_list.addToSet(user_b._id);
                 user_b.contact_list.addToSet(user_a._id);
                 user_a.save(function (err) {
-                    console.log('user_A saved', err);
                     if (err) {
                         done && done(err);
                         return;
                     }
                     user_b.save(function (err) {
-                    console.log('user_B saved', err);
                         if (err) {
                             done && done(err);
                             return;
@@ -547,7 +545,6 @@ module.exports = api.user = {
 
         // run ops
         async.series(ops, function (err, results) {
-            console.log('err, results', err, results);
             if (err) return next(err);
 
             // return user
@@ -555,7 +552,6 @@ module.exports = api.user = {
             res.send(user);
 
             api.user._attemptAddContact(req, user, function (err) {
-                console.log('_attemptAddContact err', err);
             });
         });
 
@@ -603,7 +599,6 @@ module.exports = api.user = {
         .findOne({'local.email' : email})
         .exec(function (err, user) {
             if (err || user) return done(errors.email_taken);
-            console.log('existing user? err, user', email, err, user);
             done(null);
         });
     },
@@ -631,8 +626,6 @@ module.exports = api.user = {
         ops.push(function (tokenJSON, callback) {
 
             var invite_only = api.config.portal.invite_only;
-
-            console.log('invite_only?', invite_only);
 
             if (invite_only && !tokenJSON) return callback('You don\'t have a valid invite. Please sign up on our beta-invite list on https://systemapic.com');
 
@@ -810,7 +803,6 @@ module.exports = api.user = {
     deleteUser : function (req, res, next) {
         
         var user_id = req.body.user_id || req.body.uuid;
-        console.log('deleteUser user_id, req.user.uuid', user_id, req.user.uuid);
 
         // only allow deleting of self
         if (req.user.uuid != user_id) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['user_id']));
@@ -819,7 +811,6 @@ module.exports = api.user = {
             .findOne({uuid : user_id})
             .remove()
             .exec(function (err) {
-                console.log('removed()', err);
                 res.send({
                     err : err,
                     user_id : user_id,
@@ -832,7 +823,6 @@ module.exports = api.user = {
 
     // user accepts invite (user must already exist)
     acceptInvite : function (req, res, next) {
-        console.log('acceptInvite');
         var user = req.user;
         var options = req.body || {};
         var missing = [];
@@ -866,8 +856,6 @@ module.exports = api.user = {
         var invitation;
 
         options = options || {};
-
-        console.log('_acceptInvite', options);
 
         // check if valid request
         if (!options.invite_token) {
@@ -905,7 +893,6 @@ module.exports = api.user = {
         ops.push(function (invitation, callback) {
             
             // WTF! FIXME ASAP!
-            console.log('invitation: ', invitation);
             // callback('TODO!');
             // return;
 

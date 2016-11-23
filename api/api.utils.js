@@ -114,7 +114,6 @@ module.exports = api.utils = {
 		// strip everything but letters, numbers, !, ? and remove accents
 		var slug = api.utils.stripAccents(name.replace(/[^\w\s!?]/g,'').toLowerCase());
 		slug = slug.replace(/\s/g, '');
-		console.log('slug: ', slug);
 		return slug;
 	},
 

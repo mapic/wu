@@ -208,8 +208,6 @@ module.exports = api.portal = {
 	// process wildcard paths, including hotlinks
 	wildcard : function (req, res) {
 
-		console.log('wildcard: ', req.originalUrl);
-
 		// get client/project
 		var path = req.originalUrl.split('/');
 		var username = path[1];
@@ -275,7 +273,6 @@ module.exports = api.portal = {
 	getBetaMembers : function () {
 		api.redis.stats.lrange('beta_access', 0, -1, function (err, members) {
 			if (err) console.log('err:', err);
-			console.log('beta access members: ', members);
 		});
 	},
 
@@ -358,22 +355,18 @@ module.exports = api.portal = {
 	},
 
 	printDebug : function (req) {
-		console.log('_______________________________________________________________________'.yellow);
-		console.log('Logged in user:'.yellow);
+		console.log('_______________________________________________________________________');
+		console.log('  Logged in user:');
 		console.log('  Name:  ' + req.user.firstName + ' ' + req.user.lastName);
 		console.log('  Uuid:  ' + req.user.uuid);
 		console.log('  Email: ' + req.user.local.email);
 		console.log('  IP:    ' + req.headers['x-forwarded-for']);
-		console.log('_______________________________________________________________________'.yellow);
-		console.log('_______________________________________________________________________'.yellow);
+		console.log('_______________________________________________________________________');
+		console.log('_______________________________________________________________________');
 		console.log('');
 	},
 
 	status : function (req, res, next) {
-
-		// if .. req.isAuthenticated()
-
-		console.log('req.user: ', req.user);
 
 		var ops = {};
 
@@ -455,30 +448,13 @@ module.exports = api.portal = {
 			});
 		};
 
-		// ops.mongo = function (callback) {
-
-		// 	var mongoose = require('mongoose');
-
-		// 	mongoose.connect('mongodb://localhost/test', function(err){
-		// 		var admin = new mongoose.mongo.Admin(mongoose.connection.db);
-		// 			admin.buildInfo(function (err, info) {
-		// 			console.log(info.version);
-		// 			callback(null, info.version);
-		// 		});
-		// 	});
-		// };
 
 		ops.redis = function (callback) {
 
 
 			api.redis.stats.info(function (err, stats) {
-				console.log('err, stats', err, stats);
-
 				var redis_info = require('redis-info');
 				var info = redis_info.parse(stats);
-
-				// var info = api.utils.parse(info);
-				console.log('info:', info.redis_version);
 				callback(err, info.redis_version);
 			});
 

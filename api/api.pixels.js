@@ -44,7 +44,6 @@ module.exports = api.pixels = {
 	snap : function (req, res, next) {
 		var ops = [];
 		var view = req.body || {};
-		console.log("VIEW", req.body);
 		var user = req.user;
 		var script_path = api.config.path.tools + 'phantomJS-snapshot.js';
 		var filename = 'snap-' + api.utils.getRandom(10) + '.png';
@@ -67,18 +66,13 @@ module.exports = api.pixels = {
 			var spawn = require('child_process').spawn;
 			var ls    = spawn('phantomjs', snapCommand);
 
-			console.log('spawning!');
-
 			ls.stdout.on('data', function (data) {
-				console.log('data:', data);
-
 				var dataTextObj = api.utils.parse(data) || {};
 
 				if (dataTextObj.error) {
 					errorMessage = dataTextObj.error;
 				}
 
-				console.log('stdout: ' + data);
 			});
 
 			ls.stderr.on('data', function (data) {
@@ -86,7 +80,6 @@ module.exports = api.pixels = {
 			});
 
 			ls.on('exit', function (code) {
-				console.log('child process exited with code ' + code);
 				callback(code, code);
 			});
 		});
@@ -188,10 +181,6 @@ module.exports = api.pixels = {
 
 	// process images straight after upload
 	_processImage : function (entry, callback) {
-		console.log('**********************************');
-		console.log('* fn: crunch._processImage * entry: ', entry);
-		console.log('**********************************');
-
 
 		var file = entry.permanentPath,
 		    ops = {};
@@ -437,8 +426,6 @@ module.exports = api.pixels = {
 	resizeImage : function (option, callback) {
 		if (!option) return callback('No options provided.');
 
-		console.log('resizing!');
-
 		// basic options
 		var width   	= parseInt(option.width) || null;
 		var height  	= parseInt(option.height) || null;
@@ -598,8 +585,6 @@ module.exports = api.pixels = {
 	
 		var imagePath = '/data/images/' + imageId;
 
-		console.log('imageId: ', imageId);
-
 		if (imageId == 'images') return res.send();
 
 		var options = {
@@ -748,8 +733,6 @@ module.exports = api.pixels = {
 				}
 			};
 
-			console.log('gonna resize: ', template);
-
 			// create image with dimensions
 			api.pixels.resizeImage(template, callback);
 
@@ -770,8 +753,6 @@ module.exports = api.pixels = {
 		// run all async ops
 		async.waterfall(ops, function (err, result) {
 			if (err || !result) return api.error.general(req, res, err || 'No result.');
-
-			console.log('all done!');
 
 			api.pixels.returnImage(req, res, result);
 		});
@@ -801,7 +782,6 @@ module.exports = api.pixels = {
 		// send file back to client, just need file path
 		var path = api.config.path.image + imageFile.file;
 
-		console.log('returnImage', path);
 		res.sendfile(path, {maxAge : 10000000});	// cache age, 115 days.. cache not working?
 	},
 

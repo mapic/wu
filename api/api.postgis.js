@@ -330,12 +330,8 @@ module.exports = api.postgis = {
                     query
                 ].join(' ');
 
-                console.log('dump to shp cmd: ', command);
-
                 // create database in postgis
                 exec(command, {maxBuffer: 1024 * 50000}, function (err, stdout) {
-                    console.log('err, stdout', err, stdout);
-
                     if (err) return callback(err);
 
                     var options = {
@@ -368,11 +364,7 @@ module.exports = api.postgis = {
                 tarfile
             ].join(' ');
 
-            console.log('tar cmd: ', cmd);
-
             exec(cmd, {maxBuffer: 1024 * 50000}, function (err, stdout) {
-                console.log('err, stdout', err, stdout);
-
                 if (err) return callback(err);
                 callback(null, returnOutput);
             });
@@ -386,8 +378,6 @@ module.exports = api.postgis = {
 
     
     createDatabase : function (options, done) {
-        console.log('DCDBDB', options);
-
         var user = options.user,
             userUuid = options.user.uuid,
             userName = '"' + options.user.firstName + ' ' + options.user.lastName + '"',
@@ -402,8 +392,6 @@ module.exports = api.postgis = {
             userUuid        // userUuid
         ].join(' ');
 
-        console.log('comd', command);
-        
         // create database in postgis
         exec(command, {maxBuffer: 1024 * 50000}, function (err) {
             if (err) return done(err);
@@ -412,7 +400,6 @@ module.exports = api.postgis = {
             User
             .findOne({uuid : userUuid})
             .exec(function (err, usr) {
-                console.log('ERR???', err, usr);
                 if (err || !usr) return done(err || 'no such user');
                 usr.postgis_database = pg_db;
                 usr.save(function (err) {
@@ -430,7 +417,6 @@ module.exports = api.postgis = {
         User
         .findOne({uuid : userUuid})
         .exec(function (err, user) {
-            console.log('esnure', err, user);
             if (err || !user) return done(err || 'No user.');
 
             // if already exists, return
@@ -461,8 +447,6 @@ module.exports = api.postgis = {
 
             // get which type of data
             var geotype = api.postgis._getGeotype(options);
-
-            console.log('api.postgis.import(), geotype:', geotype);
 
             // send to appropriate api.postgis.import
             if (geotype == 'shapefile') return api.postgis.importShapefile(options, callback);
@@ -525,8 +509,6 @@ module.exports = api.postgis = {
         var encoding = options.encoding || '';
         var ops = [];
 
-        console.log('#$# importShapefile', options);
-
         if (!prjfile) return done('Please provide a projection file.');
 
         // todo: put in config
@@ -548,7 +530,6 @@ module.exports = api.postgis = {
 
             // import
             api.postgis._importShapefileToPostgis(options, function (err, result) {
-                console.log('#$# imported shapefile to postgis', err, result);
                 // next
                 callback(err, result);
             });
@@ -595,7 +576,6 @@ module.exports = api.postgis = {
                 file_id : file_id,
                 postgis_db : pg_db
             }, function (err, metadata) {
-                console.log('#$# got metadata', err, metadata, file_id);
 
                 if (err) return callback(err);
 
@@ -658,8 +638,6 @@ module.exports = api.postgis = {
         var srid_converted = srid;
         var IMPORT_SHAPEFILE_SCRIPT_PATH = '../scripts/postgis/import_shapefile.sh'; 
 
-        console.log('POSTGIS DATABASE:::::', pg_db);
-
         // create database script
         var cmd = [
             IMPORT_SHAPEFILE_SCRIPT_PATH,   // script
@@ -671,8 +649,6 @@ module.exports = api.postgis = {
             // "> /dev/null 2>&1"
         ].join(' ');
 
-
-        console.log('import shaepfile cmd: ', cmd);
 
         // ping progress
         api.socket.processingProgress({
@@ -694,8 +670,6 @@ module.exports = api.postgis = {
 
             // check of LATIN1 encoding errors
             if (stdin.indexOf('LATIN1') > -1 && attempts < 2) {
-
-                console.log('LATIN!!');
 
                 var endTime = new Date().getTime();
 
@@ -737,13 +711,9 @@ module.exports = api.postgis = {
 
     importCSV : function (options, done) {
 
-        console.log('import CSV', options);
-
         var file_id = options.file_id;
         var user = options.user;
         var postgis_database = user.postgis_database;
-
-        console.log('user =->', JSON.stringify(options.user));
 
         // get, verify input file
         var input = (options && options.files && options.files.data) ? options.files.data.path : false;
@@ -757,8 +727,6 @@ module.exports = api.postgis = {
         // todo: make these cusomtizable from client/options
         var latfield = 'lat';
         var lngfield = 'lng';
-
-        console.log('input, oiutput', input, geojson_output);
 
         // save rows that are not geometry as meta
         var non_geo_rows;
@@ -777,8 +745,6 @@ module.exports = api.postgis = {
                 lonfield: lngfield,
             }, function (err, geojson) {
 
-                console.log('CREATED GEOJSON --==>', geojson);
-                
                 // todo: catch other type errors
 
                 // save rows that are not geometry as meta
@@ -794,8 +760,6 @@ module.exports = api.postgis = {
 
             // reproject UTM32 to latlng
             _.forEach(geojson.features, function (f) {
-
-                console.log('f00', f);
 
                 // get coords
                 var coords = f.geometry.coordinates;
@@ -814,14 +778,12 @@ module.exports = api.postgis = {
             // parse floats
             _.forEach(geojson.features, function (f) {
                 _.forEach(f.properties, function (value, key) {
-                    console.log('key:', key);
                     f.properties[key] = _.isNaN(parseFloat(value)) ? value : parseFloat(value);
                 });
             });
 
             // write output
             fs.writeFile(geojson_output, JSON.stringify(geojson), function (err) {
-                console.log('wrote geojson_output', geojson_output);
                 callback(err);
             });
         });
@@ -830,7 +792,6 @@ module.exports = api.postgis = {
         // create dir
         ops.push(function (callback) {
             fs.ensureDir(shape_folder, function (err) {
-                console.log('ensureDir', shape_folder, err);
                 callback(err);
             });
         });
@@ -846,8 +807,6 @@ module.exports = api.postgis = {
             ].join(' ');
 
             exec(cmd, function (err) {
-                console.log('cmd, err', cmd, err);
-                console.log('wrote shapefile', shape_folder);
                 callback(err);
             });
         });
@@ -937,7 +896,6 @@ module.exports = api.postgis = {
         var shapefilePath = shapefileFolder + shapefileBasename;
         var ops = [];
 
-        console.log('importGeojson options: ', options);
         var file_id = options.file_id;
 
         // create dir
@@ -994,7 +952,6 @@ module.exports = api.postgis = {
 
         // run ops
         async.series(ops, function (err, results) {
-            console.log('GEOJSON IMPORT DONE ---->>', err, results); // trash
             done(err, results);
         });
     },
@@ -1183,9 +1140,6 @@ module.exports = api.postgis = {
                         exec(command, {maxBuffer: 1024 * 50000}, function (err, stdout, stdin) {
                             if (err) return done(null);
 
-
-                            console.log('GETMETA -->', stdout);
-                            
                             var json = stdout.split('\n')[2];
                             var data = JSON.parse(json);
                             
@@ -1324,8 +1278,6 @@ module.exports = api.postgis = {
         // get total area
         ops.push(function (callback) {
 
-            console.log('api.postgis._getRasterMetadata(), get_extent!');
-
             var GET_RASTER_EXTENT_SCRIPT_PATH = '../scripts/postgis/get_raster_st_extent_as_geojson.sh';
 
             // st_extent script 
@@ -1349,8 +1301,6 @@ module.exports = api.postgis = {
                 // set geom type (only for vector, so raster is false)
                 metadata.geometry_type = false;
 
-
-                console.log('METADATA ', metadata);
 
                 // callback
                 callback(null);
@@ -1444,7 +1394,6 @@ module.exports = api.postgis = {
                 query : 'SELECT ST_GeometryType(geom) from "' + file_id + '" limit 1'
             }, function (err, results) {
                 if (err) return callback(err);
-                console.log('results', results);
                 if (!results || !results.rows || !results.rows.length) return callback({message : 'The dataset contains no valid geodata.'});
                 var geometry_type = results.rows[0].st_geometrytype.split('ST_')[1];
                 callback(null, geometry_type);
@@ -1539,11 +1488,7 @@ module.exports = api.postgis = {
 
 
         async.waterfall(ops, function (err, results) {
-            console.log('priming waterfall', err, results);
-
             var errMsg = err && err.message ? err.message : null;
-
-            console.log('errMs', errMsg);
             done(errMsg);
         });
 
@@ -1584,7 +1529,6 @@ module.exports = api.postgis = {
         if (files.data) {
             var filename = files.data.originalFilename;
             var ext = filename.split('.').reverse()[0];
-            console.log('######### EXT #########', ext, filename);
             if (ext == 'geojson') return 'geojson';
             if (ext == 'ecw') return 'raster';
             if (ext == 'jp2') return 'raster';
@@ -1603,8 +1547,6 @@ module.exports = api.postgis = {
             if (ext == 'tif') return 'raster';
             if (ext == 'tiff') return 'raster';
         }
-
-        console.log('files: ', files);
 
         // several files
         files.forEach(function (file) {

@@ -343,7 +343,6 @@ module.exports = api.provider = {
 				});
 
 				if (exists) {
-					console.log('Account already exists'.red);
 					return callback('Account already connected.');
 				}
 				callback(null, project);

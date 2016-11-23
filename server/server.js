@@ -110,24 +110,18 @@ function connect_to_mongo (done) {
 
 // helper fn
 function socket_auth_middleware (socket, next) {
-	console.log('socket_auth_middleware');
 	try {
 	if (!socket || !socket.headers || !socket.headers.cookie) return next(new Error('No socket, fatal.'));
 	var c = socket.headers.cookie;
-	console.log('c', c);
 	var session_cookie_raw = _.find(c.split('; '), function (sc) {
 		return _.includes(sc, 'session');
 	});
 	if (!session_cookie_raw) return next(new Error('No session.'));
 	var session_cookie = session_cookie_raw.split('=')[1];
-	console.log('session_cookie', session_cookie);
 	if (!session_cookie) return next(new Error('No session.'));
-	console.log('decoding');
 	var decoded_cookie = clientSession.util.decode(sessionOptions, session_cookie);
-	console.log('decoded_cookie', decoded_cookie);
 	if (!decoded_cookie) return next(new Error('Invalid access token.'));
 	var tokens = decoded_cookie.content ? decoded_cookie.content.tokens : false;
-	console.log('tokens:', tokens);
 	if (!tokens || !tokens.access_token) return next(new Error('Invalid access token.')); // public will fail here, returns 500...
 	api.token._authenticate(tokens.access_token, function (err, user) {
 		if (err) return next(err);

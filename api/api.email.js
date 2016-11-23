@@ -45,8 +45,6 @@ module.exports = api.email = {
 
 	_send : function (options) {
 
-		// console.log('_send email'.green, options);
-
 		// hook up to gmail
 		var transporter = nodemailer.createTransport(api.config.nodemailer);
 
@@ -55,9 +53,6 @@ module.exports = api.email = {
 
 		// add default from
 		options.from = options.from || api.config.nodemailer.from;
-
-		// overwrite to // debug
-		// options.to = 'knutole@mapic.io';
 
 		// don't send mocha-test emails
 		if (_.includes(options.to, 'mocha_test')) return;
@@ -73,7 +68,7 @@ module.exports = api.email = {
 		// 	html    : body
 		// }
 
-		console.log('Sent email!'.yellow);
+		console.log('Sent email');
 	},
 
 

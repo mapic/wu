@@ -1713,6 +1713,11 @@ module.exports = function(app) {
     // =====================================
     app.post('/v2/layers/update', checkAccess, analyticsHandler, api.layer.update, errorHandler);
 
+    //  // =====================================
+    // // UPDATE LAYERS =======================
+    // // =====================================
+    // app.post('/v2/layers/update/cube', checkAccess, analyticsHandler, api.layer.updateCube, errorHandler);
+
     /**
     * @api {post} /v2/layers/meta Reload meta
     * @apiName reload meta

@@ -140,17 +140,6 @@ module.exports = function(passport) {
 	passport.use(new BearerStrategy(
 		function (accessToken, done) {
 
-			// REQ passes an access_token, wants deserialized user in return.
-			// 	if access_token is not valid, done returns err/null,false
-			// 	
-			//	this is the only access-token check.
-
-			console.log('access_token', accessToken);
-			// todo: refactor, check latest passport.js, redo all?
-			// 	 for public version
-
-			// console.log('passport.js:193 BearerStrategy > accessToken'.yellow, accessToken); // is used when calling API endpoint with access_token
-
 			api.oauth2.store.accessTokens.find(accessToken, function (err, token) {
 				if (err) return done(err);
 				
@@ -159,33 +148,16 @@ module.exports = function(passport) {
 				if (new Date() > token.expirationDate) {
 					return api.oauth2.store.accessTokens.delete(accessToken, done);
 				} else {
-					// if (token.userID !== null) {
-						api.oauth2.store.users.find(token.userID, function (err, user) {
-							if (err) return done(err);
-							
-							if (!user) return done(null, false);
-							
-				
-							// to keep this example simple, restricted scopes are not implemented,
-							// and this is just for illustrative purposes
-							var info = {scope: '*'};
-							return done(null, user, info);
-						});
-					// } else {
-					// 	//The request came from a client only since userID is null
-					// 	//therefore the client is passed back instead of a user
-					// 	api.oauth2.store.clients.find(token.clientID, function (err, client) {
-					// 		if (err) return done(err);
-							
-					// 		if (!client) return done(null, false);
-							
+					api.oauth2.store.users.find(token.userID, function (err, user) {
+						if (err) return done(err);
 						
-					// 		// to keep this example simple, restricted scopes are not implemented,
-					// 		// and this is just for illustrative purposes
-					// 		var info = {scope: '*'};
-					// 		return done(null, client, info);
-					// 	});
-					// }
+						if (!user) return done(null, false);
+						
+						// to keep this example simple, restricted scopes are not implemented,
+						// and this is just for illustrative purposes
+						var info = {scope: '*'};
+						return done(null, user, info);
+					});
 				}
 			});
 		}

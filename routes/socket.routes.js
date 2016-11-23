@@ -36,7 +36,7 @@ module.exports = function(app) {
 
 
 	app.io.route('ready', function (req) {
-		console.log('socket -> ready');
+		console.log('Socket connected');
 		// checkAccess(req, function (err) {
 		// 	if (err) return;
 		// 	// console.log('ready: ', req);
@@ -85,8 +85,6 @@ module.exports = function(app) {
 
 	// helper function : if is logged in
 	function checkAccess(req, next) {
-		console.log('#103 checkAccess');
-		console.log('netx:', next);
 		api.token.authenticate_socket(req, next);
 	}
 

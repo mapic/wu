@@ -848,7 +848,6 @@ module.exports = api.project = {
 				if (err) {
 					return callback(err);
 				}
-				console.log('TEST: ', res);
 				params.project = res;
 				callback(null, params);
 			});
@@ -1122,11 +1121,8 @@ module.exports = api.project = {
 
 		var hashedUser = user.getUuid(); // todo: hash user ids
 
-		console.log('super?', user.isSuper());
-
 		// if phantomjs bot
 		if (user.isBot() || user.isSuper()) {
-			console.log('IS SUPER!!!');
 			Project
 			.find()
 			.lean()

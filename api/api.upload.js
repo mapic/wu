@@ -66,7 +66,6 @@ module.exports = api.upload = {
 	 *      https://dev.systemapic.com/api/data/import
 	 */
 	upload : function (req, res) {
-		console.log('api.upload.upload');
 		if (!req.files || !req.files.data) return api.error.missingInformation(res, 'Missing file.');
 
 		var files = req.files;
@@ -93,8 +92,6 @@ module.exports = api.upload = {
 			// database_name : null,
 		};
 
-		console.log('uploadStatus', uploadStatus);
-
 		// set upload status
 		var key = 'uploadStatus:' + uploadStatus.file_id;
 		api.redis.layers.set(key, JSON.stringify(uploadStatus), function (err) {
@@ -112,14 +109,11 @@ module.exports = api.upload = {
 		};
 
 		api.import.import(options, function (err, results) {
-			console.log('api.import.import done: ', err, results);
 		});
 
 	},
 
 	uploadCSV : function (req, res) {
-
-		console.log('uploadCSV');
 
 		var ops = [];
 		var user = req.user;
@@ -153,8 +147,6 @@ module.exports = api.upload = {
 				// database_name : null,
 			};
 
-			console.log(uploadStatus);
-
 			// set upload status
 			var key = 'uploadStatus:' + uploadStatus.file_id;
 			api.redis.layers.set(key, JSON.stringify(uploadStatus), callback);
@@ -166,7 +158,6 @@ module.exports = api.upload = {
 
 			var tmppath = '/data/tmp/' + uploadStatus.file_id + '.csv';
 			fs.outputFile(tmppath, csv, function (err) {
-				console.log('wrote file', tmppath);
 				uploadStatus.tmppath = tmppath;
 				callback(err);
 			})
@@ -190,7 +181,6 @@ module.exports = api.upload = {
 			};
 
 			api.import.import(options, function (err, results) {
-				console.log('api.import.import done: ', err, results);
 				callback(err);
 			});
 
@@ -360,8 +350,6 @@ module.exports = api.upload = {
 				default_layer_model : null
 			};
 
-			console.log('uploadStatus', globalUploadStatus);
-
 			// save upload id to redis
 			var key = 'uploadStatus:' + globalUploadStatus.file_id;
 			api.redis.layers.set(key, JSON.stringify(globalUploadStatus), function (err) {
@@ -402,11 +390,11 @@ module.exports = api.upload = {
 			// update status with error if any
 			if (err) api.upload._setStatusError(globalUploadStatus, err);
 
-			console.log('====================');
-			console.log('Chunked upload done');
-			console.log('err? ', err);
-			console.log('result: ', result);
-			console.log('====================');
+			// console.log('====================');
+			// console.log('Chunked upload done');
+			// console.log('err? ', err);
+			// console.log('result: ', result);
+			// console.log('====================');
 
 			// clean up, remove chunks
 			var removePath = '/data/tmp/resumable-' + uniqueIdentifier + '.*';
@@ -539,9 +527,6 @@ module.exports = api.upload = {
 				dataSize : u.size
 			};
 
-			console.log('########################### create file model');
-			console.log('u:', u);
-
 			if (u.data_type == 'vector' || u.data_type == 'raster') {
 				fileModel.type = 'postgis';
 				fileModel.data = {
@@ -609,11 +594,8 @@ module.exports = api.upload = {
 		var file_id = uploadStatus.file_id;
 		var file_id_key = 'uploadStatus:' + file_id;
 
-		console.log('_________ SET UPLOAD STATYUS!!', uploadStatus);
-
 		api.redis.layers.set(file_id_key, JSON.stringify(uploadStatus), function (err) {
 			if (err) return api.error.general(req, res, err);
-			console.log('err??', err);
 			res.send(uploadStatus);
 			// res.send(uploadStatus || { error : 'Upload ID not found or expired.' });
 		});
@@ -792,7 +774,6 @@ module.exports = api.upload = {
 	},
 
 	getFileType : function (name) {
-		// console.log('name'.yellow, name);
 		if (!name) return ['unknown', 'unknown'];
 
 		// check if folder

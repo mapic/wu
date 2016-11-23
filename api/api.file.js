@@ -111,8 +111,6 @@ module.exports = api.file = {
 		var userUuid = options.user.uuid;
 		var file_id = options.file._id;
 
-		console.log('add addNewFileToUser', options);
-
 		User
 		.findOne({uuid : userUuid})
 		.exec(function (err, user) {
@@ -124,7 +122,7 @@ module.exports = api.file = {
 			
 			// save
 			user.save(function (err, doc) {
-				console.log('saved addNewFileToUser', err, doc);
+				console.log('Added new file to user', err);
 				done(err);
 			});
 		});
@@ -524,7 +522,6 @@ module.exports = api.file = {
 			}
 
 			async.series(ops, function (error, result) {
-				console.log('err, result', error, result);
 				if (error) {
 					return next(error);
 				}
@@ -927,8 +924,6 @@ module.exports = api.file = {
 		var account = req.user;
 		var ops = [];
 
-		console.log('req.body', req.body);
-
 		if (!fileUuid) {
 			return api.error.missingInformation(req, res);
 		}
@@ -1246,13 +1241,6 @@ module.exports = api.file = {
 
 		var options = req.params;
 
-		console.log('----------getGeojson-----------');
-		// console.log('req: ', req);
-		console.log('----------getGeojson-2----------');
-		console.log('params:', req.params);
-		console.log('query: ', req.query);
-		console.log('body: ', req.body);
-
 		var options = req.query;
 
 		var dataset_id = options.dataset_id;
@@ -1270,7 +1258,6 @@ module.exports = api.file = {
 
 		// sanity check
 		ops.push(function (dataset, callback) {
-			console.log('dataset', dataset);
 
 			// if not postgis dataset
 			if (!dataset || !dataset.data || !dataset.data.postgis) return callback({error : 'Not a valid PostGIS vector.'});
@@ -1309,23 +1296,14 @@ module.exports = api.file = {
 				postgis_db : query_options.database_name,
 				query : 'select st_asgeojson(the_geom_4326) from ' + query_options.table_name + ';',
 			}, function (err, result) {
-				console.log('query: ', err, result);
 
 				if (err) return callback(err);
 				
-				// // set upload status
-				// api.upload.updateStatus(file_id, {
-				// 	rows_count : result.rows[0].count
-				// }, callback);
-
 				try {
 					var geojson = result.rows[0].st_asgeojson;
 				} catch (e) {
 					return callback({error : 'Failed to parse GeoJSON.'});
 				}
-
-				
-				console.log('geojson: ', geojson);
 
 				callback(null, geojson);
 			});
@@ -1333,7 +1311,6 @@ module.exports = api.file = {
 		});
 
 		async.waterfall(ops, function (err, geojson) {
-			console.log('async done, err, res', err, geojson, typeof geojson);
 
 			// return result gzipped
 			// res.writeHead(200, {'Content-Type': 'application/json', 'Content-Encoding': 'gzip'});
@@ -1346,29 +1323,6 @@ module.exports = api.file = {
 		
 
 	},
-
-
-	// // todo: possibly old, to be removed?
-	// // get geojson
-	// getGeojsonFile : function (req, res) {
-	// 	var uuid = req.body.uuid,	// file-1091209120-0129029
-	// 	    user = req.user.uuid,	// user-1290192-adasas-1212
-	// 	    projectUuid = req.body.projectUuid;
-
-	// 	// return if invalid
-	// 	if (!uuid || !user) return api.error.missingInformation(req, res);
-
-	// 	// get geojson file path from db
-	// 	File
-	// 	.where('data.geojson', uuid)							// must have this
-	// 	.or([{'access.users' : user}, {'access.projects' : projectUuid}])	// either of these
-	// 	.limit(1)	// safeguard
-	// 	.exec(function(err, record) {
-	// 		if (err) console.log('get geo exec err: '.red + err);
-	// 		return api.file.sendGeoJsonFile(req, res, record[0]);
-	// 	});
-	// },
-
 
 
 
@@ -1403,8 +1357,6 @@ module.exports = api.file = {
 
 	create : function (req, res) {
 
-		console.log('*********************************** create    r', req.body);
-
 		var ops = {};
 		var options = req.body || {};
 		var user = req.user;
@@ -1417,7 +1369,7 @@ module.exports = api.file = {
 
 			api.file.createModel(options, function (err, fileModel) {
 				if (err) return callback(err);
-				console.log('created filemodel', fileModel);
+				
 
 				dataset = fileModel;
 				callback(null);
@@ -1434,6 +1386,7 @@ module.exports = api.file = {
 		async.series(ops, function (err, results) {
 			if (err) return res.send(err);
 			
+			console.log('Created filemodel');
 
 			res.send(dataset);
 		});
@@ -1462,7 +1415,6 @@ module.exports = api.file = {
 		file.data 		= options.data;
 
 		file.save(function (err, doc) {
-			// console.log('file model created:', err, doc);
 			if (err) console.log(err);
 			callback(null, doc);
 		});
@@ -1606,6 +1558,7 @@ module.exports = api.file = {
 
 	},
 
+	// todo: remove, deprecated?!
 	_sendToProcessingGeojson : function (layer, options, done) {
 		var pack = options.pack;
 		var user = options.user;
@@ -1630,10 +1583,7 @@ module.exports = api.file = {
 			api_hook : 'grind/done'
 		};
 
-		// send file over ssh
-		// exec(cmd, function (err, stdout, stdin) {
-			// if (err) console.log('err'.red, err);
-
+		// todo: deprecated?!
 		var remoteUrl = 'http://grind:3004/';
 
 		// ping tileserver storage to notify of file transfer
@@ -1799,8 +1749,6 @@ module.exports = api.file = {
 	getCustomData : function (req, res) {
 
 		var options = req.query;
-
-		console.log('getCustomData', options);
 
 		if (options.name == 'allYears') {
 

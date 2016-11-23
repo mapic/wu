@@ -92,8 +92,6 @@ module.exports = api.slack = {
 
 	userEvent : function (options) {
 
-		console.log('userEvent', options);
-
 		var user = options.user;
 		var event = options.event;
 		var description = options.description;

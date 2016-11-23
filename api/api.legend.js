@@ -43,7 +43,6 @@ module.exports = api.legend = {
 
 
 	create : function (req, res) {
-		console.log('api.legend.create'.yellow);
 
 		var options = {
 			fileUuid : req.body.fileUuid,
@@ -313,14 +312,12 @@ module.exports = api.legend = {
 						local_data_dir: fspath.dirname(cartopath)
 					}).renderMSS(buffer);
 				} catch(err) {
-					console.log('err11'.red, err);
 					if (Array.isArray(err)) {
 						err.forEach(function(e) {
 							carto.writeError(e, options);
 						});
 					} else { console.error('err22'.red, err); }
 				}
-				console.log('op: ', output);
 
 				// fs.writeFileSync('/home/cartocss.output', output);
 

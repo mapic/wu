@@ -61,7 +61,7 @@ module.exports = api.error = {
 	},
 
 	missingInformation : function (req, res) {
-		console.log('api.error.missingInformation'.red);
+		console.log('api.error.missingInformation');
 		
 		var message = 'Missing information. Check out https://docs.systemapic.com/ for details on the API.';
 
@@ -73,7 +73,7 @@ module.exports = api.error = {
 	},
 
 	general : function (req, res, err) {
-		console.log('api.error.genera2l:', err, api.error.pretty(err));
+		console.log('api.error.general:', err, api.error.pretty(err));
 
 		res.status(400).json({
 			error : api.error.pretty(err)

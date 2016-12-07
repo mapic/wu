@@ -805,8 +805,10 @@ module.exports = api.layer = {
 
             console.log('Created layer...');
 
-            if (options.projectUuid) {
+            if (options.projectUuid) { // todo: clean up projectUuid vs uuid (in update)
+                console.log('Adding layer to project', layer._id);
                 return api.layer.addToProject(layer._id, options.projectUuid, function (err) {
+                    console.log('ADDED LAYER TO PROJECT!', savedLayer);
                     callback && callback(err, savedLayer);
                 });
             }

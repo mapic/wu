@@ -19,7 +19,7 @@ branches:
 install:
   - git clone git://github.com/mapic/mapic.git
   - cd mapic
-  - travis_wait bash install-to-localhost.sh travis
+  - ./install-to-localhost.sh travis
   - sleep 30
 
 script:

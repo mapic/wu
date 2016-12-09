@@ -10,7 +10,7 @@ mkdir -p log
 NODE_MODULES_DIR=/mapic/modules/engine/node_modules
 if [ ! -d "$NODE_MODULES_DIR" ]; then
   echo "Installing node modules..."
-  npm install || abort "Failed to install node modules. Quitting!"
+  npm install --silent || abort "Failed to install node modules. Quitting!"
 
 fi
 

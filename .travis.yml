@@ -1,0 +1,31 @@
+language: node_js
+
+services:
+  - docker
+
+sudo: required
+
+node_js:
+  - 6
+
+notifications:
+  email: false
+  slack: mapic-io:NKaii0z3tRkeDyXaDbRauRFp
+
+branches:
+  only:
+    - master
+
+install:
+  - git clone git://github.com/mapic/mapic.git
+  - cd mapic
+  - ./install-to-localhost.sh travis
+  - sleep 30
+
+script:
+  - cd scripts
+  - ./run-engine-tests.sh
+
+cache:
+  directories:
+    - $HOME/.yarn-cache

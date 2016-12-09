@@ -36,6 +36,7 @@ var mapnikOmnivore = require('mapnik-omnivore');
 var error_messages = require('../shared/errors.json');
 var errors = require('../shared/errors');
 var httpStatus = require('http-status');
+var slugify = require('slug');
 
 // api
 var api = module.parent.exports;
@@ -893,6 +894,52 @@ module.exports = api.project = {
 
 
 
+	getAvailableSlug : function (req, res, next) {
+		if (!req.body) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['body']));
+		
+		var options = req.body;
+		var projectName = options.project_name;
+		var created_by_username = options.created_by_username;
+		var user = req.user;
+
+		if (!options) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['options']))
+		if (!user) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['user']))
+
+		// create safe slug
+		var slug = slugify(projectName, {lower : true});
+
+		// todo: check against existing in username/slug project namespace
+		var n = 0;
+		async.during(
+			
+			function (callback) {
+				Project
+				.findOne({
+					createdByUsername : created_by_username,
+					slug : slug
+				}).exec(function (err, projects) {
+					callback(err, !_.isEmpty(projects));
+				});
+			},
+
+			function (callback) {
+				n++;
+				slug = slug + '-' + n;
+				callback()
+			}, 
+
+			function (err) {
+				res.send({
+					slug : slug
+				});
+			}
+		);
+		
+	},
+
+
+
+
 
 	// API: Check Unique Slug   
 	// #########################
@@ -914,13 +961,15 @@ module.exports = api.project = {
 			// if no projects, return
 			if (_.size(projects)) {
 				return res.send({
-					uniqueSlug : true
+					uniqueSlug : true,
+					slug : value
 				});
 			}
 
 			// get slugs
 			projects.forEach(function (p) {
 				// add but self
+				console.log('p.slug', p.slug);
 				if (p.uuid != projectUuid) slugs.push(p.slug.toLowerCase());
 			});
 
@@ -934,7 +983,8 @@ module.exports = api.project = {
 			// 	unique : unique
 			// }));
 			res.send({
-				uniqueSlug : unique // return object instead of string; todo: fix in client, tests
+				uniqueSlug : unique, // return object instead of string; todo: fix in client, tests
+				slug : value
 			});
 		});
 	},

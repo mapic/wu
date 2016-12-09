@@ -712,6 +712,9 @@ module.exports = function(app) {
     // CHECK UNIQUE SLUG ===================
     // =====================================
     app.post('/v2/projects/slug/unique', checkAccess, analyticsHandler, api.project.checkUniqueSlug, errorHandler);
+    
+
+    app.post('/v2/projects/slug/available', checkAccess, analyticsHandler, api.project.getAvailableSlug, errorHandler);
 
     /**
     * @api {post} /v2/projects/access Set project access object

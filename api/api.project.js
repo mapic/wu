@@ -893,27 +893,30 @@ module.exports = api.project = {
 
 
 
-	// #########################################
-	// ###  API: Check Unique Slug           ###
-	// #########################################
+
+	// API: Check Unique Slug   
+	// #########################
 	checkUniqueSlug : function (req, res, next) {
 		if (!req.body) {
 			return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['body']));
 		}
 				
-		var value = req.body.slug,
-		    clientUuid = req.body.createdByClient, //req.body.client,
-		    projectUuid = req.body.uuid,
-		    slugs = [];
-
-		console.log(req.body);
+		var value = req.body.slug;
+		var clientUuid = req.body.createdByClient;
+		var projectUuid = req.body.uuid;
+		var slugs = [];
 
 		Project
-		.find({createdBy : clientUuid}) //.find({client : clientUuid})
+		.find({createdBy : clientUuid})
 		.exec(function (err, projects) {
 			if (err) return api.error.general(req, res, err);
 
-			console.log("projects.length-", projects.length);
+			// if no projects, return
+			if (_.size(projects)) {
+				return res.send({
+					uniqueSlug : true
+				});
+			}
 
 			// get slugs
 			projects.forEach(function (p) {
@@ -921,17 +924,18 @@ module.exports = api.project = {
 				if (p.uuid != projectUuid) slugs.push(p.slug.toLowerCase());
 			});
 
-			console.log("slugs" , slugs);
-
 			// check if slug already exists
 			var unique = !(slugs.indexOf(value.toLowerCase()) > -1);
 
 			console.log(unique);
 
 			// return results
-			res.send(JSON.stringify({
-				unique : unique
-			}));
+			// res.send(JSON.stringify({
+			// 	unique : unique
+			// }));
+			res.send({
+				uniqueSlug : unique // return object instead of string; todo: fix in client, tests
+			});
 		});
 	},
 

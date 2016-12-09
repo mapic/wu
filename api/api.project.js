@@ -36,6 +36,7 @@ var mapnikOmnivore = require('mapnik-omnivore');
 var error_messages = require('../shared/errors.json');
 var errors = require('../shared/errors');
 var httpStatus = require('http-status');
+var slugify = require('slug');
 
 // api
 var api = module.parent.exports;
@@ -893,44 +894,99 @@ module.exports = api.project = {
 
 
 
-	// #########################################
-	// ###  API: Check Unique Slug           ###
-	// #########################################
+	getAvailableSlug : function (req, res, next) {
+		if (!req.body) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['body']));
+		
+		var options = req.body;
+		var projectName = options.project_name;
+		var created_by_username = options.created_by_username;
+		var user = req.user;
+
+		if (!options) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['options']))
+		if (!user) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['user']))
+
+		// create safe slug
+		var slug = slugify(projectName, {lower : true});
+
+		// todo: check against existing in username/slug project namespace
+		var n = 0;
+		async.during(
+			
+			function (callback) {
+				Project
+				.findOne({
+					createdByUsername : created_by_username,
+					slug : slug
+				}).exec(function (err, projects) {
+					callback(err, !_.isEmpty(projects));
+				});
+			},
+
+			function (callback) {
+				n++;
+				slug = slug + '-' + n;
+				callback()
+			}, 
+
+			function (err) {
+				res.send({
+					slug : slug
+				});
+			}
+		);
+		
+	},
+
+
+
+
+
+	// API: Check Unique Slug   
+	// #########################
 	checkUniqueSlug : function (req, res, next) {
 		if (!req.body) {
 			return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['body']));
 		}
+				
+		var value = req.body.slug;
+		var clientUuid = req.body.createdByClient;
+		var projectUuid = req.body.uuid;
+		var slugs = [];
 
-		// debug: let's say all slugs are OK - and not actually use slugs for anything but cosmetics
-		// return results
-		res.send({
-			unique : true
+		Project
+		.find({createdBy : clientUuid})
+		.exec(function (err, projects) {
+			if (err) return api.error.general(req, res, err);
+
+			// if no projects, return
+			if (_.size(projects)) {
+				return res.send({
+					uniqueSlug : true,
+					slug : value
+				});
+			}
+
+			// get slugs
+			projects.forEach(function (p) {
+				// add but self
+				console.log('p.slug', p.slug);
+				if (p.uuid != projectUuid) slugs.push(p.slug.toLowerCase());
+			});
+
+			// check if slug already exists
+			var unique = !(slugs.indexOf(value.toLowerCase()) > -1);
+
+			console.log(unique);
+
+			// return results
+			// res.send(JSON.stringify({
+			// 	unique : unique
+			// }));
+			res.send({
+				uniqueSlug : unique, // return object instead of string; todo: fix in client, tests
+				slug : value
+			});
 		});
-		
-		// var value = req.body.value,
-		//     clientUuid = req.body.client,
-		//     projectUuid = req.body.project,
-		//     slugs = [];
-
-		// Project
-		// .find({client : clientUuid})
-		// .exec(function (err, projects) {
-		// 	if (err) return api.error.general(req, res, err);
-
-		// 	// get slugs
-		// 	projects.forEach(function (p) {
-		// 		// add but self
-		// 		if (p.uuid != projectUuid) slugs.push(p.slug.toLowerCase());
-		// 	});
-
-		// 	// check if slug already exists
-		// 	var unique = !(slugs.indexOf(value.toLowerCase()) > -1);
-
-		// 	// return results
-		// 	res.end(JSON.stringify({
-		// 		unique : unique
-		// 	}));
-		// });
 	},
 
 	_returnProject : function (req, res, project, next) {

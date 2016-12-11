@@ -22,7 +22,8 @@ module.exports = endpoint = {
         getLayers       : '/v2/projects/layers',
         setAccess       : '/v2/projects/access',
         slug            : {
-            unique      : '/v2/projects/slug/unique'
+            unique      : '/v2/projects/slug/unique',
+            available   : '/v2/projects/slug/available'
         }
     },
 

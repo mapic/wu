@@ -9,6 +9,7 @@
 	- [x] delete
 	- [x] rename
 	- [x] unique
+	- [x] available
 - [x] File
 	- [x] update
 	- [x] getLayers

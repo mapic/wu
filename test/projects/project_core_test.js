@@ -2,6 +2,7 @@ var helpers = require('../helpers');
 var projectUpdate = require('./update');
 var projectCreate = require('./create');
 var projectUnique = require('./unique');
+var slugAvailable = require('./getAvailableSlug');
 var projectDelete = require('./delete');
 var getPublic = require('./getPublic');
 var getPrivate = require('./getPrivate');
@@ -21,6 +22,7 @@ describe('Project', function () {
     projectCreate();
     projectDelete();
     projectUnique();
+    slugAvailable();
     getProjectLayers();
 	getPublic();
 	getPrivate();

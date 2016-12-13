@@ -944,14 +944,16 @@ module.exports = api.project = {
 	// API: Check Unique Slug   
 	// #########################
 	checkUniqueSlug : function (req, res, next) {
-		if (!req.body) {
-			return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['body']));
-		}
+		
+		// return err if no body
+		if (!req.body) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['body']));
 				
 		var value = req.body.slug;
 		var clientUuid = req.body.createdByClient;
 		var projectUuid = req.body.uuid;
 		var slugs = [];
+
+		if (!value) return next(api.error.code.missingRequiredRequestFields(errors.missing_information.errorMessage, ['slug']));
 
 		Project
 		.find({createdBy : clientUuid})

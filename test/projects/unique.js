@@ -23,12 +23,12 @@ module.exports = function () {
         it('should respond with status code 200', function (done) {
             token(function (err, access_token) {
                 api.post(endpoints.projects.slug.unique)
-                    .send({access_token: access_token}) // ?? should send slug?
+                    .send({access_token: access_token , slug : "its-a-slug" , createdByClient : 'admin' , uuid : '' }) // ?? should send slug?
                     .expect(httpStatus.OK)
                     .end(function (err, res) {
                         if (err) return done(err);
                         var result = helpers.parse(res.text);
-                        expect(result.unique).to.be.true;
+                        expect(result.uniqueSlug).to.be.true;
                         done();
                     });
             });

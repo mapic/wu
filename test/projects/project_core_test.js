@@ -18,7 +18,7 @@ describe('Project', function () {
     before(function(done) { helpers.create_user(done); });
     after(function(done) { helpers.delete_user(done); });
 
-    console.log('PR: slug-tests');
+    console.log('PR: slug-tests -- travis debug');
 
     projectUpdate();
     projectCreate();

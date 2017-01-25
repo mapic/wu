@@ -17,6 +17,7 @@ branches:
     - master
 
 install:
+  - ls -l
   - git clone git://github.com/mapic/mapic.git
   - cd mapic
   - ./install-to-localhost.sh travis

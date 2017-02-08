@@ -1,14 +1,15 @@
 
 # We assume there's no "docker" command inside the docker
 which docker && {
-  echo "We're probably outside the wu docker"
-  test -n "$SYSTEMAPIC_DOMAIN" || {
-    echo "Please export SYSTEMAPIC_DOMAIN env variable" >&2
-    exit 1
+  echo "We're probably outside the engine docker"
+  test -n "$MAPIC_DOMAIN" || {
+    echo "Setting MAPIC_DOMAIN env to localhost" >&2
+    MAPIC_DOMAIN=localhost
+    
   }
-  TMP=${SYSTEMAPIC_DOMAIN%.*} # hacky, lacking bash skillz!
+  TMP=${MAPIC_DOMAIN%.*} # hacky, lacking bash skillz!
   DOMAIN=${TMP%.*}             
-  container=${DOMAIN}_wu_1
+  container=${DOMAIN}_engine_1
   echo "Executing myself inside container ${container}"
   if test -t 0; then
     TTYSWITCH=-t

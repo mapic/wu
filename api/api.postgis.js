@@ -519,6 +519,7 @@ module.exports = api.postgis = {
 
             // get srid
             api.postgis._getSrid(prjfile, callback);
+        
         });
 
 
@@ -1389,10 +1390,12 @@ module.exports = api.postgis = {
 
         // get geometry type
         ops.push(function (callback) {
+
             api.postgis.query({
                 postgis_db : postgis_db,
                 query : 'SELECT ST_GeometryType(geom) from "' + file_id + '" limit 1'
             }, function (err, results) {
+               
                 if (err) return callback(err);
                 if (!results || !results.rows || !results.rows.length) return callback({message : 'The dataset contains no valid geodata.'});
                 var geometry_type = results.rows[0].st_geometrytype.split('ST_')[1];

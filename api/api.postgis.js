@@ -41,6 +41,7 @@ var httpStatus = require('http-status');
 var csv = require('csv');
 var csv2geojson = require('csv2geojson');
 var proj4 = require('proj4');
+var gdal = require('gdal');
 
 
 // error messages
@@ -1039,6 +1040,7 @@ module.exports = api.postgis = {
 
             // get meta
             api.postgis._getRasterMetadata({
+                raster_file : raster,
                 file_id : file_id,
                 postgis_db : pg_db
             }, function (err, metadata) {
@@ -1273,6 +1275,7 @@ module.exports = api.postgis = {
     _getRasterMetadata : function (options, done) {
         var file_id = options.file_id;
         var postgis_db = options.postgis_db;
+        var raster_file = options.raster_file;
         var ops = [];
         var metadata = {};
 
@@ -1327,7 +1330,30 @@ module.exports = api.postgis = {
             });
         });
 
-    
+
+        // get byte type (Byte or Int16)
+        ops.push(function (callback) {
+
+            console.time('getMetadata raster');
+            
+            // todo: this is sync/blocking! 
+            // altho only takes < 1ms, needs to be made async.
+            // gdal doesn't support async yet, so must use worker-farm etc.
+            var dataset = gdal.open(raster_file)
+            var data_type;
+            dataset.bands.forEach(function (band, i) {
+                console.log('band.dataType', band.dataType);
+                data_type = band.dataType;
+            });
+
+            // set metadata
+            metadata.data_type = data_type;
+
+            console.timeEnd('getMetadata raster');
+
+            callback();
+
+        });
 
         async.series(ops, function (err, results) {
             done(err, metadata);

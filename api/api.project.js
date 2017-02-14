@@ -449,10 +449,15 @@ module.exports = api.project = {
 
 				if (!project) return callback()
 
-				callback({
-					message: errors.project_with_such_name_already_exist.errorMessage,
-					code: httpStatus.BAD_REQUEST
-				});
+				// project name exists, create random name
+				// todo: still not perfectly safe
+				store.name = store.name + '_' + parseInt(Math.random()*1000);
+				callback();
+				
+				// callback({
+				// 	message: errors.project_with_such_name_already_exist.errorMessage,
+				// 	code: httpStatus.BAD_REQUEST
+				// });
 
 			});
 		});

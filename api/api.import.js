@@ -207,8 +207,6 @@ module.exports = api.import = {
 
 			// add to project
 			if (addToProject) {
-
-
 			}
 
 

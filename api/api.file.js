@@ -104,7 +104,6 @@ module.exports = api.file = {
 		});
 	},
 
-	// called from api.upload.js:431
 	addNewFileToUser : function (options, done) {
 		if (!options.file || !options.user) return done('Wrong args');
 

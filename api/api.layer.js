@@ -389,6 +389,8 @@ module.exports = api.layer = {
                 'active_mask',
                 'filter_mask',
                 'options',
+                'defo_rasters',
+                'layer_type'
             ];
             var ops = [];
 
@@ -792,6 +794,7 @@ module.exports = api.layer = {
         layer.file          = options.file;
         layer.metadata      = options.metadata;
         layer.style         = options.style;
+        layer.layer_type    = options.layer_type;
 
         if (_.has(options.data, 'cube')) {
             layer.data = { cube : JSON.stringify(options.data.cube) };
@@ -803,12 +806,8 @@ module.exports = api.layer = {
         layer.save(function (err, savedLayer) {
             if (err) return callback(err);
 
-            console.log('Created layer...');
-
             if (options.projectUuid) { // todo: clean up projectUuid vs uuid (in update)
-                console.log('Adding layer to project', layer._id);
                 return api.layer.addToProject(layer._id, options.projectUuid, function (err) {
-                    console.log('ADDED LAYER TO PROJECT!', savedLayer);
                     callback && callback(err, savedLayer);
                 });
             }
@@ -843,7 +842,7 @@ module.exports = api.layer = {
     },
 };
 
-// systemapic hack
+// carto hack
 carto.Renderer.prototype.getRules = function render(data) {
     var env = _(this.env).defaults({
         benchmark: true,
@@ -852,8 +851,6 @@ carto.Renderer.prototype.getRules = function render(data) {
     });
 
     carto.tree.Reference.setVersion(this.options.mapnik_version);
-
     var parser = (carto.Parser(env)).parse(data);
-
     return parser;
 };

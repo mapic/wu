@@ -32,8 +32,10 @@ var layerSchema = mongoose.Schema({
     satellite_position : String,
     options     : String, // JSON of custom options
     layer_type  : String, // eg. defo_raster
-    
+    defo_rasters : [String],
+
     // data source for layer
+    // mutually exclusive
     data : {
         geojson     : String,       // file uuid, file saved on server - needs to be if over 4MB (mongodb limit)
         topojson    : String,       // file uuid ... // simply request, check auth, serve file.
@@ -52,7 +54,6 @@ var layerSchema = mongoose.Schema({
             layers  : [String],
             meta    : String,
         },
-        defo_raster : [String],     // deformation raster
 
         postgis : {
             sql                 : String,

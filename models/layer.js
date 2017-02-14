@@ -31,7 +31,7 @@ var layerSchema = mongoose.Schema({
     tileType    : String, // tiletype, eg. 'aerial', 'hybrid'
     satellite_position : String,
     options     : String, // JSON of custom options
-    layer_type  : String,
+    layer_type  : String, // eg. defo_raster
     
     // data source for layer
     data : {
@@ -52,6 +52,7 @@ var layerSchema = mongoose.Schema({
             layers  : [String],
             meta    : String,
         },
+        defo_raster : [String],     // deformation raster
 
         postgis : {
             sql                 : String,

@@ -1339,13 +1339,18 @@ module.exports = api.postgis = {
             // todo: this is sync/blocking! 
             // altho only takes < 1ms, needs to be made async.
             // gdal doesn't support async yet, so must use worker-farm etc.
-            var dataset = gdal.open(raster_file)
-            var data_type;
-            dataset.bands.forEach(function (band, i) {
-                console.log('band.dataType', band.dataType);
-                data_type = band.dataType;
-            });
-
+            try {
+                var dataset = gdal.open(raster_file)
+                var data_type;
+                dataset.bands.forEach(function (band, i) {
+                    console.log('band.dataType', band.dataType);
+                    data_type = band.dataType;
+                });
+            } catch (e) {
+                console.log('opening file with gdal.open failed', e);
+                data_type = 'Unable to determine data type';
+            }
+            
             // set metadata
             metadata.data_type = data_type;
 

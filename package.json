@@ -67,7 +67,7 @@
     "esprima": "^3.0.0",
     "express": "^4.14.0",
     "express-session": "^1.12.1",
-    "express.io": "^1.1.13",
+    "express.oi": "git+https://github.com/sibartlett/express.oi.git",
     "formidable": "^1.0.17",
     "fs-extra": "^2.0.0",
     "geojson-area": "^0.2.1",

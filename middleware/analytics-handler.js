@@ -19,6 +19,8 @@ module.exports = function () {
         var user = req.user || {};
         var userId = user._id || 'unauthorized';
 
+        if (userId == 'unauthorized') return next();
+        
         slackMessage.text = util.format("User %s has performed an action %s.", userId || slackMessage.userId , req.originalUrl || slackMessage.action);
 
         // console.log("SLACKMESSAGE: ", slackMessage.text);

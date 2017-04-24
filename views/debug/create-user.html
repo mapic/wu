@@ -17,8 +17,6 @@
 	.feedback-label {
 		top: 50px;
 		position: absolute;
-		color: #33DE33;
-		left: 130px;
 	}
 	</style>
 <body>
@@ -50,7 +48,7 @@
 			var wrapper = this._rightWrapper = Wu.DomUtil.create('div', 'right', this._centralWrapper);
 
 			// shader
-			this._leftshader = Wu.DomUtil.create('div', 'shader', wrapper);
+			if (!disableShader) this._leftshader = Wu.DomUtil.create('div', 'shader', wrapper);
 
 			// label
 			var label = Wu.DomUtil.create('div', 'top-label', wrapper, 'Create account');
@@ -103,7 +101,7 @@
 			privacy_checkbox.id = 'privacy-checkbox';
 			var privacy_label = document.createElement('label')
 			privacy_label.htmlFor = 'privacy-checkbox';
-			privacy_label.innerHTML = 'I have read and agree to Systemapic\'s <a href="/privacy-policy" target="_blank">Terms and Conditions</a>';
+			privacy_label.innerHTML = 'I have read and agree to Mapic\'s <a href="/privacy-policy" target="_blank">Terms and Conditions</a>';
 			input_wrapper.appendChild(privacy_label);
 
 			// submit button
@@ -135,6 +133,14 @@
 					if (err || !user) return console.error(err || 'No user.');
 					user = Wu.parse(user);
 
+					input_wrapper.style.display = 'none';
+
+					var login_email = email_input.value;
+					var login_pass = password_input.value;
+
+					feedback_label.innerHTML = 'User ' + user.username + ' created! Log in with <br>Username: ' + login_email + ' <br>Password: ' + login_pass;
+
+
 					username_input.value = '';
 					email_input.value = '';
 					firstname_input.value = '';
@@ -143,12 +149,9 @@
 					company_input.value = '';
 					password_input.value = '';
 
-
-					feedback_label.innerHTML = 'User ' + user.username + ' created!'
-
-					setTimeout(function () {
-						feedback_label.innerHTML = '';
-					}, 3000);
+					// setTimeout(function () {
+					// 	feedback_label.innerHTML = '';
+					// }, 10000);
 				});
 
 			}, this);

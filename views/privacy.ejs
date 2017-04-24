@@ -30,13 +30,15 @@ body {
 </style>
 <body>
 
+
+
 	<div class="container">
 
 		<h1>Privacy Policy</h1>
 
 		<p>Last updated: April 24th, 2017</p>
 
-		<p>Mapic AS ("us", "we", or "our") operates the <a href="https://mapic.io" target="_blank">https://mapic.io</a> website (the "Service").</p>
+		<p>Mapic AS ("us", "we", or "our") operates the <a id="privacy-site-link" href="https://mapic.io" target="_blank">https://mapic.io</a> website (the "Service").</p>
 
 		<p>This page informs you of our policies regarding the collection, use and disclosure of Personal Information when you use our Service.</p>
 
@@ -118,5 +120,11 @@ body {
 		<p>If you have any questions about this Privacy Policy, <a href="mailto:hello@mapic.io">please contact us.</a></p>
 
 	</div>
+
+	<script>
+	var link = document.getElementById('privacy-site-link');
+	link.href = document.location.origin;
+	link.innerHTML = document.location.origin;
+	</script>
 </body>
 </html>

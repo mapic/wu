@@ -1,5 +1,5 @@
 // server.js
-var express  = require('express.oi');
+var express  = require('express.io');
 var mongoose = require('mongoose');
 var flash    = require('connect-flash');
 var path     = require('path');

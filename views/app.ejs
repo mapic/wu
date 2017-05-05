@@ -75,13 +75,15 @@
 			left: 50%;
 			transform: translate(-50%, -50%);
 			width: 200px;
-			opacity: 0;
-			-webkit-animation: blink 5s;
+		}
+		.intro-logo-container {
+		    -webkit-animation: blink 5s;
 			-webkit-animation-iteration-count: 1;
 			-moz-animation: blink 5s;
 			-moz-animation-iteration-count: 1;
 			-o-animation: blink 5s;
 			-o-animation-iteration-count: 1;
+			opacity: 0;
 		}
 		@keyframes blink {
 			0% { opacity: 0; }
@@ -123,8 +125,10 @@
 	<body>
 
 		<!-- intro logo -->
-		<img src="/css/mapic_logo_inverted_blank.png" class="ghostface">
-		
+		<div class="intro-logo-container">
+			<img src="/css/mapic_logo_inverted_blank.png" class="ghostface">
+			<div class="intro-logo-disclaimer">For evaluation purposes only.</div>
+		</div>
 		
 		<!-- @if NODE_ENV == 'DEVELOPMENT' -->
 		

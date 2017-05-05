@@ -18,6 +18,7 @@ fi
 # see https://github.com/mapic/engine/issues/14
 cd node_modules/express.io/node_modules/express
 ln -s ../ node_modules
+cd ../../../..
 
 # start prodmode
 if $MAPIC_PRODMODE; then

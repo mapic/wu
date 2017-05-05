@@ -32,11 +32,8 @@ var api = require('../api/api');
 // function exports
 module.exports = function(app) {
 
-
-
-
 	app.io.route('ready', function (req) {
-		console.log('Socket connected');
+		console.log('Socket connected!');
 		// checkAccess(req, function (err) {
 		// 	if (err) return;
 		// 	// console.log('ready: ', req);

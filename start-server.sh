@@ -14,6 +14,11 @@ if [ ! -d "$NODE_MODULES_DIR" ]; then
 
 fi
 
+# hack: fix express.io until we fix properly
+# see https://github.com/mapic/engine/issues/14
+cd node_modules/express.io/node_modules/express
+ln -s ../ node_modules
+
 # start prodmode
 if $MAPIC_PRODMODE; then
 	cd server

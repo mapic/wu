@@ -15,6 +15,7 @@ module.exports = function () {
      * request-response cycle of an Express application
      */
     return function (req, res, next) {
+        return next();
         var slackMessage = req.slackMessage || {};
         var user = req.user || {};
         var userId = user._id || 'unauthorized';

@@ -78,13 +78,15 @@ connect_to_mongo(function (err) {
 
 	// load our socket api
 	require('../routes/socket.routes.js')(app);
+	var server = app.listen(port);
+	console.log('The magic happens @ ', port);
 
 	// when mongoose is ready
 	mongoose.connection.on('open', function (ref) {
 
 		// launch 
-		var server = app.listen(port);
-		console.log('The magic happens @ ', port);
+		// var server = app.listen(port);
+		// console.log('The magic happens @ ', port);
 
 	  	// create admin user
 		api.user.ensureAdminUser(function (err, options) {
@@ -95,13 +97,16 @@ connect_to_mongo(function (err) {
 				console.log('Password:', options.password);
 			}
 		});
+
 	});
 
 });
 
 // helper fn
 function connect_to_mongo (done) {
-	mongoose.connect(config.mongo.url, function (err) {
+	return done();
+	mongoose.createConnection(config.mongo.url, function (err) {
+		console.log('mongoose3.connect', err);
 		if (!err) return done();
 		sleep.sleep(2);
 		return connect_to_mongo(done);

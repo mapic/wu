@@ -116,7 +116,7 @@
     "serve-favicon": "^2.2.0",
     "sleep": "^5.1.0",
     "slug": "^0.9.1",
-    "socket.io": "^1.4.0",
+    "socket.io": "^2.0.0",
     "srs": "^1.2.0",
     "superagent": "^3.4.0",
     "topojson": "^2.2.0",

@@ -35,6 +35,7 @@ else
 	grunt dev 
 	# grunt watch &
 	echo 'Running in development mode...'
+	# nodemon -x "node --harmony" --watch ../api --watch /mapic/config --watch server.js --watch ../routes server.js
 	nodemon --watch ../api --watch /mapic/config --watch server.js --watch ../routes server.js
 fi
 cd ..

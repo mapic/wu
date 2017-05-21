@@ -2,15 +2,15 @@
 // libs
 var async 	 = require('async');
 var colors 	 = require('colors');
-var crypto       = require('crypto');
+var crypto   = require('crypto');
 var uuid 	 = require('node-uuid');
-var mongoose 	 = require('mongoose');
+var mongoose = require('mongoose');
 var _ 		 = require('lodash');
 var fs 		 = require('fs');
 
 // database schemas
-var Project 	 = require('../models/project');
-var Clientel 	 = require('../models/client');	// weird name cause 'Client' is restricted name
+var Project  = require('../models/project');
+var Clientel = require('../models/client');	// weird name cause 'Client' is restricted name
 var User  	 = require('../models/user');
 var File 	 = require('../models/file');
 var Layer 	 = require('../models/layer');
@@ -59,6 +59,7 @@ ops.push(function (callback) {
 
 	user.save(callback);
 
+	console.log('User created!');
 	console.log('Log in with email '.yellow + user.local.email + ' and password: '.yellow + password);
 });
 

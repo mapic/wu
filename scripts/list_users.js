@@ -42,6 +42,7 @@ User
 		t.cell('Last Name', u.lastName);
 		t.cell('Email', u.local.email);
 		t.cell('ID', u.id);
+		t.cell('Super', (u.access.super ? 'YES' : ''))
 		t.newRow();
 
 	});

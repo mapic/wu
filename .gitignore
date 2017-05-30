@@ -25,3 +25,5 @@ public/local/*
 public/images/portal-logo.png
 test/open-data/*
 apidoc.json
+.yarn/*
+yarn-error.log

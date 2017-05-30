@@ -6,19 +6,22 @@ source /mapic/config/env.sh
 # ensure log folder
 mkdir -p log
 
-# ensure node modules are installed
-NODE_MODULES_DIR=/mapic/modules/engine/node_modules
-if [ ! -d "$NODE_MODULES_DIR" ]; then
-  echo "Installing node modules..."
-  npm install --silent || abort "Failed to install node modules. Quitting!"
+# # ensure node modules are installed
+# NODE_MODULES_DIR=/mapic/modules/engine/node_modules
+# if [ ! -d "$NODE_MODULES_DIR" ]; then
+#   echo "Installing node modules..."
+#   npm install --silent || abort "Failed to install node modules. Quitting!"
 
-fi
+# fi
 
-# hack: fix express.io until we fix properly
-# see https://github.com/mapic/engine/issues/14
-cd node_modules/express.io/node_modules/express
-ln -s ../ node_modules
-cd ../../../..
+# # hack: fix express.io until we fix properly
+# # see https://github.com/mapic/engine/issues/14
+# cd node_modules/express.io/node_modules/express
+# ln -s ../ node_modules
+# cd ../../../..
+
+yarn config set cache-folder /mapic/modules/engine/.yarn
+yarn install
 
 # start prodmode
 if $MAPIC_PRODMODE; then
@@ -35,7 +38,6 @@ else
 	grunt dev 
 	# grunt watch &
 	echo 'Running in development mode...'
-	# nodemon -x "node --harmony" --watch ../api --watch /mapic/config --watch server.js --watch ../routes server.js
 	nodemon --watch ../api --watch /mapic/config --watch server.js --watch ../routes server.js
 fi
 cd ..

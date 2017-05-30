@@ -6,22 +6,21 @@ source /mapic/config/env.sh
 # ensure log folder
 mkdir -p log
 
-# # ensure node modules are installed
-# NODE_MODULES_DIR=/mapic/modules/engine/node_modules
-# if [ ! -d "$NODE_MODULES_DIR" ]; then
-#   echo "Installing node modules..."
-#   npm install --silent || abort "Failed to install node modules. Quitting!"
-
-# fi
-
-# # hack: fix express.io until we fix properly
-# # see https://github.com/mapic/engine/issues/14
-# cd node_modules/express.io/node_modules/express
-# ln -s ../ node_modules
-# cd ../../../..
-
+# install packages
 yarn config set cache-folder /mapic/modules/engine/.yarn
 yarn install
+
+# hack: fix express.io until we fix properly
+# see https://github.com/mapic/engine/issues/14
+FOLDER=/mapic/modules/engine/node_modules/express.io/node_modules
+if [ ! -z $FOLDER/express/node_modules ]; then
+	cd $FOLDER/express
+	ln -s $FOLDER node_modules
+fi
+
+
+cd /mapic/modules/engine
+
 
 # start prodmode
 if $MAPIC_PRODMODE; then

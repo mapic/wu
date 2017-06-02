@@ -8,7 +8,8 @@ which docker && {
     
   }
   TMP=${MAPIC_DOMAIN%.*} # hacky, lacking bash skillz!
-  DOMAIN=${TMP%.*}             
+  DOMAIN=${TMP%.*}   
+  DOMAIN="${MAPIC_DOMAIN//./}"          
   container=${DOMAIN}_engine_1
   echo "Executing myself inside container ${container}"
   if test -t 0; then

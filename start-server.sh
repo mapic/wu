@@ -12,12 +12,12 @@ yarn install
 
 # hack: fix express.io until we fix properly
 # see https://github.com/mapic/engine/issues/14
-FOLDER=/mapic/modules/engine/node_modules/express.io/node_modules
-if [ ! -z $FOLDER/express/node_modules ]; then
-	cd $FOLDER/express
-	ln -s $FOLDER node_modules
-fi
-
+# FOLDER=/mapic/modules/engine/node_modules/express.io/node_modules
+# if [ ! -z $FOLDER/express/node_modules ]; then
+# 	cd $FOLDER
+# 	cd express
+# 	ln -s $FOLDER node_modules
+# fi
 
 cd /mapic/modules/engine
 

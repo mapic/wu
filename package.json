@@ -6,7 +6,7 @@
   "main": "start-server.sh",
   "scripts": {
     "test": " mocha test/ --recursive",
-    "apidocs": "./tools/gen_apidocs.sh",
+    "apidocs": "./tools/gen_apidocs.sh"
   },
   "apidoc": {
     "title": "Mapic API Documentation",
@@ -149,5 +149,5 @@
     "grunt-uncss": "^0.6.1",
     "mocha": "^3.1.0",
     "supertest": "^2.0.0"
-  },
+  }
 }

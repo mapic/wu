@@ -4,23 +4,23 @@
 source /mapic/config/env.sh
 
 # ensure log folder
-mkdir -p log
+mkdir -p /mapic/engine/log
 
 # install packages
-yarn config set cache-folder /mapic/modules/engine/.yarn
+yarn config set cache-folder /mapic/engine/.yarn
 yarn install
 
 # hack: fix express.io until we fix properly
 # see https://github.com/mapic/engine/issues/14
-# FOLDER=/mapic/modules/engine/node_modules/express.io/node_modules
-# if [ ! -z $FOLDER/express/node_modules ]; then
-# 	cd $FOLDER
-# 	cd express
-# 	ln -s $FOLDER node_modules
-# fi
+FOLDER=/mapic/engine/node_modules/express.io/node_modules
+if [ ! -z $FOLDER/express/node_modules ]; then
+	cd $FOLDER
+	cd express
+	ln -s $FOLDER node_modules
+fi
 
-cd /mapic/modules/engine
-
+# ensure
+cd /mapic/engine
 
 # start prodmode
 if $MAPIC_PRODMODE; then
@@ -39,4 +39,3 @@ else
 	echo 'Running in development mode...'
 	nodemon --watch ../api --watch /mapic/config --watch server.js --watch ../routes server.js
 fi
-cd ..

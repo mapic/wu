@@ -1,32 +1,40 @@
-language: generic
+language: nodejs
 
 services:
   - docker
 
-sudo: required
-
 node_js:
   - 6
 
-notifications:
-  email: false
-  slack: mapic-io:NKaii0z3tRkeDyXaDbRauRFp
+sudo: required
+dist: trusty
+group: edge
 
+notifications:
+  email:
+    recipients:
+      - knutole@mapic.io
+    on_success: change
+    on_failure: change
+  slack:
+    rooms:
+      - mapic-io:NKaii0z3tRkeDyXaDbRauRFp
+    on_success: change
+    on_failure: change
+    
 branches:
   only:
     - master
 
 install:
-  - ls -l
-  - git clone git://github.com/mapic/mapic.git
+  - curl -sSL https://get.mapic.io  | sh
   - cd mapic
-  - ./install-to-localhost.sh travis
-  - sleep 30
+  - mapic domain localhost
+  - mapic install stable
+  - mapic start
+  - mapic logs &
+  - sleep 240
 
 script:
-  - cd scripts
-  - ./run-engine-tests.sh
-
-cache:
-  directories:
-    - $HOME/.yarn-cache
+  - mapic test engine
+  

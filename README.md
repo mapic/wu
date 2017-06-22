@@ -1,4 +1,4 @@
-# Mapic Engine [![Build Status](https://travis-ci.org/mapic/engine.png)](https://travis-ci.org/mapic/engine)
+# Mapic Engine [![Build Status](https://travis-ci.org/mapic/engine.svg)](https://travis-ci.org/mapic/engine)
 
 ## Install 
 See [mapic/mapic](https://github.com/mapic/mapic) for installation instructions.

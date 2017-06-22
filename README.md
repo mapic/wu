@@ -9,11 +9,4 @@ Mapic is built entirely open source. We believe in a collaborative environment f
 Mapic is licenced under the [AGPL licence](https://github.com/mapic/mapic/blob/master/LICENCE).
 
 ## Project contributors
-- [Frano Cetinic](https://github.com/franocetinic)
-- [Jørgen Evil Ekvoll](https://github.com/jorgenevil)
-- [Magdalini Fotiadou](https://github.com/mft74)
-- [Terrence Lam](https://github.com/skyuplam)
-- [Sandro Santilli](https://github.com/strk)
-- [Knut Ole Sjøli](https://github.com/knutole)
-- [Shahjada Talukdar](https://github.com/destromas1)
-- [Igor Ziegler](https://github.com/igorziegler)
+Contributors listed on [mapic/mapic](https://github.com/mapic/mapic#project-contributors).

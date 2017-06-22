@@ -25,7 +25,7 @@ var api = supertest(domain);
 
 module.exports = function () {
 
-    describe('ECW Raster', function () {
+    describe.skip('ECW Raster', function () {
 
         before(function(callback) {
             async.series([helpers.create_project], callback);
@@ -137,7 +137,7 @@ module.exports = function () {
 
     });
 
-    describe('Cleanup', function () {
+    describe.skip('Cleanup', function () {
         this.slow(500);
         
         var relatedLayer = testData.relatedLayer;

@@ -101,7 +101,9 @@ connect_to_mongo(function (err) {
 
 // helper fn
 function connect_to_mongo (done) {
+	console.log('Attempting to connect to MongoDB with', config.mongo.url);
 	mongoose.connect(config.mongo.url, function (err) {
+		if (err) console.log('Failed to connect to MongoDB:');
 		if (!err) return done();
 		sleep.sleep(2);
 		return connect_to_mongo(done);
@@ -113,9 +115,7 @@ function socket_auth_middleware (socket, next) {
 	try {
 		if (!socket || !socket.headers || !socket.headers.cookie) return next(new Error('No socket, fatal.'));
 		var c = socket.headers.cookie;
-		var session_cookie_raw = _.find(c.split('; '), function (sc) {
-			return _.includes(sc, 'session');
-		});
+		var session_cookie_raw = _.find(c.split('; '), function (sc) { return _.includes(sc, 'session'); });
 		if (!session_cookie_raw) return next(new Error('No session.'));
 		var session_cookie = session_cookie_raw.split('=')[1];
 		if (!session_cookie) return next(new Error('No session.'));

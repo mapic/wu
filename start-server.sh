@@ -19,10 +19,11 @@ if [ ! -z $FOLDER/express/node_modules ]; then
 	ln -s $FOLDER node_modules
 fi
 
-# ensure
+# go to folder
 cd /mapic/engine
 
 # update config from ENV
+echo "Updating config..."
 node script/update-config.js
 
 # start prodmode

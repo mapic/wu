@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # source config
-source /mapic/config/env.sh
+# source /mapic/config/env.sh
 
 # ensure log folder
 mkdir -p /mapic/engine/log
@@ -21,6 +21,9 @@ fi
 
 # ensure
 cd /mapic/engine
+
+# update config from ENV
+node script/update-config.js
 
 # start prodmode
 if $MAPIC_PRODMODE; then

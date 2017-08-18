@@ -3,7 +3,7 @@ var crypto = require("crypto");
 
 // set config folder
 // var CONFIG_FOLDER       = '/config/';
-var ENGINE_CONFIG_PATH  = "/mapic/engine/engine.config.js";
+var ENGINE_CONFIG_PATH  = '/mapic/engine/config.js';
 
 // check if folder exists
 // if (!fs.existsSync(CONFIG_FOLDER)) {
@@ -12,20 +12,24 @@ var ENGINE_CONFIG_PATH  = "/mapic/engine/engine.config.js";
 // }
 
 var MAPIC_DOMAIN = process.env.MAPIC_DOMAIN;
-var redisPassString = process.env.MAPIC_REDIS_AUTH;
-var mongoPassString = process.env.MAPIC_MONGO_AUTH;
+var MAPIC_REDIS_AUTH = process.env.MAPIC_REDIS_AUTH;
+var MAPIC_MONGO_AUTH = process.env.MAPIC_MONGO_AUTH;
+var MAPIC_MONGO_DB = process.env.MAPIC_MONGO_DB;
+var MAPIC_MONGO_USER = process.env.MAPIC_MONGO_USER;
 
-console.log('redisPassString', redisPassString);
-console.log('mongoPassString', mongoPassString);
+console.log('MAPIC_REDIS_AUTH', MAPIC_REDIS_AUTH);
+console.log('MAPIC_MONGO_AUTH', MAPIC_MONGO_AUTH);
+console.log('MAPIC_MONGO_USER: ', MAPIC_MONGO_USER);
+console.log('MAPIC_MONGO_DB: ', MAPIC_MONGO_DB);
 console.log('MAPIC_DOMAIN: ', MAPIC_DOMAIN);
 
 
 // engine
 var engineConfig = require(ENGINE_CONFIG_PATH);
-engineConfig.serverConfig.mongo.url =  'mongodb://' + mongo_config.user + ':' + mongoPassString + '@mongo/' + mongo_config.database;
-engineConfig.serverConfig.redis.layers.auth = redisPassString;
-engineConfig.serverConfig.redis.stats.auth = redisPassString;
-engineConfig.serverConfig.redis.temp.auth = redisPassString;
+engineConfig.serverConfig.mongo.url =  'mongodb://' + MAPIC_MONGO_USER + ':' + MAPIC_MONGO_AUTH + '@mongo/' + MAPIC_MONGO_DB;
+engineConfig.serverConfig.redis.layers.auth = MAPIC_REDIS_AUTH;
+engineConfig.serverConfig.redis.stats.auth = MAPIC_REDIS_AUTH;
+engineConfig.serverConfig.redis.temp.auth = MAPIC_REDIS_AUTH;
 
 var domain_split = MAPIC_DOMAIN.split('.').reverse();
 var MAPIC_ROOT_DOMAIN = domain_split[1] + '.' + domain_split[0];

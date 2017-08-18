@@ -24,7 +24,7 @@ cd /mapic/engine
 
 # update config from ENV
 echo "Updating config..."
-node script/update-config.js
+node scripts/update-config.js
 
 # start prodmode
 if $MAPIC_PRODMODE; then

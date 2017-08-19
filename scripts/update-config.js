@@ -2,14 +2,7 @@ var fs = require("fs");
 var crypto = require("crypto");
 
 // set config folder
-// var CONFIG_FOLDER       = '/config/';
 var ENGINE_CONFIG_PATH  = '/mapic/engine/config.js';
-
-// check if folder exists
-// if (!fs.existsSync(CONFIG_FOLDER)) {
-//     console.log(CONFIG_FOLDER, 'does not exist. Quitting!');
-//     process.exit(1);
-// }
 
 var MAPIC_DOMAIN = process.env.MAPIC_DOMAIN;
 var MAPIC_REDIS_AUTH = process.env.MAPIC_REDIS_AUTH;
@@ -23,13 +16,10 @@ console.log('MAPIC_MONGO_USER: ', MAPIC_MONGO_USER);
 console.log('MAPIC_MONGO_DB: ', MAPIC_MONGO_DB);
 console.log('MAPIC_DOMAIN: ', MAPIC_DOMAIN);
 
-
 // engine
 var engineConfig = require(ENGINE_CONFIG_PATH);
 engineConfig.serverConfig.mongo.url =  'mongodb://' + MAPIC_MONGO_USER + ':' + MAPIC_MONGO_AUTH + '@mongo/' + MAPIC_MONGO_DB;
-engineConfig.serverConfig.redis.layers.auth = MAPIC_REDIS_AUTH;
-engineConfig.serverConfig.redis.stats.auth = MAPIC_REDIS_AUTH;
-engineConfig.serverConfig.redis.temp.auth = MAPIC_REDIS_AUTH;
+engineConfig.serverConfig.redis.auth = MAPIC_REDIS_AUTH;
 
 var domain_split = MAPIC_DOMAIN.split('.').reverse();
 var MAPIC_ROOT_DOMAIN = domain_split[1] + '.' + domain_split[0];

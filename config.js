@@ -11,24 +11,10 @@ module.exports = {
       "url": "mongodb://mapic_mongo_user:vaet5uukaiReequeeN2opoodoyahgooGheihaht1@mongo/mapic"
     },
     "redis": {
-      "layers": {
-        "port": 6379,
-        "host": "redislayers",
-        "auth": "Eoz7oFahyai2uegh6Ootuatoosa9kooduloomaec",
-        "db": 1
-      },
-      "stats": {
-        "port": 6379,
-        "host": "redisstats",
-        "auth": "Eoz7oFahyai2uegh6Ootuatoosa9kooduloomaec",
-        "db": 1
-      },
-      "temp": {
-        "port": 6379,
-        "host": "redistemp",
-        "auth": "Eoz7oFahyai2uegh6Ootuatoosa9kooduloomaec",
-        "db": 1
-      }
+      "port": 6379,
+      "host": "redis",
+      "auth": "Eoz7oFahyai2uegh6Ootuatoosa9kooduloomaec",
+      "db": 1
     },
     "slack": {
       "webhook": "https://hooks.slack.com/services/",

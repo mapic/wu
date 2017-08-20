@@ -12,12 +12,19 @@ S_SRS=
 test -n "$4" && S_SRS="-s_srs EPSG:$4"
 
 
-# get config
-. /mapic/config/env.sh || exit 1
+# # get config
+# . /mapic/config/env.sh || exit 1
 
-# env vars
-export PGUSER=$SYSTEMAPIC_PGSQL_USERNAME
-export PGPASSWORD=$SYSTEMAPIC_PGSQL_PASSWORD
+# # env vars
+# export PGUSER=$SYSTEMAPIC_PGSQL_USERNAME
+# export PGPASSWORD=$SYSTEMAPIC_PGSQL_PASSWORD
+# export PGHOST=postgis
+
+
+MAPIC_PG_PASSWORD=docker
+MAPIC_PG_USERNAME=systemapic
+export PGUSER=$MAPIC_PG_USERNAME
+export PGPASSWORD=$MAPIC_PG_PASSWORD
 export PGHOST=postgis
 
 # Reproject to EPSG:3857

@@ -14,10 +14,17 @@ if [ "$2" == "" ]; then
 fi
 
 # get config
-source /mapic/config/env.sh
+# source /mapic/config/env.sh
 
-export PGUSER=${SYSTEMAPIC_PGSQL_USERNAME}
-export PGPASSWORD=${SYSTEMAPIC_PGSQL_PASSWORD}
+# export PGUSER=${SYSTEMAPIC_PGSQL_USERNAME}
+# export PGPASSWORD=${SYSTEMAPIC_PGSQL_PASSWORD}
+# export PGHOST=postgis
+
+
+export PGPASSWORD=docker
+export PGUSER=systemapic
 export PGHOST=postgis
+export PGDATABASE=$DATABASE
+
 
 psql -d $1 -c "select row_to_json(t) from (SELECT ST_GeometryType(geom) FROM $2 LIMIT 1) t"

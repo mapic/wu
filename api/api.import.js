@@ -40,6 +40,8 @@ var ZipInfo = require('infozip');
 // resumable.js
 var r = require('../tools/resumable-node')('/data/tmp/');
 
+var debug = process.env.MAPIC_DEBUG;
+
 // api
 var api = module.parent.exports;
 
@@ -83,6 +85,7 @@ module.exports = api.import = {
 
 			// process upload
 			api.import.prepareImport(options, function (err, opts) {
+				console.log('api.import prepareImport - done - err, opts', err, opts);
 				if (err) return callback(err);
 
 				opts.user_id = user._id;

@@ -43,6 +43,8 @@ var ZipInfo = require('infozip');
 // resumable.js
 var r = require('../tools/resumable-node')('/data/tmp/');
 
+var debug = process.env.MAPIC_DEBUG;
+
 // api
 var api = module.parent.exports;
 
@@ -96,6 +98,8 @@ module.exports = api.upload = {
 		var key = 'uploadStatus:' + uploadStatus.file_id;
 		api.redis.layers.set(key, JSON.stringify(uploadStatus), function (err) {
 			if (err) console.log('api.upload.upload done: ', err);
+			debug && console.log('api.upload uploadStatus', uploadStatus);
+
 			res.send(uploadStatus);
 		});
 		
@@ -108,7 +112,12 @@ module.exports = api.upload = {
 			addToProject : projectUuid
 		};
 
+		debug && console.log('api.upload options', options);
+
 		api.import.import(options, function (err, results) {
+			debug && console.log('api.upload import err, results', err, results);
+
+
 		});
 
 	},
@@ -188,6 +197,8 @@ module.exports = api.upload = {
 
 
 		async.series(ops, function (err, results) {
+
+			console.log()
 
 			res.send({
 				error : err,
@@ -378,6 +389,8 @@ module.exports = api.upload = {
 			// import file
 			api.import.import(options, function (err, results) {
 
+				debug && console.log('api.import.import err, results', err, results);
+
 				// done
 				callback(err);
 			});
@@ -386,6 +399,8 @@ module.exports = api.upload = {
 
 
 		async.waterfall(ops, function (err, result) {
+
+			debug && console.log('_chunkedUploadDone err, result', err, result);
 			
 			// update status with error if any
 			if (err) api.upload._setStatusError(globalUploadStatus, err);

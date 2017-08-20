@@ -43,6 +43,8 @@ var csv2geojson = require('csv2geojson');
 var proj4 = require('proj4');
 var gdal = require('gdal');
 
+var debug = process.env.MAPIC_DEBUG;
+
 
 // error messages
 var errors = require('../shared/errors');
@@ -438,6 +440,8 @@ module.exports = api.postgis = {
 
         var ops = [];
 
+        debug && console.log('api.postgis.import options', options);
+
         // ensure database exists
         ops.push(function (callback) {
             api.postgis.ensureDatabaseExists(options, callback);
@@ -510,6 +514,8 @@ module.exports = api.postgis = {
         var encoding = options.encoding || '';
         var ops = [];
 
+        debug && console.log('api.postgis importShapefile optiosn', options);
+
         if (!prjfile) return done('Please provide a projection file.');
 
         // todo: put in config
@@ -527,11 +533,16 @@ module.exports = api.postgis = {
         // import with bash script
         ops.push(function (srid, callback) {
 
+            debug && console.log('api.postgis importShapefile srid', srid);
+
+
             // set srid
             options.srid = srid;
 
             // import
             api.postgis._importShapefileToPostgis(options, function (err, result) {
+                debug && console.log('api.postgis _importShapefileToPostgis err, result', err, result);
+
                 // next
                 callback(err, result);
             });
@@ -578,6 +589,7 @@ module.exports = api.postgis = {
                 file_id : file_id,
                 postgis_db : pg_db
             }, function (err, metadata) {
+                debug && console.log('get meta done', err, metadata);
 
                 if (err) return callback(err);
 
@@ -667,6 +679,8 @@ module.exports = api.postgis = {
         var startTime = new Date().getTime();
 
         exec(cmd, {maxBuffer: 1024 * 1024 * 50000}, function (err, stdout, stdin) {
+
+            debug && console.log('import scrupt: err, stdout, stdin', err, stdout, stdin);
 
             attempts++;
 
@@ -1180,13 +1194,25 @@ module.exports = api.postgis = {
             // create database in postgis
             exec(command, {maxBuffer: 1024 * 50000}, function (err, stdout, stdin) {
 
-                var json = stdout.split('\n')[2];
-                var geojson = JSON.parse(json);
-                var area = geojsonArea.geometry(geojson);
+                debug && console.log('get extent shape:', err, stdout, stdin);
 
-                metadata.extent_geojson = geojson;
-                metadata.total_area = area; // square meters
+                try {
+                    var json = stdout.split('\n')[2];
+                    console.log('json:', json);
+                    var geojson = JSON.parse(json);
+                    console.log('geojson;', geojson);
+                    var area = geojsonArea.geometry(geojson);
+                    console.log('area:', area);
+                } catch (e) {
+                    console.log('error getting extent:', e);
+                    var geojson = false;
+                    var area = false;
+                }
 
+                if (geojson) metadata.extent_geojson = geojson;
+                if (area) metadata.total_area = area; // square meters
+
+                debug && console.log('done get extent shape', geojson, area);
                 // callback
                 callback(null);
             });
@@ -1202,11 +1228,13 @@ module.exports = api.postgis = {
                 postgis_db : postgis_db,
                 query : query
             }, function (err, results) {
+                debug && console.log('get number of rows:', query, postgis_db, err, results);
                 if (err) return callback();
 
                 var json = results.rows[0];
                 metadata.row_count = json.count;
 
+                debug && console.log('json, row_count', json);
                 callback();
             });
         });
@@ -1221,10 +1249,13 @@ module.exports = api.postgis = {
                 postgis_db : postgis_db,
                 query : query
             }, function (err, results) {
+                debug && console.log('get size of table in bytes:', query, postgis_db, err, results);
                 if (err) return callback();
 
                 var json = results.rows[0];
                 metadata.size_bytes = json.pg_size_pretty;
+
+                console.log('get size json', json);
 
                 callback();
             });
@@ -1234,6 +1265,8 @@ module.exports = api.postgis = {
         // get geometry type
         ops.push(function (callback) {
 
+            debug && console.log('get geom type start');
+            
             // do sql query on postgis
             var GET_GEOMETRY_TYPE_SCRIPT = '../scripts/postgis/get_geometry_type.sh';
 
@@ -1247,6 +1280,7 @@ module.exports = api.postgis = {
 
             // do postgis script
             exec(command, {maxBuffer: 1024 * 50000}, function (err, stdout, stdin) {
+                debug && console.log('get geometry type', err, stdout, stdin);
                 if (err) return callback(err);
 
                 var arr = stdout.split('\n'),
@@ -1267,6 +1301,7 @@ module.exports = api.postgis = {
         });
 
         async.series(ops, function (err, results) {
+            debug && console.log('meta done, err, results', err, results);
             done(err, metadata);
         });
     },
@@ -1295,10 +1330,15 @@ module.exports = api.postgis = {
             // create database in postgis
             exec(command, {maxBuffer: 1024 * 50000}, function (err, stdout, stdin) {
 
-                var json = stdout.split('\n')[2];
-                var geojson = JSON.parse(json);
-                var area = geojsonArea.geometry(geojson);
+                debug && console.log('get_raster_st_extent_as_geojson err, stdout, stdin', err, stdout, stdin);
 
+                try {
+                    var json = stdout.split('\n')[2];
+                    var geojson = JSON.parse(json);
+                    var area = geojsonArea.geometry(geojson);
+                } catch (e) {
+                    callback();
+                }
                 metadata.extent_geojson = geojson;
                 metadata.total_area = area; // square meters
                 

@@ -15,7 +15,9 @@ fi
 
 
 # get config
-source /mapic/config/env.sh
+# source /mapic/config/env.sh
+MAPIC_PG_PASSWORD=docker
+MAPIC_PG_USERNAME=systemapic
 
 # env
 SHAPEFILE=$1
@@ -54,7 +56,7 @@ function import_latin_encoding() {
 function import() {
 
 	# import shapefile
-	shp2pgsql -t 2D -D $SRID $ENCODING "$SHAPEFILE" $TABLE 2>./$ERRORFILE | PGPASSWORD=$SYSTEMAPIC_PGSQL_PASSWORD psql -q --host=$PGHOST --username=$SYSTEMAPIC_PGSQL_USERNAME $DATABASE
+	shp2pgsql -t 2D -D $SRID $ENCODING "$SHAPEFILE" $TABLE 2>./$ERRORFILE | PGPASSWORD=$MAPIC_PG_PASSWORD psql -q --host=$PGHOST --username=$MAPIC_PG_USERNAME $DATABASE
 
 	# check for errors
 	check_errors

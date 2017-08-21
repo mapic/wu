@@ -30,3 +30,5 @@ patch:
         patched: '2017-05-26T02:01:12.544Z'
     - express.oi > socket.io > socket.io-client > engine.io-client > debug > ms:
         patched: '2017-05-26T02:01:12.544Z'
+    - phantom > phantomjs-prebuilt > extract-zip > debug > ms:
+        patched: '2017-08-21T05:18:15.133Z'

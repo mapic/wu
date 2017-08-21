@@ -12,20 +12,10 @@ S_SRS=
 test -n "$4" && S_SRS="-s_srs EPSG:$4"
 
 
-# # get config
-# . /mapic/config/env.sh || exit 1
+export PGPASSWORD=$MAPIC_POSTGIS_PASSWORD
+export PGUSER=$MAPIC_POSTGIS_USERNAME
+export PGHOST=$MAPIC_POSTGIS_HOST
 
-# # env vars
-# export PGUSER=$SYSTEMAPIC_PGSQL_USERNAME
-# export PGPASSWORD=$SYSTEMAPIC_PGSQL_PASSWORD
-# export PGHOST=postgis
-
-
-MAPIC_PG_PASSWORD=docker
-MAPIC_PG_USERNAME=systemapic
-export PGUSER=$MAPIC_PG_USERNAME
-export PGPASSWORD=$MAPIC_PG_PASSWORD
-export PGHOST=postgis
 
 # Reproject to EPSG:3857
 RASTERFILE=/tmp/import_raster_$$.tif

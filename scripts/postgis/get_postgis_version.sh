@@ -2,12 +2,10 @@
 
 . `dirname $0`/run_in_docker.inc
 
-# get config
-source /mapic/config/env.sh
 
-export PGUSER=$SYSTEMAPIC_PGSQL_USERNAME
-export PGPASSWORD=$SYSTEMAPIC_PGSQL_PASSWORD
-export PGHOST=postgis
+export PGPASSWORD=$MAPIC_POSTGIS_PASSWORD
+export PGUSER=$MAPIC_POSTGIS_USERNAME
+export PGHOST=$MAPIC_POSTGIS_HOST
 export PGDATABASE=template1
 
 psql -c "select row_to_json(t) from ( SELECT default_version from pg_available_extensions where name = 'postgis' ) t";

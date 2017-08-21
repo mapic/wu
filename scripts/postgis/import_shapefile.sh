@@ -12,18 +12,14 @@ if [ "$3" == "" ]; then
 	exit 1 # missing args
 fi
 
-
-
-# get config
-# source /mapic/config/env.sh
-MAPIC_PG_PASSWORD=docker
-MAPIC_PG_USERNAME=systemapic
+export PGPASSWORD=$MAPIC_POSTGIS_PASSWORD
+export PGUSER=$MAPIC_POSTGIS_USERNAME
+export PGHOST=$MAPIC_POSTGIS_HOST
 
 # env
 SHAPEFILE=$1
 TABLE=$2
 DATABASE=$3
-PGHOST=postgis
 ENCODING=$5
 SRID="-s $4"
 if [ "$4" == "" ]; then SRID=""; fi

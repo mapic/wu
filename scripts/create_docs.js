@@ -1,5 +1,5 @@
 var fs = require('fs-extra');
-var domain =  'https://' + process.env.SYSTEMAPIC_DOMAIN;
+var domain =  'https://' + process.env.MAPIC_DOMAIN;
 var Path = require('path');
 
 //update or copy apidoc file from apidoc.template and add sampleUrl from domain

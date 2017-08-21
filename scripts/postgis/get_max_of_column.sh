@@ -20,13 +20,10 @@ if [ "$3" == "" ]; then
 fi
 
 
-# get config
-source /mapic/config/env.sh || exit 1
-
 export PGDATABASE=$1
-export PGPASSWORD=$SYSTEMAPIC_PGSQL_PASSWORD
-export PGUSER=$SYSTEMAPIC_PGSQL_USERNAME
-export PGHOST=postgis
+export PGPASSWORD=$MAPIC_POSTGIS_PASSWORD
+export PGUSER=$MAPIC_POSTGIS_USERNAME
+export PGHOST=$MAPIC_POSTGIS_HOST
 export PSQL="psql --no-password"
 export PGAPPNAME=$PGAPPNAME`basename $0`
 

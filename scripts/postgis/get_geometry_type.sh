@@ -13,17 +13,9 @@ if [ "$2" == "" ]; then
 	exit 1 # missing args
 fi
 
-# get config
-# source /mapic/config/env.sh
-
-# export PGUSER=${SYSTEMAPIC_PGSQL_USERNAME}
-# export PGPASSWORD=${SYSTEMAPIC_PGSQL_PASSWORD}
-# export PGHOST=postgis
-
-
-export PGPASSWORD=docker
-export PGUSER=systemapic
-export PGHOST=postgis
+export PGPASSWORD=$MAPIC_POSTGIS_PASSWORD
+export PGUSER=$MAPIC_POSTGIS_USERNAME
+export PGHOST=$MAPIC_POSTGIS_HOST
 export PGDATABASE=$DATABASE
 
 

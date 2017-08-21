@@ -10,19 +10,16 @@ DBNAME=$1
 OWNER_NAME=$2
 OWNER_UUID=$3
 
-# get config or die
-source /mapic/config/env.sh || exit 1
-
-export PGUSER=${SYSTEMAPIC_PGSQL_USERNAME}
-export PGPASSWORD=${SYSTEMAPIC_PGSQL_PASSWORD}
-export PGHOST=postgis
+export PGPASSWORD=$MAPIC_POSTGIS_PASSWORD
+export PGUSER=$MAPIC_POSTGIS_USERNAME
+export PGHOST=$MAPIC_POSTGIS_HOST
 
 
 PSQL="psql --no-password"
 
 # create database
 ${PSQL} -d template1 -c \
-  "CREATE DATABASE ${DBNAME} TEMPLATE ${SYSTEMAPIC_PGSQL_DBNAME}"
+  "CREATE DATABASE ${DBNAME} TEMPLATE systemapic"
 
 export PGDATABASE=${DBNAME}
 

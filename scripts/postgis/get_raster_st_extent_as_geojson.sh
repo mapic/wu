@@ -13,12 +13,10 @@ TABLE=$2
 COL=rast
 test -n "$3" && COL="$3"
 
-# get config
-# source /mapic/config/env.sh || exit 1
+export PGPASSWORD=$MAPIC_POSTGIS_PASSWORD
+export PGUSER=$MAPIC_POSTGIS_USERNAME
+export PGHOST=$MAPIC_POSTGIS_HOST
 
-export PGPASSWORD=docker
-export PGUSER=systemapic
-export PGHOST=postgis
 export PGDATABASE=$DATABASE
 
 cat<<EOF | psql

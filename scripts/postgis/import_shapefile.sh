@@ -52,7 +52,7 @@ function import_latin_encoding() {
 function import() {
 
 	# import shapefile
-	shp2pgsql -t 2D -D $SRID $ENCODING "$SHAPEFILE" $TABLE 2>./$ERRORFILE | PGPASSWORD=$MAPIC_PG_PASSWORD psql -q --host=$PGHOST --username=$MAPIC_PG_USERNAME $DATABASE
+	shp2pgsql -t 2D -D $SRID $ENCODING "$SHAPEFILE" $TABLE 2>./$ERRORFILE | PGPASSWORD=$PGPASSWORD psql -q --host=$PGHOST --username=$PGUSER $DATABASE
 
 	# check for errors
 	check_errors

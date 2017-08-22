@@ -8,12 +8,12 @@ module.exports = {
     },
     "port": 3001,
     "mongo": {
-      "url": "mongodb://mapic_mongo_user:vaet5uukaiReequeeN2opoodoyahgooGheihaht1@mongo/mapic"
+      "url": "mongodb://mapic_mongo_user:Xaiteiwie2oheiGieth8mioPh2xeepahy2eive1Z@mongo/mapic"
     },
     "redis": {
       "port": 6379,
       "host": "redis",
-      "auth": "Eoz7oFahyai2uegh6Ootuatoosa9kooduloomaec",
+      "auth": "shietha6FeHaThiJa3aithoh4aetooquaephahv9",
       "db": 1
     },
     "slack": {

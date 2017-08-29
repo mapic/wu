@@ -396,7 +396,8 @@ module.exports = api.postgis = {
         ].join(' ');
 
         // create database in postgis
-        exec(command, {maxBuffer: 1024 * 50000}, function (err) {
+        exec(command, {maxBuffer: 1024 * 50000}, function (err, stdout, stderr) {
+            console.log('createDatabase err, stdout, stderr', err, stdout, stderr);
             if (err) return done(err);
 
             // save pg_db name to user

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# source config
-# source /mapic/config/env.sh
-
 # ensure log folder
 mkdir -p /mapic/engine/log
 
@@ -26,20 +23,26 @@ cd /mapic/engine
 echo "Updating config..."
 node scripts/update-config.js
 
-# start prodmode
-if $MAPIC_PRODMODE; then
-	cd server
-	echo 'Production mode'
-	grunt prod 
-	echo 'Running in production mode...'
-	forever server.js prod
+# start engine
+cd server
+grunt dev 
+forever -m 100 --spinSleepTime 1000 -f -v -w --watchDirectory ../api server.js
 
-# start dev mode
-else
-	cd server
-	echo 'Development mode'
-	grunt dev 
-	# grunt watch &
-	echo 'Running in development mode...'
-	nodemon --watch ../api --watch /mapic/config --watch server.js --watch ../routes server.js
-fi
+# # start prodmode
+# cd server
+# if [[ "$MAPIC_PRODUCTION_MODE" == "true" ]]; then
+# 	echo 'Production mode'
+# 	grunt prod 
+# 	echo 'Running in production mode...'
+# 	# forever server.js prod
+# 	forever -m 100 --spinSleepTime 1000 -f -v -w --watchDirectory ../api server.js
+
+# # start dev mode
+# else
+# 	echo 'Development mode'
+# 	grunt dev 
+# 	echo 'Running in development mode...'
+# 	# nodemon --watch ../api --watch /mapic/config --watch server.js --watch ../routes server.js
+# 	forever -m 100 --spinSleepTime 1000 -f -v -w --watchDirectory ../api server.js
+
+# fi

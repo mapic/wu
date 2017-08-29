@@ -405,11 +405,11 @@ module.exports = api.upload = {
 			// update status with error if any
 			if (err) api.upload._setStatusError(globalUploadStatus, err);
 
-			// console.log('====================');
-			// console.log('Chunked upload done');
-			// console.log('err? ', err);
-			// console.log('result: ', result);
-			// console.log('====================');
+			console.log('====================');
+			console.log('Chunked upload done');
+			console.log('err? ', err);
+			console.log('result: ', result);
+			console.log('====================');
 
 			// clean up, remove chunks
 			var removePath = '/data/tmp/resumable-' + uniqueIdentifier + '.*';
@@ -441,8 +441,8 @@ module.exports = api.upload = {
 
 		// save upload status
 		var key = 'uploadStatus:' + status.file_id;
-		api.redis.layers.set(key, JSON.stringify(status), function (err) {
-			console.log('error saved to uploadstatus');
+		api.redis.layers.set(key, JSON.stringify(status), function (error) {
+			console.log('error saved to uploadstatus', err);
 		});
 	},
 

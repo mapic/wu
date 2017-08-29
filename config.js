@@ -8,12 +8,12 @@ module.exports = {
     },
     "port": 3001,
     "mongo": {
-      "url": "mongodb://mapic_mongo_user:Xaiteiwie2oheiGieth8mioPh2xeepahy2eive1Z@mongo/mapic"
+      "url": "mongodb://mapic_mongo_user:iep2aicoz0ZooVaiphahb4doS3ajabeeGoo8eepa@mongo/mapic"
     },
     "redis": {
       "port": 6379,
       "host": "redis",
-      "auth": "shietha6FeHaThiJa3aithoh4aetooquaephahv9",
+      "auth": "aek6aigahtae8aemuhahwai9aphido5aek3aiXah",
       "db": 1
     },
     "slack": {
@@ -27,7 +27,7 @@ module.exports = {
       "baseurl": "https://localhost/"
     },
     "portalServer": {
-      "uri": "https://dev-swarm.mapic.io/"
+      "uri": "https://swarm-test.mapic.io/"
     },
     "defaultMapboxAccount": {
       "username": "systemapic",
@@ -189,42 +189,42 @@ module.exports = {
       ]
     },
     "servers": {
-      "portal": "https://dev-swarm.mapic.io/",
+      "portal": "https://swarm-test.mapic.io/",
       "subdomain": "https://{s}.mapic.io/",
       "tiles": {
         "uri": "https://{s}.mapic.io/v2/tiles/",
         "subdomains": [
-          "tiles-a-dev-swarm",
-          "tiles-b-dev-swarm",
-          "tiles-c-dev-swarm",
-          "tiles-d-dev-swarm"
+          "tiles-a-swarm-test",
+          "tiles-b-swarm-test",
+          "tiles-c-swarm-test",
+          "tiles-d-swarm-test"
         ]
       },
       "cubes": {
         "uri": "https://{s}.mapic.io/v2/cubes/",
         "subdomains": [
-          "tiles-a-dev-swarm",
-          "tiles-b-dev-swarm",
-          "tiles-c-dev-swarm",
-          "tiles-d-dev-swarm"
+          "tiles-a-swarm-test",
+          "tiles-b-swarm-test",
+          "tiles-c-swarm-test",
+          "tiles-d-swarm-test"
         ]
       },
       "proxy": {
         "uri": "https://{s}.mapic.io/v2/tiles/",
         "subdomains": [
-          "proxy-a-dev-swarm",
-          "proxy-b-dev-swarm",
-          "proxy-c-dev-swarm",
-          "proxy-d-dev-swarm"
+          "proxy-a-swarm-test",
+          "proxy-b-swarm-test",
+          "proxy-c-swarm-test",
+          "proxy-d-swarm-test"
         ]
       },
       "utfgrid": {
         "uri": "https://{s}.mapic.io/v2/tiles/",
         "subdomains": [
-          "grid-a-dev-swarm",
-          "grid-b-dev-swarm",
-          "grid-c-dev-swarm",
-          "grid-d-dev-swarm"
+          "grid-a-swarm-test",
+          "grid-b-swarm-test",
+          "grid-c-swarm-test",
+          "grid-d-swarm-test"
         ]
       }
     },

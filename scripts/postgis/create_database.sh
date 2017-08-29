@@ -14,6 +14,13 @@ export PGPASSWORD=$MAPIC_POSTGIS_PASSWORD
 export PGUSER=$MAPIC_POSTGIS_USERNAME
 export PGHOST=$MAPIC_POSTGIS_HOST
 
+echo "create_database.sh"
+echo "PGPASSWORD: $PGPASSWORD"
+echo "PGUSER: $PGUSER"
+echo "PGHOST: $PGHOST"
+echo "DBNAME: $DBNAME"
+echo "OWNER_NAME: $OWNER_NAME"
+echo "OWNER_UUID: $OWNER_UUID"
 
 PSQL="psql --no-password"
 

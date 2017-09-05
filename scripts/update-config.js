@@ -2,6 +2,7 @@ var fs = require("fs");
 var crypto = require("crypto");
 
 // set config folder
+var ENGINE_DEFAULT_CONFIG_PATH  = '/mapic/engine/default.config.js';
 var ENGINE_CONFIG_PATH  = '/mapic/engine/config.js';
 
 var MAPIC_DOMAIN = process.env.MAPIC_DOMAIN;
@@ -15,17 +16,21 @@ console.log('MAPIC_MONGO_AUTH', MAPIC_MONGO_AUTH);
 console.log('MAPIC_MONGO_USER: ', MAPIC_MONGO_USER);
 console.log('MAPIC_MONGO_DB: ', MAPIC_MONGO_DB);
 console.log('MAPIC_DOMAIN: ', MAPIC_DOMAIN);
+console.log('MAPIC_SLACK_WEBHOOK: ', MAPIC_SLACK_WEBHOOK);
+console.log('MAPIC_SLACK_TOKEN: ', MAPIC_SLACK_TOKEN);
 
-// engine
-var engineConfig = require(ENGINE_CONFIG_PATH);
+// read config
+var engineConfig = require(ENGINE_DEFAULT_CONFIG_PATH);
 engineConfig.serverConfig.mongo.url =  'mongodb://' + MAPIC_MONGO_USER + ':' + MAPIC_MONGO_AUTH + '@mongo/' + MAPIC_MONGO_DB;
 engineConfig.serverConfig.redis.auth = MAPIC_REDIS_AUTH;
 
+// get domains
 var domain_split = MAPIC_DOMAIN.split('.').reverse();
 var MAPIC_ROOT_DOMAIN = domain_split[1] + '.' + domain_split[0];
 var MAPIC_SUBDOMAIN = domain_split.reverse()[0];
 var MAPIC_BASE_URL = 'https://' + MAPIC_DOMAIN;
 
+// add
 engineConfig.serverConfig.portalServer.uri = 'https://' + MAPIC_DOMAIN + '/';
 engineConfig.clientConfig.servers.portal = 'https://' + MAPIC_DOMAIN + '/';
 engineConfig.clientConfig.servers.subdomain = 'https://{s}.' + MAPIC_ROOT_DOMAIN + '/';
@@ -53,6 +58,12 @@ engineConfig.clientConfig.servers.utfgrid.subdomains = [
     'grid-d-' + MAPIC_SUBDOMAIN 
 ];
 
+// slack
+engineConfig.serverConfig.slack.webhook = MAPIC_SLACK_WEBHOOK;
+engineConfig.serverConfig.slack.token = MAPIC_SLACK_TOKEN;
+engineConfig.serverConfig.slack.baseurl =engineConfig.serverConfig.portalServer.uri;
+
+// write config
 var engineJsonStr = 'module.exports = ' + JSON.stringify(engineConfig, null, 2);
 fs.writeFileSync(ENGINE_CONFIG_PATH , engineJsonStr, 'utf-8');
 console.log('mapic/engine config updated!');

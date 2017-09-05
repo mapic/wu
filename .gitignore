@@ -28,3 +28,4 @@ test/open-data
 apidoc.json
 .yarn/*
 yarn-error.log
+config.js

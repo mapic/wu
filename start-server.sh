@@ -21,6 +21,7 @@ cd /mapic/engine
 
 # update config from ENV
 echo "Updating config..."
+cp default.config.js config.js
 node scripts/update-config.js
 
 # start engine

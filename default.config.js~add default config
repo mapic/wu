@@ -8,20 +8,12 @@ module.exports = {
     },
     "port": 3001,
     "mongo": {
-<<<<<<< HEAD:default.config.js
       "url": "mongodb://mapic_mongo_user:AUTH@mongo/mapic"
-=======
-      "url": "mongodb://mapic_mongo_user:loh4eing6onaec6baesaiShoathaeyaideereeCh@mongo/mapic"
->>>>>>> add default config:config.js
     },
     "redis": {
       "port": 6379,
       "host": "redis",
-<<<<<<< HEAD:default.config.js
       "auth": "AUTH",
-=======
-      "auth": "eiSuuquac2eiquaeW2sheiloot7oofah3ohwipoo",
->>>>>>> add default config:config.js
       "db": 1
     },
     "slack": {
@@ -35,11 +27,7 @@ module.exports = {
       "baseurl": "https://localhost/"
     },
     "portalServer": {
-<<<<<<< HEAD:default.config.js
-      "uri": "https://dev-swarm.mapic.io/"
-=======
       "uri": "https://dev.mapic.io/"
->>>>>>> add default config:config.js
     },
     "defaultMapboxAccount": {
       "username": "systemapic",
@@ -201,74 +189,42 @@ module.exports = {
       ]
     },
     "servers": {
-<<<<<<< HEAD:default.config.js
-      "portal": "https://dev-swarm.mapic.io/",
-=======
       "portal": "https://dev.mapic.io/",
->>>>>>> add default config:config.js
       "subdomain": "https://{s}.mapic.io/",
       "tiles": {
         "uri": "https://{s}.mapic.io/v2/tiles/",
         "subdomains": [
-<<<<<<< HEAD:default.config.js
-          "tiles-a-dev-swarm",
-          "tiles-b-dev-swarm",
-          "tiles-c-dev-swarm",
-          "tiles-d-dev-swarm"
-=======
           "tiles-a-dev",
           "tiles-b-dev",
           "tiles-c-dev",
           "tiles-d-dev"
->>>>>>> add default config:config.js
         ]
       },
       "cubes": {
         "uri": "https://{s}.mapic.io/v2/cubes/",
         "subdomains": [
-<<<<<<< HEAD:default.config.js
-          "tiles-a-dev-swarm",
-          "tiles-b-dev-swarm",
-          "tiles-c-dev-swarm",
-          "tiles-d-dev-swarm"
-=======
           "tiles-a-dev",
           "tiles-b-dev",
           "tiles-c-dev",
           "tiles-d-dev"
->>>>>>> add default config:config.js
         ]
       },
       "proxy": {
         "uri": "https://{s}.mapic.io/v2/tiles/",
         "subdomains": [
-<<<<<<< HEAD:default.config.js
-          "proxy-a-dev-swarm",
-          "proxy-b-dev-swarm",
-          "proxy-c-dev-swarm",
-          "proxy-d-dev-swarm"
-=======
           "proxy-a-dev",
           "proxy-b-dev",
           "proxy-c-dev",
           "proxy-d-dev"
->>>>>>> add default config:config.js
         ]
       },
       "utfgrid": {
         "uri": "https://{s}.mapic.io/v2/tiles/",
         "subdomains": [
-<<<<<<< HEAD:default.config.js
-          "grid-a-dev-swarm",
-          "grid-b-dev-swarm",
-          "grid-c-dev-swarm",
-          "grid-d-dev-swarm"
-=======
           "grid-a-dev",
           "grid-b-dev",
           "grid-c-dev",
           "grid-d-dev"
->>>>>>> add default config:config.js
         ]
       }
     },

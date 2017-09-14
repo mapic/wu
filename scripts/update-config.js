@@ -10,6 +10,8 @@ var MAPIC_REDIS_AUTH = process.env.MAPIC_REDIS_AUTH;
 var MAPIC_MONGO_AUTH = process.env.MAPIC_MONGO_AUTH;
 var MAPIC_MONGO_DB = process.env.MAPIC_MONGO_DB;
 var MAPIC_MONGO_USER = process.env.MAPIC_MONGO_USER;
+var MAPIC_SLACK_WEBHOOK = process.env.MAPIC_SLACK_WEBHOOK;
+var MAPIC_SLACK_TOKEN = process.env.MAPIC_SLACK_TOKEN;
 
 console.log('MAPIC_REDIS_AUTH', MAPIC_REDIS_AUTH);
 console.log('MAPIC_MONGO_AUTH', MAPIC_MONGO_AUTH);
@@ -61,7 +63,7 @@ engineConfig.clientConfig.servers.utfgrid.subdomains = [
 // slack
 engineConfig.serverConfig.slack.webhook = MAPIC_SLACK_WEBHOOK;
 engineConfig.serverConfig.slack.token = MAPIC_SLACK_TOKEN;
-engineConfig.serverConfig.slack.baseurl =engineConfig.serverConfig.portalServer.uri;
+engineConfig.serverConfig.slack.baseurl = engineConfig.serverConfig.portalServer.uri;
 
 // write config
 var engineJsonStr = 'module.exports = ' + JSON.stringify(engineConfig, null, 2);

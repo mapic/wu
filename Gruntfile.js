@@ -250,6 +250,7 @@ module.exports = function(grunt) {
                     'public/js/src/controls/control.animator.js',
                     'public/js/src/ext/popup.chart.js',
                     'public/js/src/controls/control.chart.js',
+                    'public/js/src/controls/M.Chart.js',
                     'public/js/src/controls/control.wms.js',
                     
 

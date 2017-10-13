@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<title>Systemapic</title>
+<title>Mapic.io</title>
 	<script src='/clientConfig.js'></script>
 	<script src='../js/src/core/class.js'></script>
 	<script src='../js/src/core/invite.js'></script>
@@ -62,15 +62,15 @@
 	</div>	
 
 	<div id="footer">
-		<a href="mailto:info@systemapic.com">info@systemapic.com</a>
-		<a href="http://systemapic.com" target="_blank">Systemapic.com ©</a>
+		<a href="mailto:hello@mapic.io">hello@mapic.io</a>
+		<a href="https://mapic.io" target="_blank">Mapic.io ©</a>
 	</div>
 
 
 
 	<script> 
 
-		var logoHeader = Wu.DomUtil.get('invitation-header');
+		var logoHeader = M.DomUtil.get('invitation-header');
 
 		// Set header logo
 		if ( loginConfig.invitationLogo ) logoHeader.innerHTML = '<img src="' + loginConfig.invitationLogo + '">';
@@ -79,7 +79,7 @@
 		if ( loginConfig.logoBackground ) logoHeader.style.background = loginConfig.logoBackground;
 
 
-		var app = new Wu.Invite({
+		var app = new M.Invite({
 			id : 'invite',
 			header : 'header',
 			footer: 'footer'

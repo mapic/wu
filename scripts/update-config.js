@@ -12,14 +12,11 @@ var MAPIC_MONGO_DB = process.env.MAPIC_MONGO_DB;
 var MAPIC_MONGO_USER = process.env.MAPIC_MONGO_USER;
 var MAPIC_SLACK_WEBHOOK = process.env.MAPIC_SLACK_WEBHOOK;
 var MAPIC_SLACK_TOKEN = process.env.MAPIC_SLACK_TOKEN;
+var MAPIC_NODEMAILER_USER = process.env.MAPIC_NODEMAILER_USER;
+var MAPIC_NODEMAILER_AUTH = process.env.MAPIC_NODEMAILER_AUTH;
 
-console.log('MAPIC_REDIS_AUTH', MAPIC_REDIS_AUTH);
-console.log('MAPIC_MONGO_AUTH', MAPIC_MONGO_AUTH);
-console.log('MAPIC_MONGO_USER: ', MAPIC_MONGO_USER);
-console.log('MAPIC_MONGO_DB: ', MAPIC_MONGO_DB);
-console.log('MAPIC_DOMAIN: ', MAPIC_DOMAIN);
-console.log('MAPIC_SLACK_WEBHOOK: ', MAPIC_SLACK_WEBHOOK);
-console.log('MAPIC_SLACK_TOKEN: ', MAPIC_SLACK_TOKEN);
+console.log('env:');
+console.log(process.env);
 
 // read config
 var engineConfig = require(ENGINE_DEFAULT_CONFIG_PATH);
@@ -64,6 +61,10 @@ engineConfig.clientConfig.servers.utfgrid.subdomains = [
 engineConfig.serverConfig.slack.webhook = MAPIC_SLACK_WEBHOOK;
 engineConfig.serverConfig.slack.token = MAPIC_SLACK_TOKEN;
 engineConfig.serverConfig.slack.baseurl = engineConfig.serverConfig.portalServer.uri;
+
+// nodemailer
+engineConfig.serverConfig.nodemailer.auth.user = MAPIC_NODEMAILER_USER;
+engineConfig.serverConfig.nodemailer.auth.pass = MAPIC_NODEMAILER_AUTH;
 
 // write config
 var engineJsonStr = 'module.exports = ' + JSON.stringify(engineConfig, null, 2);

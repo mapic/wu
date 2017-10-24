@@ -10,6 +10,7 @@ sudo: required
 
 install:
   - echo "travis line 1"
+  - echo $PWD
   - ls -la
   - cd ../..
   - ls -la

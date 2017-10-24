@@ -9,6 +9,20 @@ dist: trusty
 sudo: required
 
 install:
+  - echo "travis line 1"
+  - ls -la
+  - cd ../..
+  - ls -la
+  - mkdir getmapic
+  - cd getmapic
+  - curl -sSL https://get.mapic.io | sh
+  - cd mapic
+  - rm -r engine
+  - cp -r ../../mapic/engine engine
+  - ls -la
+  - cd engine
+  - ls -la
+  - cd ..
   - cd cli
   - sudo bash mapic-cli.sh
   - sudo mapic version

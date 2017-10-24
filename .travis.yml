@@ -9,22 +9,12 @@ dist: trusty
 sudo: required
 
 install:
-  - echo "travis line 1"
-  - echo $PWD
-  - ls -la
-  - cd ../..
-  - ls -la
-  - mkdir getmapic
-  - cd getmapic
+  - cd /home/travis/build
+  - mkdir get && cd get
   - curl -sSL https://get.mapic.io | sh
-  - cd mapic
-  - sudo rm -rf engine
-  - sudo cp -r ../../mapic/engine engine
-  - ls -la
-  - cd engine
-  - ls -la
-  - cd ..
-  - cd cli
+  - sudo rm -rf /home/travis/build/get/mapic/engine
+  - sudo cp -r /home/travis/build/mapic/engine /home/travis/build/get/mapic/engine
+  - cd /home/travis/build/get/mapic/cli
   - sudo bash mapic-cli.sh
   - sudo mapic version
   - sudo mapic config set MAPIC_USER_EMAIL travis@mapic.io
@@ -34,44 +24,4 @@ install:
 
 script:
   - sudo mapic travis start
-
-
-# language: nodejs
-
-# services:
-#   - docker
-
-# node_js:
-#   - 6
-
-# sudo: required
-# dist: trusty
-# group: edge
-
-# notifications:
-#   email:
-#     recipients:
-#       - knutole@mapic.io
-#     on_success: change
-#     on_failure: change
-#   slack:
-#     rooms:
-#       - mapic-io:NKaii0z3tRkeDyXaDbRauRFp
-#     on_success: change
-#     on_failure: change
-    
-# branches:
-#   only:
-#     - master
-
-# install:
-#   - curl -sSL https://get.mapic.io  | sh
-#   - cd mapic
-#   - mapic domain localhost
-#   - mapic install travis
-#   - mapic start
-#   - mapic logs &
-#   - sleep 240
-
-# script:
-#   - mapic test engine
+  - sudo mapic test engine

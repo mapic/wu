@@ -17,8 +17,8 @@ install:
   - cd getmapic
   - curl -sSL https://get.mapic.io | sh
   - cd mapic
-  - rm -rf engine
-  - cp -r ../../mapic/engine engine
+  - sudo rm -rf engine
+  - sudo cp -r ../../mapic/engine engine
   - ls -la
   - cd engine
   - ls -la

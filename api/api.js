@@ -2,7 +2,7 @@
 
 // api
 var api = {};
-api.version = '2.1.0';
+api.version = '17.10.24';
 
 // config
 var config = require('../config.js');

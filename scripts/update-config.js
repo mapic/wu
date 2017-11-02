@@ -69,4 +69,11 @@ engineConfig.serverConfig.nodemailer.auth.pass = MAPIC_NODEMAILER_AUTH;
 // write config
 var engineJsonStr = 'module.exports = ' + JSON.stringify(engineConfig, null, 2);
 fs.writeFileSync(ENGINE_CONFIG_PATH , engineJsonStr, 'utf-8');
+
+// create png from base64 logo
+var base64_logo = MAPIC_LOGO_LOGIN;
+var MAPIC_LOGO_LOGIN_PATH = '/mapic/engine/public/css/flash-logo.png';
+fs.writeFileSync(MAPIC_LOGO_LOGIN_PATH, base64_logo, 'base64');
+
+
 console.log('mapic/engine config updated!');

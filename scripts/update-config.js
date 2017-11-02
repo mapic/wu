@@ -14,6 +14,7 @@ var MAPIC_SLACK_WEBHOOK = process.env.MAPIC_SLACK_WEBHOOK;
 var MAPIC_SLACK_TOKEN = process.env.MAPIC_SLACK_TOKEN;
 var MAPIC_NODEMAILER_USER = process.env.MAPIC_NODEMAILER_USER;
 var MAPIC_NODEMAILER_AUTH = process.env.MAPIC_NODEMAILER_AUTH;
+var MAPIC_LOGIN_LOGO = process.env.MAPIC_LOGIN_LOGO;
 
 console.log('env:');
 console.log(process.env);
@@ -71,9 +72,9 @@ var engineJsonStr = 'module.exports = ' + JSON.stringify(engineConfig, null, 2);
 fs.writeFileSync(ENGINE_CONFIG_PATH , engineJsonStr, 'utf-8');
 
 // create png from base64 logo
-var base64_logo = MAPIC_LOGO_LOGIN;
-var MAPIC_LOGO_LOGIN_PATH = '/mapic/engine/public/css/flash-logo.png';
-fs.writeFileSync(MAPIC_LOGO_LOGIN_PATH, base64_logo, 'base64');
+var base64_logo = MAPIC_LOGIN_LOGO.replace('"', '');
+var MAPIC_LOGIN_LOGO_PATH = '/mapic/engine/public/css/flash-logo.png';
+fs.writeFileSync(MAPIC_LOGIN_LOGO_PATH, base64_logo, 'base64');
 
 
 console.log('mapic/engine config updated!');

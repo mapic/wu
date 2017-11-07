@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.8.0
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -30,3 +30,49 @@ patch:
         patched: '2017-05-26T02:01:12.544Z'
     - express.oi > socket.io > socket.io-client > engine.io-client > debug > ms:
         patched: '2017-05-26T02:01:12.544Z'
+    - gm > debug > ms:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-parser > debug > ms:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-adapter > socket.io-parser > debug > ms:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-client > socket.io-parser > debug > ms:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > debug > ms:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > engine.io > debug > ms:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-adapter > debug > ms:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-client > debug > ms:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-client > engine.io-client > debug > ms:
+        patched: '2017-11-07T09:36:47.615Z'
+  'npm:debug:20170905':
+    - gm > debug:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-adapter > debug:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-client > debug:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-client > engine.io-client > debug:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > engine.io > debug:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-parser > debug:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-adapter > socket.io-parser > debug:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > socket.io-client > socket.io-parser > debug:
+        patched: '2017-11-07T09:36:47.615Z'
+    - express.oi > socket.io > debug:
+        patched: '2017-11-07T09:36:47.615Z'
+  'npm:negotiator:20160616':
+    - express.io > express > connect > negotiator:
+        patched: '2017-11-07T09:36:47.615Z'
+  'npm:qs:20140806-1':
+    - express.io > express > connect > qs:
+        patched: '2017-11-07T09:36:47.615Z'
+  'npm:ws:20160920':
+    - express.io > socket.io > socket.io-client > ws:
+        patched: '2017-11-07T09:36:47.615Z'

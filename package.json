@@ -130,5 +130,27 @@
     "xml2js": "^0.4.15",
     "snyk": "^1.48.1"
   },
+  "devDependencies": {
+    "apidoc": "^0.17.5",
+    "chai": "^3.4.1",
+    "coffee-script": "^1.12.5",
+    "connect": "^3.6.1",
+    "documentation": "^4.0.0-beta10",
+    "grunt": "^1.0.1",
+    "grunt-chokidar": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-htmlmin": "^2.0.0",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-env": "^0.4.4",
+    "grunt-mocha-test": "^0.13.2",
+    "grunt-preprocess": "^5.1.0",
+    "grunt-sass": "^2.0.0",
+    "grunt-uncss": "^0.6.1",
+    "mocha": "^3.1.0",
+    "supertest": "^2.0.0"
+  },
   "snyk": true
 }

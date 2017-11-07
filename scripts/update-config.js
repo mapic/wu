@@ -72,9 +72,12 @@ var engineJsonStr = 'module.exports = ' + JSON.stringify(engineConfig, null, 2);
 fs.writeFileSync(ENGINE_CONFIG_PATH , engineJsonStr, 'utf-8');
 
 // create png from base64 logo
-var base64_logo = MAPIC_LOGIN_LOGO.replace('"', '');
-var MAPIC_LOGIN_LOGO_PATH = '/mapic/engine/public/css/flash-logo.png';
-fs.writeFileSync(MAPIC_LOGIN_LOGO_PATH, base64_logo, 'base64');
-
+if (MAPIC_LOGIN_LOGO) {
+    var base64_logo = MAPIC_LOGIN_LOGO.replace('"', '');
+    var MAPIC_LOGIN_LOGO_PATH = '/mapic/engine/public/css/flash-logo.png';
+    fs.writeFileSync(MAPIC_LOGIN_LOGO_PATH, base64_logo, 'base64');
+} else {
+    console.log('Missing $MAPIC_LOGIN_LOGO variable. No logo created!');
+}
 
 console.log('mapic/engine config updated!');

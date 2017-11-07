@@ -5,10 +5,8 @@
   "private": false,
   "main": "start-server.sh",
   "scripts": {
-    "test": " mocha test/ --recursive",
-    "apidocs": "./tools/gen_apidocs.sh",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "test": " mocha test/ --recursive --exit",
+    "apidocs": "./tools/gen_apidocs.sh"
   },
   "apidoc": {
     "title": "Mapic API Documentation",
@@ -48,10 +46,9 @@
     "bower": "^1.8.2",
     "bson": "^1.0.4",
     "carto": "^0.18.2",
-    "chai": "^4.1.2",
+    "chai": "^3.4.1",
     "child-process-promise": "^2.2.1",
     "client-sessions": "^0.8.0",
-    "coffee-script": "^1.12.7",
     "color-lerp": "^1.0.5",
     "colors": "^1.1.2",
     "compression": "^1.7.1",

@@ -1584,8 +1584,15 @@ module.exports = api.postgis = {
         var query = options.query;
 
         // count rows and add to uploadStatus
-        var conString = 'postgres://systemapic:docker@postgis/' + postgis_db; // todo: put in config
-        pg.connect(conString, function(err, client, pgcb) {
+        // var conString = 'postgres://systemapic:docker@postgis/' + postgis_db; // todo: put in config
+        var pool = new pg.Pool({
+            user : 'systemapic', 
+            password : 'docker',
+            database : postgis_db,
+            host : 'postgis'
+        });
+        // pg.connect(conString, function(err, client, pgcb) {
+        pool.connect(function(err, client, pgcb) {
             if (err) return callback(err);
             
             // do query
@@ -1600,6 +1607,7 @@ module.exports = api.postgis = {
                 callback(null, result);
             });
         });
+        pool.end();
     },
 
 

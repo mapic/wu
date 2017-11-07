@@ -488,6 +488,8 @@ module.exports = api.postgis = {
         var terms = encodeURIComponent(prj);
         // http://prj2epsg.org/apidocs.html
         var url = 'http://prj2epsg.org/search.json?mode=wkt&terms=' + terms;
+        console.log('terms:', terms);
+        console.log('url:', url);
         var options = {
             url: url,
             method: 'GET'
@@ -496,8 +498,14 @@ module.exports = api.postgis = {
         // Start the request
         request(options, function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                var srids = JSON.parse(body);
-                var srid = srids.codes[0].code;
+                try {
+                    var srids = JSON.parse(body);
+                    console.log('srids', srids);
+                    var srid = srids.codes[0].code;
+                } catch (e) {
+                    var srid = '3587';
+                    console.log('caught error', e);
+                }
                 done(null, srid);
             }
         });

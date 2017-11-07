@@ -48,6 +48,10 @@ patch:
         patched: '2017-11-07T09:36:47.615Z'
     - express.oi > socket.io > socket.io-client > engine.io-client > debug > ms:
         patched: '2017-11-07T09:36:47.615Z'
+    - grunt-contrib-watch > tiny-lr > body-parser > debug > ms:
+        patched: '2017-11-07T17:06:13.467Z'
+    - grunt-contrib-watch > tiny-lr > debug > ms:
+        patched: '2017-11-07T17:06:13.467Z'
   'npm:debug:20170905':
     - gm > debug:
         patched: '2017-11-07T09:36:47.615Z'
@@ -67,6 +71,12 @@ patch:
         patched: '2017-11-07T09:36:47.615Z'
     - express.oi > socket.io > debug:
         patched: '2017-11-07T09:36:47.615Z'
+    - grunt-contrib-watch > tiny-lr > body-parser > debug:
+        patched: '2017-11-07T17:06:13.467Z'
+    - grunt-contrib-watch > tiny-lr > debug:
+        patched: '2017-11-07T17:06:13.467Z'
+    - grunt-chokidar > tiny-lr > debug:
+        patched: '2017-11-07T17:06:13.467Z'
   'npm:negotiator:20160616':
     - express.io > express > connect > negotiator:
         patched: '2017-11-07T09:36:47.615Z'
@@ -82,3 +92,6 @@ patch:
   'npm:ws:20160104':
     - express.io > socket.io > socket.io-client > ws:
         patched: '2017-11-07T11:07:03.266Z'
+  'npm:ms:20151024':
+    - grunt-chokidar > tiny-lr > debug > ms:
+        patched: '2017-11-07T17:06:13.467Z'

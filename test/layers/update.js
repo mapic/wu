@@ -48,10 +48,7 @@ module.exports = function () {
         });
 
         after(function (done) {
-            helpers.delete_layer_by_id(tmpLayer.uuid, function (err) {
-                if (err) return done(err);
-                done();
-            })
+            helpers.delete_layer_by_id(tmpLayer.uuid, done);
         });
 
         it('should respond with status code 401 when not authenticated', function (done) {
@@ -68,8 +65,8 @@ module.exports = function () {
                     .send({access_token: access_token})
                     .expect(httpStatus.BAD_REQUEST)
                     .end(function (err, res) {
-
                         if (err) return done(err);
+
                         var result = helpers.parse(res.text);
                         expect(result.error.message).to.be.equal(expected.missing_information.errorMessage);
                         expect(result.error.code).to.be.equal(httpStatus.BAD_REQUEST);
@@ -90,9 +87,7 @@ module.exports = function () {
                     })
                     .expect(httpStatus.NOT_FOUND)
                     .end(function (err, res) {
-                        if (err) {
-                            return done(err);
-                        }
+                        if (err) return done(err);
 
                         var result = helpers.parse(res.text);
                         expect(result.error.message).to.be.equal(expected.no_such_layers.errorMessage);
@@ -121,9 +116,7 @@ module.exports = function () {
                     Layer
                     .findOne({uuid: layerUpdates.layer})
                     .exec(function (err, res) {
-                        if (err) {
-                            return callback(err);
-                        }
+                        if (err) return callback(err);
 
                         var result = helpers.parse(options.text);
 
@@ -196,9 +189,7 @@ module.exports = function () {
                     .send(notValidlayerUpdates)
                     .expect(httpStatus.BAD_REQUEST)
                     .end(function (err, res) {
-                        if (err) {
-                            return done(err);
-                        }
+                        if (err) return done(err);
 
                         var result = helpers.parse(res.text);
                         expect(result.error.message).to.be.equal(expected.invalid_fields.errorMessage);

@@ -49,6 +49,7 @@ var layerSchema = mongoose.Schema({
         norkart     : String,
         google      : String,
         cube        : String,
+        graph       : String,
         wms         : {
             source  : String,
             layers  : [String],

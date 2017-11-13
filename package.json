@@ -49,6 +49,7 @@
     "chai": "^3.4.1",
     "child-process-promise": "^2.2.1",
     "client-sessions": "^0.8.0",
+    "coffee-script": "^1.12.7",
     "color-lerp": "^1.0.5",
     "colors": "^1.1.2",
     "compression": "^1.7.1",

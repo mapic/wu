@@ -212,6 +212,7 @@ module.exports = function(grunt) {
                     'public/js/src/chrome/chrome.right.js', 
 
                     'public/js/src/chrome/data/chrome.data.js',
+                    'public/js/src/chrome/data/data.graph.js',
 
                     'public/js/src/chrome/projects/chrome.projects.js',
                     'public/js/src/chrome/users/chrome.users.js',

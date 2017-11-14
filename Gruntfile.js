@@ -163,6 +163,7 @@ module.exports = function(grunt) {
                     'public/js/lib/tether/select.js',
                     'public/js/lib/randomColor/randomColor.js',
                     'public/js/lib/geojsonhint/geojsonhint.js',
+                    'public/js/lib/papaparse/papaparse.js',
 
                     'public/js/lib/sentry/raven.js'
                 ],

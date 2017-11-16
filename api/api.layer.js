@@ -283,7 +283,6 @@ module.exports = api.layer = {
 
         var options = req.body;
 
-        var user = req.user;
         var layer_id = options.layer_id;
 
         // validate

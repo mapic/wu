@@ -2,16 +2,16 @@
 // libs
 var async 	 = require('async');
 var colors 	 = require('colors');
-var crypto       = require('crypto');
+var crypto   = require('crypto');
 var uuid 	 = require('node-uuid');
-var mongoose 	 = require('mongoose');
+var mongoose = require('mongoose');
 var _ 		 = require('lodash');
 var fs 		 = require('fs');
 var prompt 	 = require('prompt');
 
 // database schemas
-var Project 	 = require('../models/project');
-var Clientel 	 = require('../models/client');	// weird name cause 'Client' is restricted name
+var Project  = require('../models/project');
+var Clientel = require('../models/client');	// weird name cause 'Client' is restricted name
 var User  	 = require('../models/user');
 var File 	 = require('../models/file');
 var Layer 	 = require('../models/layer');
@@ -38,7 +38,7 @@ User
 .exec(function (err, u) {
 
 	if (err) {
-		console.log('error retreiving user');
+		console.log('Error retreiving user!');
 		return process.exit(0);
 	}
 
@@ -48,27 +48,22 @@ User
 	}
 
 
-	console.log('User to delete:'.red, u.getName());
+	console.log('User to delete:'.red, u.getName(), u.getEmail());
 
-	prompt.get({
-		properties : {
-			confirm : {
-				description : 'Does this look right? Write [yes] to go ahead and delete user'.yellow
-			}
-		}
-	}, function (err, answer) {
-		if (err || answer.confirm != 'yes') {
-			console.log('Aborting!'.red);
+	var yesno = require('yesno');
+	yesno.ask('Are you sure you want to continue?', true, function(ok) {
+	    if(ok) {
+			User
+			.remove({'local.email' : deleteUser})
+			.exec(function (err, user) {
+				console.log('User [' + deleteUser + '] deleted!'.red);
+				process.exit(0);
+			});  
+
+	    } else {
+	        console.log('Aborting!'.red);
 			return process.exit(0);
-		}
-
-		User
-		.remove({'local.email' : deleteUser})
-		.exec(function (err, user) {
-			console.log('User [' + deleteUser + '] deleted!'.red);
-			process.exit(0);
-		});
-
+	    }
 	});
 
 })

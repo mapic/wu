@@ -354,6 +354,7 @@ module.exports = function(grunt) {
                     'public/css/jevil.css',
                     'public/css/guide-stylesheet.css',
                     'public/css/more-experiments.css',
+                    'public/css/color-theme.css',
                 ],
 
                 dest : 'public/dist/tmp/css.portal.css'

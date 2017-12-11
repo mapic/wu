@@ -2,7 +2,7 @@
 // load the things we need
 var mongoose = require('mongoose');
 var timestamps = require('mongoose-times');
-
+// var Schema = mongoose.Schema;
 
 // define the schema for our layers model
 var layerSchema = mongoose.Schema({
@@ -71,6 +71,9 @@ var layerSchema = mongoose.Schema({
             metadata            : String,
         },
     }, 
+}, 
+{ 
+    usePushEach: true 
 });
 
 

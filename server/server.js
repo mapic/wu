@@ -103,8 +103,8 @@ connect_to_mongo(function (err) {
 function connect_to_mongo (done) {
 	console.log('Attempting to connect to MongoDB with', config.mongo.url);
 	mongoose.connect(config.mongo.url, function (err) {
-		if (err) console.log('Failed to connect to MongoDB:');
 		if (!err) return done();
+		console.log('Failed to connect to MongoDB:', err.message);
 		sleep.sleep(2);
 		return connect_to_mongo(done);
 	});

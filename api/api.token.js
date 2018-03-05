@@ -339,7 +339,7 @@ module.exports = api.token = {
 
 	getPublicUser : function (done) {
 		User
-		.findOne({uuid : 'mapic-bot'})
+		.findOne({uuid : 'mapic-public'})
 		.exec(function (err, public_user) {
 			if (err) return done(err);
 			if (!public_user) return api.token.createPublicUser(done);

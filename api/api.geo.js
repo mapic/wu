@@ -134,7 +134,6 @@ module.exports = api.geo = {
                     }
                 });
 
-                // carto += '    { \n        marker-fill: ' + colors[c.type] + '; \n}\n';
                 carto += '    { \n        marker-fill: ' + colors['t0'] + '; \n}\n';
 
             };
@@ -146,7 +145,6 @@ module.exports = api.geo = {
                 carto += '\n\n    // ' + c.comments + '\n'  ;
                 var n = 0;
 
-                // var sign = c.type == 't1' ? ' < ' : ' >= ';
                 var sign = ' >= ';
 
                 _.forEach(c, function (value, key) {
@@ -170,7 +168,6 @@ module.exports = api.geo = {
         done(null,carto);
 
     },
-
 
     json2carto : function (req, res, next) {
         var options = req.body;
@@ -269,7 +266,6 @@ module.exports = api.geo = {
         // global styling
         if (compOp) style.layer += '\tpolygon-comp-op: ' + compOp + ';\n\n';
 
-
         // opacity
         var polygonOpacityCarto = api.geo.buildCarto_polygonOpacity(options);
         style.headers += polygonOpacityCarto.headers;
@@ -343,12 +339,6 @@ module.exports = api.geo = {
     },
 
 
-
-    // OPACITY
-    // OPACITY
-    // OPACITY
-
-
     buildCarto_polygonTarget : function (options) {
 
         var css = {
@@ -408,8 +398,6 @@ module.exports = api.geo = {
                 var string = '\n    [' + column + ' ' + operator + ' ' + value + '] {';
                 string += '\n        marker-fill: ' + color + ';';
                 string += '\n        marker-opacity: ' + opacity + ';';
-                // string += '\n        marker-width: ' + width + ';';
-
                 string += '\n        [zoom<10] { marker-width: 0.2 * ' + width + '; }';
                 string += '\n        [zoom=10] { marker-width: 0.3 * ' + width + '; }';
                 string += '\n        [zoom=11] { marker-width: 0.5 * ' + width + '; }';
@@ -420,10 +408,7 @@ module.exports = api.geo = {
                 string += '\n        [zoom=16] { marker-width: 6   * ' + width + '; }';
                 string += '\n        [zoom=17] { marker-width: 8   * ' + width + '; }';
                 string += '\n        [zoom>=18] { marker-width: 12  * ' + width + '; }';
-
-
                 string += '\n    }\n';
-
                 css.style += string;
             }
 
@@ -472,7 +457,6 @@ module.exports = api.geo = {
 
         });
 
-
         return css;
 
     },
@@ -516,12 +500,10 @@ module.exports = api.geo = {
         var style = options.style.polygon;
         var opacity = style.opacity || {};
 
-
         var css = {
             headers : '',
             style   : ''
         };
-
 
         if ( opacity.column ) {
 
@@ -589,7 +571,6 @@ module.exports = api.geo = {
 
     buildCarto_pointColor : function (options) {
 
-
         var style = options.style.point;
         var color = style.color || {};
 
@@ -598,79 +579,12 @@ module.exports = api.geo = {
             style   : ''
         };
 
-
-
         if ( color.column ) {
 
             var minMax = color.range;// ? color.customMinMax : color.minMax;
 
-
-            // colorLerp :: Does NOT work properly... sometimes it generates random colors...
-            // see 
-
-
-            // // color range experiment
-            // var color_range = [];
-            // var colorLerp = require('color-lerp');
-
-            // // Get color values
-            // var color1 = color.value[0];
-            // var color2 = color.value[1];
-            // var color3 = color.value[2];
-            // var color4 = color.value[3];
-            // var color5 = color.value[4];
-            
-
-            // // get three, four colors in between each 5-color => 12
-            // var triad12 = colorLerp(color1, color2, 4, 'rgb');
-            // var triad23 = colorLerp(color2, color3, 4, 'rgb');
-            // var triad34 = colorLerp(color3, color4, 4, 'rgb');
-            // var triad45 = colorLerp(color4, color5, 4, 'rgb');
-
-            // // flatten
-            // color_range = _.flatten(color_range);
-
-            // // remove duplicates
-            // color_range = _.unique(color_range);
-
-
-            // // override with new color_range
-            // var colorArray = color_range;
-
-
-            // // Get color values
-            // var c1 = color.value[0];
-            // var c9 = color.value[1];
-            // var c17 = color.value[2];
-            // var c25 = color.value[3];
-            // var c33 = color.value[4];
-
-            // // Interpolate
-            // var c5 = api.geo.hexAverage([c1, c9]);
-            // var c13 = api.geo.hexAverage([c9, c17]);
-            // var c21 = api.geo.hexAverage([c17, c25]);
-            // var c29 = api.geo.hexAverage([c25, c33]);
-
-            // // Interpolate
-            // var c3 = api.geo.hexAverage([c1, c5]);
-            // var c7 = api.geo.hexAverage([c5, c9]);
-            // var c11 = api.geo.hexAverage([c9, c13]);
-            // var c15 = api.geo.hexAverage([c13, c17]);
-            // var c19 = api.geo.hexAverage([c17, c21]);
-            // var c23 = api.geo.hexAverage([c21, c25]);
-            // var c27 = api.geo.hexAverage([c25, c29]);
-            // var c31 = api.geo.hexAverage([c29, c33]);
-
-            // // 17 colors
-            // var colorArray = [c1, c3, c5, c7, c9, c11, c13, c15, c17, c19, c21, c23, c25, c27, c29, c31, c33];
-
-
-
+            // create color array with 17 colors
             var colorArray = this.createColorArray(color.value)
-
-
-
-
 
             // CREATE VARS
             var fieldName = '@' + color.column;
@@ -678,13 +592,11 @@ module.exports = api.geo = {
             var minField  = fieldName + '_min';
             var deltaName = fieldName + '_delta';
             
-
             // DEFINE FIELD NAME + MIN/MAX
             cartObj.headers += fieldName + ': [' + color.column + '];\n';
             cartObj.headers += maxField  + ': '  + minMax[1] + ';\n'; 
             cartObj.headers += minField  + ': '  + minMax[0] + ';\n\n';
             
-
             // COLORS VALUES
             colorArray.forEach(function(c, i) { 
                 cartObj.headers += fieldName + '_color_' + (i+1) + ': ' + c + ';\n';
@@ -703,33 +615,25 @@ module.exports = api.geo = {
             cartObj.headers += '\n';
 
 
-
             // STYLE STYLE STYLE
             // STYLE STYLE STYLE
             // STYLE STYLE STYLE
-
-
             colorArray.forEach(function(c,i) {
 
                 var no = i+1;
 
                 if ( no == 1 ) {
-
                     cartObj.style += '\t[' + fieldName + ' < ' + fieldName + '_step_' + (no+1) + '] ';
                     cartObj.style += '{ marker-fill: ' + fieldName + '_color_' + no + '; }\n';
-
                 }
 
                 if ( no > 1 && no < colorArray.length ) {
-
                     cartObj.style += '\t[' + fieldName + ' >= ' + fieldName + '_step_' + no + ']';
                     cartObj.style += '[' + fieldName + ' <= ' + fieldName + '_step_' + (no+1) + ']';
                     cartObj.style += '{ marker-fill: ' + fieldName + '_color_' + no + '; }\n';
-
                 }
 
                 if ( no == colorArray.length ) {
-
                     cartObj.style +=  '\t[' + fieldName + ' >= ' + fieldName + '_step_' + no + '] ';
                     cartObj.style += '{ marker-fill: ' + fieldName + '_color_' + no + '; }\n\n';
                 }
@@ -748,6 +652,9 @@ module.exports = api.geo = {
 
 
     createColorArray : function (fiveColors) {
+
+        // return same array if already at 17 or more
+        if (_.size(fiveColors) >= 17) return fiveColors;
 
         // Get color values
         var c1 = fiveColors[0];
@@ -792,75 +699,19 @@ module.exports = api.geo = {
 
             var minMax = color.range;// ? color.customMinMax : color.minMax;
 
-            // // Get color values
-            // var c1 = color.value[0];
-            // var c9 = color.value[1];
-            // var c17 = color.value[2];
-            // var c25 = color.value[3];
-            // var c33 = color.value[4];
-
-            // // Interpolate
-            // var c5 = api.geo.hexAverage([c1, c9]);
-            // var c13 = api.geo.hexAverage([c9, c17]);
-            // var c21 = api.geo.hexAverage([c17, c25]);
-            // var c29 = api.geo.hexAverage([c25, c33]);
-
-            // // Interpolate
-            // var c3 = api.geo.hexAverage([c1, c5]);
-            // var c7 = api.geo.hexAverage([c5, c9]);
-            // var c11 = api.geo.hexAverage([c9, c13]);
-            // var c15 = api.geo.hexAverage([c13, c17]);
-            // var c19 = api.geo.hexAverage([c17, c21]);
-            // var c23 = api.geo.hexAverage([c21, c25]);
-            // var c27 = api.geo.hexAverage([c25, c29]);
-            // var c31 = api.geo.hexAverage([c29, c33]);
-
-            // var colorArray = [c1, c3, c5, c7, c9, c11, c13, c15, c17, c19, c21, c23, c25, c27, c29, c31, c33];
-
-
-
-
             var colorArray = this.createColorArray(color.value);
 
-
-
-
-            // // Interpolate
-            // var c2 = api.geo.hexAverage([c1, c3]);
-            // var c4 = api.geo.hexAverage([c3, c5]);
-            // var c6 = api.geo.hexAverage([c5, c7]);
-            // var c8 = api.geo.hexAverage([c7, c9]);
-            // var c10 = api.geo.hexAverage([c9, c11]);
-            // var c12 = api.geo.hexAverage([c11, c13]);
-            // var c14 = api.geo.hexAverage([c13, c15]);
-            // var c16 = api.geo.hexAverage([c15, c17]);
-            // var c18 = api.geo.hexAverage([c17, c19]);
-            // var c20 = api.geo.hexAverage([c19, c21]);
-            // var c22 = api.geo.hexAverage([c21, c23]);
-            // var c24 = api.geo.hexAverage([c23, c25]);
-            // var c26 = api.geo.hexAverage([c25, c27]);
-            // var c28 = api.geo.hexAverage([c27, c29]);
-            // var c30 = api.geo.hexAverage([c29, c31]);
-            // var c32 = api.geo.hexAverage([c31, c33]);
-
-            // var colorArray = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, c31, c32, c33];
-
-
-
             // CREATE VARS
-            // var fieldName = '@' + color.column;
             var fieldName = '@polygon_column';// + color.column;
             var maxField  = fieldName + '_max';
             var minField  = fieldName + '_min';
             var deltaName = fieldName + '_delta';
             
-
             // DEFINE FIELD NAME + MIN/MAX
             cartObj.headers += fieldName + ': [' + color.column + '];\n';
             cartObj.headers += maxField  + ': '  + minMax[1] + ';\n'; 
             cartObj.headers += minField  + ': '  + minMax[0] + ';\n\n';
             
-
             // COLORS VALUES
             colorArray.forEach(function(c, i) { 
                 cartObj.headers += fieldName + '_color_' + (i+1) + ': ' + c + ';\n';
@@ -878,34 +729,25 @@ module.exports = api.geo = {
 
             cartObj.headers += '\n';
 
-
-
             // STYLE STYLE STYLE
             // STYLE STYLE STYLE
             // STYLE STYLE STYLE
-
-
             colorArray.forEach(function(c,i) {
 
                 var no = i+1;
 
                 if ( no == 1 ) {
-
                     cartObj.style += '\t[' + fieldName + ' < ' + fieldName + '_step_' + (no+1) + '] ';
                     cartObj.style += '{ polygon-fill: ' + fieldName + '_color_' + no + '; }\n';
-
                 }
 
                 if ( no > 1 && no < colorArray.length ) {
-
                     cartObj.style += '\t[' + fieldName + ' > ' + fieldName + '_step_' + no + ']';
                     cartObj.style += '[' + fieldName + ' < ' + fieldName + '_step_' + (no+1) + ']';
                     cartObj.style += '{ polygon-fill: ' + fieldName + '_color_' + no + '; }\n';
-
                 }
 
                 if ( no == colorArray.length ) {
-
                     cartObj.style +=  '\t[' + fieldName + ' > ' + fieldName + '_step_' + no + '] ';
                     cartObj.style += '{ polygon-fill: ' + fieldName + '_color_' + no + '; }\n\n';
                 }
@@ -937,75 +779,19 @@ module.exports = api.geo = {
 
             var minMax = color.range;// ? color.customMinMax : color.minMax;
 
-            // // Get color values
-            // var c1 = color.value[0];
-            // var c9 = color.value[1];
-            // var c17 = color.value[2];
-            // var c25 = color.value[3];
-            // var c33 = color.value[4];
-
-            // // Interpolate
-            // var c5 = api.geo.hexAverage([c1, c9]);
-            // var c13 = api.geo.hexAverage([c9, c17]);
-            // var c21 = api.geo.hexAverage([c17, c25]);
-            // var c29 = api.geo.hexAverage([c25, c33]);
-
-            // // Interpolate
-            // var c3 = api.geo.hexAverage([c1, c5]);
-            // var c7 = api.geo.hexAverage([c5, c9]);
-            // var c11 = api.geo.hexAverage([c9, c13]);
-            // var c15 = api.geo.hexAverage([c13, c17]);
-            // var c19 = api.geo.hexAverage([c17, c21]);
-            // var c23 = api.geo.hexAverage([c21, c25]);
-            // var c27 = api.geo.hexAverage([c25, c29]);
-            // var c31 = api.geo.hexAverage([c29, c33]);
-
-            // var colorArray = [c1, c3, c5, c7, c9, c11, c13, c15, c17, c19, c21, c23, c25, c27, c29, c31, c33];
-
-
-
             var colorArray = this.createColorArray(color.value);
 
-
-
-
-
-            // // Interpolate
-            // var c2 = api.geo.hexAverage([c1, c3]);
-            // var c4 = api.geo.hexAverage([c3, c5]);
-            // var c6 = api.geo.hexAverage([c5, c7]);
-            // var c8 = api.geo.hexAverage([c7, c9]);
-            // var c10 = api.geo.hexAverage([c9, c11]);
-            // var c12 = api.geo.hexAverage([c11, c13]);
-            // var c14 = api.geo.hexAverage([c13, c15]);
-            // var c16 = api.geo.hexAverage([c15, c17]);
-            // var c18 = api.geo.hexAverage([c17, c19]);
-            // var c20 = api.geo.hexAverage([c19, c21]);
-            // var c22 = api.geo.hexAverage([c21, c23]);
-            // var c24 = api.geo.hexAverage([c23, c25]);
-            // var c26 = api.geo.hexAverage([c25, c27]);
-            // var c28 = api.geo.hexAverage([c27, c29]);
-            // var c30 = api.geo.hexAverage([c29, c31]);
-            // var c32 = api.geo.hexAverage([c31, c33]);
-
-            // var colorArray = [c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, c31, c32, c33];
-
-
-
             // CREATE VARS
-            // var fieldName = '@' + color.column;
             var fieldName = '@line_column';// + color.column;
             var maxField  = fieldName + '_max';
             var minField  = fieldName + '_min';
             var deltaName = fieldName + '_delta';
             
-
             // DEFINE FIELD NAME + MIN/MAX
             cartObj.headers += fieldName + ': [' + color.column + '];\n';
             cartObj.headers += maxField  + ': '  + minMax[1] + ';\n'; 
             cartObj.headers += minField  + ': '  + minMax[0] + ';\n\n';
             
-
             // COLORS VALUES
             colorArray.forEach(function(c, i) { 
                 cartObj.headers += fieldName + '_color_' + (i+1) + ': ' + c + ';\n';
@@ -1024,33 +810,25 @@ module.exports = api.geo = {
             cartObj.headers += '\n';
 
 
-
             // STYLE STYLE STYLE
             // STYLE STYLE STYLE
             // STYLE STYLE STYLE
-
-
             colorArray.forEach(function(c,i) {
 
                 var no = i+1;
 
                 if ( no == 1 ) {
-
                     cartObj.style += '\t[' + fieldName + ' < ' + fieldName + '_step_' + (no+1) + '] ';
                     cartObj.style += '{ line-color: ' + fieldName + '_color_' + no + '; }\n';
-
                 }
 
                 if ( no > 1 && no < colorArray.length ) {
-
                     cartObj.style += '\t[' + fieldName + ' > ' + fieldName + '_step_' + no + ']';
                     cartObj.style += '[' + fieldName + ' < ' + fieldName + '_step_' + (no+1) + ']';
                     cartObj.style += '{ line-color: ' + fieldName + '_color_' + no + '; }\n';
-
                 }
 
                 if ( no == colorArray.length ) {
-
                     cartObj.style +=  '\t[' + fieldName + ' > ' + fieldName + '_step_' + no + '] ';
                     cartObj.style += '{ line-color: ' + fieldName + '_color_' + no + '; }\n\n';
                 }
@@ -1086,8 +864,6 @@ module.exports = api.geo = {
 
             var max = Math.floor(options.columns[pointSize.column].max * 10) / 10;
             var min = Math.floor(options.columns[pointSize.column].min * 10) / 10;
-        
-            // cartObj.headers += '@marker_size_max: ' + pointSize.minMax[1] + ';\n';
             cartObj.headers += '@marker_size_min: ' + pointSize.range[0] + ';\n';
             cartObj.headers += '@marker_size_range: ' + (pointSize.range[1] - pointSize.range[0]) + ';\n';
             cartObj.headers += '@marker_size_field: [' + pointSize.column + '];\n';
@@ -1103,7 +879,6 @@ module.exports = api.geo = {
 
         }
 
-
         cartObj.headers += '[zoom<10] { marker-width: 0.2 * @marker_size_factor; }\n';
         cartObj.headers += '[zoom=10] { marker-width: 0.3 * @marker_size_factor; }\n';
         cartObj.headers += '[zoom=11] { marker-width: 0.5 * @marker_size_factor; }\n';
@@ -1114,7 +889,6 @@ module.exports = api.geo = {
         cartObj.headers += '[zoom=16] { marker-width: 6   * @marker_size_factor; }\n';
         cartObj.headers += '[zoom=17] { marker-width: 8   * @marker_size_factor; }\n';
         cartObj.headers += '[zoom>=18] { marker-width: 12  * @marker_size_factor; }\n\n';
-
 
         return cartObj;
     },
@@ -1143,10 +917,8 @@ module.exports = api.geo = {
             cartObj.headers += '@line_size_factor: (@line_size_field / (@line_size_field_maxVal - @line_size_field_minVal)) * (@line_size_range + @line_size_min);\n\n';
             
         } else {
-
             var staticWidth = (lineWidth.staticVal === undefined) ? 3 : lineWidth.staticVal;
             cartObj.headers += '@line_size_factor: ' + staticWidth + ';\n';
-
         }
 
 
@@ -1171,7 +943,6 @@ module.exports = api.geo = {
 
     // Make sure hex decimals have two digits
     padToTwo : function (numberString) {
-
         if (numberString.length < 2) numberString = '0' + numberString;
         return numberString;
     },
@@ -1193,70 +964,6 @@ module.exports = api.geo = {
             return previousValue + newValue;
         }.bind(this), '#');
     },
-
-
-
-    // *********************************************************************************
-    // *********************************************************************************
-    // *********************************************************************************
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     copyToVileFolder : function (path, fileUuid, callback) {
         if (!path || !fileUuid) return callback('Missing information.14');
@@ -1301,8 +1008,8 @@ module.exports = api.geo = {
 
                             // return
                             callback(null, db);
-                    })
                     });
+                });
             
             } catch (e) { callback('omni crash gj: ' + e); }
         });
@@ -1316,12 +1023,10 @@ module.exports = api.geo = {
 
         try {
 
-        mapnikOmnivore.digest(path, function(err, metadata) {
-            if (err) {
-                return callback(err);
-            }
-            return callback(null, JSON.stringify(metadata, null, 2));
-        });
+            mapnikOmnivore.digest(path, function(err, metadata) {
+                if (err) return callback(err);
+                return callback(null, JSON.stringify(metadata, null, 2));
+            });
 
         } catch (e) {
             return callback(e);
@@ -1332,13 +1037,8 @@ module.exports = api.geo = {
         callback('Topojson unsupported.');
     },
 
-
     import2postgis : function (options, callback) {
-
         return api.postgis.importData(options, callback);
-        
-        
-        
     },
 
     validateshp : function (files, callback) {
@@ -1461,8 +1161,6 @@ module.exports = api.geo = {
         });
     },
 
-
-
     _ogr2ogrFallback : function (folder, outfolder, toFile, outFile, inFile, fileUuid, proj4, callback) {
 
         // make sure dir exists
@@ -1490,7 +1188,6 @@ module.exports = api.geo = {
         });
     },
 
-
     pingProgress : function (options, message, percent) {
 
         // ping progress
@@ -1503,9 +1200,7 @@ module.exports = api.geo = {
                 uniqueIdentifier : options.uniqueIdentifier,
             }
         });
-
     },
-
 
     handleRaster : function (options, done) {
 
@@ -1603,42 +1298,6 @@ module.exports = api.geo = {
             // return meta
             callback(null, meta);
 
-            // "{
-            //   "filesize": 184509,
-            //   "projection": "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
-            //   "filename": "sydney",
-            //   "center": [
-            //     150.441711504,
-            //     -33.52856723049999
-            //   ],
-            //   "extent": [
-            //     149.39475100800001,  // left
-            //     -34.30833595899998,  // bottom
-            //     151.488672,      // right 
-            //     -32.748798502        // top
-            //   ],
-            //   "json": {
-            //     "vector_layers": [
-            //       {
-            //         "id": "subunitsExMS",
-            //         "description": "",
-            //         "minzoom": 0,
-            //         "maxzoom": 22,
-            //         "fields": {
-            //           "id": "String",
-            //           "name": "String"
-            //         }
-            //       }
-            //     ]
-            //   },
-            //   "minzoom": 0,
-            //   "maxzoom": 12,
-            //   "layers": [
-            //     "subunitsExMS"
-            //   ],
-            //   "dstype": "ogr",
-            //   "filetype": ".geojson"
-            // }"
         });
 
 
@@ -1651,28 +1310,8 @@ module.exports = api.geo = {
             var target = gdal.SpatialReference.fromProj4(ourProj4);
             var isSame = source.isSame(target);
 
-          
-
             // debug
             return callback(null, meta);
-
-            // // same, no reprojection necessary
-            // if (isSame) return callback(null, meta);
-
-            // var outFile = inFile + '.reprojected';
-            // var cmd = 'gdalwarp -srcnodata 0 -dstnodata 0 -t_srs "' + ourProj4 + '" "' + inFile + '" "' + outFile + '"';
-
-            // var exec = require('child_process').exec;
-            // var proc = exec(cmd, function (err, stdout, stdin) {
-            //  if (err) return callback(err);
-
-            //  options.path = outFile;
-            //  callback(null, meta);
-            // });
-
-            // proc.stdout.on('data', function(data) {
-            //  console.log('warping stdout: ', data); 
-            // });
 
         });
 
@@ -1709,7 +1348,6 @@ module.exports = api.geo = {
             ].join(' ');
 
             // todo! move this fn to tileserver (pile)!!
-
 
             // script command
             // var cmd = api.config.path.tools + 'gdal2tiles_parallel.py --processes=6 -w none -a 200,200,0  -p mercator --no-kml "' + inFile + '" "' + outFolder + '"';
@@ -1795,8 +1433,6 @@ module.exports = api.geo = {
 
             }, 5000);
 
-
-
         });
 
         async.waterfall(ops, done);
@@ -1851,15 +1487,11 @@ module.exports = api.geo = {
                 extent.center.y
             ]
         }
-        
 
         return metadataExtent;
     },
 
-
-
     getTilesetMeta : function (req, done) {
-
 
         var file_id = req.data.file_id;
         var user_id = req.user._id;
@@ -1896,11 +1528,8 @@ module.exports = api.geo = {
 
             // or ping socket
             api.socket.send('tileset_meta', user_id, result);
-        })
+        });
         
-        
-
-
     },
 
     tileCount : function (req, done) {
@@ -1924,15 +1553,6 @@ module.exports = api.geo = {
             var metadata = api.utils.parse(file.data.raster.metadata);
 
             var extent = metadata.extent;
-
-            // http://tools.geofabrik.de/tiledb?map=geofabrik_standard&
-            // l=5.538061999999896
-            // r=13.613258562499794
-            // t=51.852097592066265
-            // b=47.23631199999996
-            // z=6
-
-            // [ -49, -7.0000000000008, -47.9999999999992, -6 ]
 
             var extent_left     = (-1) * extent[3];
             var extent_right    = (-1) * extent[1];
@@ -1961,8 +1581,6 @@ module.exports = api.geo = {
 
                 // calc tiles
                 var lower = tiles[zoom_max];
-
-                
 
                 var data = {
                     zoom_max : zoom_max,
@@ -1997,22 +1615,15 @@ module.exports = api.geo = {
                 api.socket.send('tile_count', user_id, data);
             }
             
-
             // '{"memory":[0,0,0,0,0,0,1449.5,1021.921875,763.8984375,422383,1077127.9223632812,3342917.5869140625,11203657.877197266,568200005.8731743,1078945199.609375,5169977867.444824,8563502655.513611,79728201110.9375,0,0],"tiles":[1,1,1,1,1,2,2,2,2,1536,5115,18396,73548,285950,1143800,4509564,18037980,71889950,287558700,1149709767]}' },
 
         });
 
-
         async.waterfall(ops, function (err, result) {
-
             if (err) done(err);
         });
 
-
     },
-
-
-
 
     generateTiles : function (req) {
 
@@ -2172,23 +1783,6 @@ module.exports = api.geo = {
             done(err, meta);
         })
     },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

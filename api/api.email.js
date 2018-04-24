@@ -58,7 +58,12 @@ module.exports = api.email = {
 		if (_.includes(options.to, 'mocha_test')) return;
 
 		// send email
-		transporter.sendMail(options);
+		transporter.sendMail(options, function (err, info) {
+			if (err) console.log('transporter.sendMail err:', err);
+			console.log('transporter.sendMail info: ', info);
+
+
+		});
 
 		// transporter options = {
 		// 	from    : from,
@@ -68,7 +73,7 @@ module.exports = api.email = {
 		// 	html    : body
 		// }
 
-		console.log('Sent email');
+		console.log('Sent email', options);
 	},
 
 

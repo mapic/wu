@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.8.0
+version: v1.12.0
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -82,3 +82,108 @@ patch:
   'npm:ws:20160104':
     - express.io > socket.io > socket.io-client > ws:
         patched: '2017-11-07T11:07:03.266Z'
+  'npm:hoek:20180212':
+    - mapnik-omnivore > gdal > node-pre-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - grunt-sass > node-sass > request > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - grunt-sass > node-sass > request > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - grunt-sass > node-sass > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - grunt-sass > node-sass > node-gyp > request > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - grunt-sass > node-sass > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - grunt-sass > node-sass > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - grunt-sass > node-sass > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-gyp > request > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-sass > request > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-sass > request > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-sass > request > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-sass > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-sass > node-gyp > request > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-sass > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-sass > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - node-sass > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > request > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - grunt-sass > node-sass > request > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > mapnik > node-pre-gyp > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > mapnik > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > mapnik > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > mapnik > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > mapnik > node-pre-gyp > request > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > mapnik > node-pre-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > mapnik > node-pre-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > mapnik > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > request > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - srs > gdal > node-pre-gyp > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - srs > gdal > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - srs > gdal > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - srs > gdal > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - srs > gdal > node-pre-gyp > request > hawk > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - srs > gdal > node-pre-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - srs > gdal > node-pre-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-18T22:12:52.521Z'
+    - srs > gdal > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-18T22:12:52.521Z'

@@ -72,6 +72,8 @@ module.exports = api.auth = {
 		var password = params.password;
 		var missingRequiredFields = [];
 
+		console.log('params:', params);
+
 		if (!token) {
 			missingRequiredFields.push('token');
 		}

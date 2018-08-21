@@ -45,6 +45,8 @@ module.exports = api.email = {
 
 	_send : function (options) {
 
+		console.log('api.config.nodemailer', api.config.nodemailer);
+
 		// hook up to gmail
 		var transporter = nodemailer.createTransport(api.config.nodemailer);
 
@@ -61,8 +63,6 @@ module.exports = api.email = {
 		transporter.sendMail(options, function (err, info) {
 			if (err) console.log('transporter.sendMail err:', err);
 			console.log('transporter.sendMail info: ', info);
-
-
 		});
 
 		// transporter options = {

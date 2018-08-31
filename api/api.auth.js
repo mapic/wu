@@ -191,7 +191,7 @@ module.exports = api.auth = {
 		api.redis.temp.set(token, key);  
 		
 		// expire in ten mins
-		if (!dontexpire) api.redis.temp.expire(token, 600); 
+		if (!dontexpire) api.redis.temp.expire(token, 3600); 
 
 		return token;
 	}

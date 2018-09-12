@@ -350,7 +350,7 @@ module.exports = api.postgis = {
                 var command = [
                     DOWNLOAD_TABLE_SCRIPT,
                     database_name,
-                    output,
+                    '"' + output + '"',
                     query
                 ].join(' ');
 
@@ -383,13 +383,13 @@ module.exports = api.postgis = {
             var cmd = [
                 'tar',
                 'cvf',
-                tarfile,
+                '"' + tarfile + '"',
                 '-C',
                 '"' + zipfolder + '"',
                 '.',
                 '&&',
                 'pigz',
-                tarfile
+                '"' + tarfile + '"'
             ].join(' ');
 
             console.log('zipping', cmd);

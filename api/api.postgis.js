@@ -146,8 +146,12 @@ module.exports = api.postgis = {
         var download_status_id = api.utils.getRandomChars(8);
 
 
+        console.log('\nDownloading dataset from layer...')
+
         // mark and return
         ops.push(function (callback) {
+
+            console.log('  - sending status');
 
             // set download status is
             var status = {
@@ -169,6 +173,9 @@ module.exports = api.postgis = {
 
         // get layer
         ops.push(function (callback) {
+            
+            console.log('  - finding layer');
+
             Layer
             .findOne({uuid : layer_id})
             .exec(callback);
@@ -182,12 +189,15 @@ module.exports = api.postgis = {
 
             var opts = {
                 database_name   : layer.data.postgis.database_name,
-                table_name  : layer.data.postgis.table_name,
-                data_type   : layer.data.postgis.data_type,
-                query       : api.postgis._cleanSQLQuery(layer.data.postgis.sql),
-                name        : layername,
-                user        : req.user
+                table_name      : layer.data.postgis.table_name,
+                data_type       : layer.data.postgis.data_type,
+                query           : api.postgis._cleanSQLQuery(layer.data.postgis.sql),
+                name            : layername,
+                user            : req.user
             };
+
+            console.log('  - using layer');
+            console.log('opts:', opts);
 
             // get dataset
             api.postgis.downloadDataset(opts, callback);
@@ -312,6 +322,9 @@ module.exports = api.postgis = {
         var name = options.name;
         var ops = [];
 
+        console.log('Downloading dataset...');
+        console.log('options:', options);
+
         ops.push(function (callback) {
 
             // where to put file
@@ -323,8 +336,16 @@ module.exports = api.postgis = {
             var DOWNLOAD_TABLE_SCRIPT = '../scripts/postgis/download_table.sh';
 
 
+            console.log('filePath',filePath);
+            console.log('folder',folder);
+            console.log('filename',filename);
+            console.log('output',output);
+            console.log('returnOutput',returnOutput);
+
+
             // create folder
             fs.ensureDir(folder, function (err) {   // todo: refactor async
+                if (err) console.log('ensudreDir err', err);
 
                 var command = [
                     DOWNLOAD_TABLE_SCRIPT,
@@ -335,13 +356,17 @@ module.exports = api.postgis = {
 
                 // create database in postgis
                 exec(command, {maxBuffer: 1024 * 50000}, function (err, stdout) {
-                    if (err) return callback(err);
-
+                    if (err) {
+                        console.log('exec command err', err);
+                        return callback(err);
+                    }
                     var options = {
                         zipfolder : folder,
                         zipfile : folder + filename,
                         returnOutput : returnOutput
                     };
+
+                    console.log('exec ok', options);
                     
                     callback(null, options);
 
@@ -367,13 +392,19 @@ module.exports = api.postgis = {
                 tarfile
             ].join(' ');
 
+            console.log('zipping', cmd);
+
             exec(cmd, {maxBuffer: 1024 * 50000}, function (err, stdout) {
-                if (err) return callback(err);
+                if (err) {
+                    console.log('exec cmd zip err', err);
+                    return callback(err);
+                }
                 callback(null, returnOutput);
             });
         });
 
         async.waterfall(ops, function (err, zipfile) {
+            console.log('zipping done', err, zipfile);
             done(err, zipfile);
         });
 

@@ -335,6 +335,9 @@ module.exports = api.file = {
 
 		ops.push(function (options, callback) {
 
+			console.log('found file object: ', options);
+			console.log('api.config.path.temp', api.config.path.temp);
+
 			var file = options.file;
 
 			if (file.type == 'postgis') {

@@ -1051,9 +1051,13 @@ module.exports = api.postgis = {
                 pg_db
             ].join(' ');
 
+            console.log('cmd:', cmd);
+
             // import to postgis
             var startTime = new Date().getTime();
             exec(cmd, {maxBuffer: 1024 * 50000}, function (err) {
+                if (err) console.log('err: ', err);
+
                 var endTime = new Date().getTime();
 
                 // set err on upload status

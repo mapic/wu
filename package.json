@@ -1,7 +1,7 @@
 {
   "name": "mapic-engine",
   "description": "Open source map engine and web mapping tool",
-  "version": "17.11.7",
+  "version": "18.09.18",
   "private": false,
   "main": "start-server.sh",
   "scripts": {

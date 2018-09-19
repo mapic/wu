@@ -309,6 +309,7 @@ module.exports = function(app) {
     // GET TOKEN FROM PASSWORD ========
     // ================================
     app.get('/v2/users/token', api.token.getTokenFromPassword, errorHandler);
+    app.post('/v2/users/token', api.token.getTokenFromPassword, errorHandler);
 
     /**
     * @api {post} /v2/users/token/refresh Refresh access token

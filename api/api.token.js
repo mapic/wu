@@ -89,7 +89,8 @@ module.exports = api.token = {
 
 	// route: get access token from password
 	getTokenFromPassword : function (req, res, next) {
-		api.token._get_token_from_password(req.query || {}, function (err, tokens) {
+		var options = !_.isEmpty(req.query) ? req.query : req.body;
+		api.token._get_token_from_password(options, function (err, tokens) {
 			if (err) {
 				return next(err);
 			}
@@ -104,6 +105,7 @@ module.exports = api.token = {
 
 	// get access token from password
 	_get_token_from_password : function (options, done) {
+
 		// details
 		var ops = [];
 		var username = options.username || options.email;

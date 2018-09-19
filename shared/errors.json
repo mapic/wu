@@ -1,6 +1,6 @@
 {
     "missing_information": {
-        "errorMessage": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+        "errorMessage": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
         "code": "400"
     },
     "no_such_project": {

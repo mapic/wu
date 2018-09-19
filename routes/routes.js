@@ -815,6 +815,11 @@ module.exports = function(app) {
     app.post('/v2/users/invite/project', checkAccess, analyticsHandler, api.project.addInvites, errorHandler);
 
 
+    // list users
+    app.get('/v2/users/list', checkAccess, api.user.listUsers, errorHandler);
+
+    
+
     /**
     * @api {post} /v2/hashes Set project hash
     * @apiName Set hash

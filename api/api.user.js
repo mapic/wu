@@ -42,6 +42,31 @@ var api = module.parent.exports;
 // exports
 module.exports = api.user = { 
 
+    listUsers : function (req, res) {
+
+        const noAccessMessage = {error : 'Unathorized access. Ask your colleague to give you more privileges.'};
+
+        if (!req.user) {
+            res.status(400);
+            return res.send(noAccessMessage);
+        }
+
+        // only super users allowed
+        if (!req.user.access.super) {
+            res.status(400);
+            return res.send(noAccessMessage);
+        }
+
+        User.find()
+        .exec(function (err, users) {
+            if (err) return res.send(err);
+            res.send(users);
+        });
+
+    },
+
+    
+
 
     ensureAdminUser : function (done) {
 
@@ -58,7 +83,7 @@ module.exports = api.user = {
 
             // create mapic-admin user
             var user = new User();
-            var password = 'localhost-password';
+            var password = uuid.v4();
             user.uuid = 'user-' + uuid.v4();
             user.local.email = 'localhost@mapic.io';
             user.local.password = user.generateHash(password);

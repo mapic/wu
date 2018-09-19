@@ -46,7 +46,7 @@ module.exports = api.error = {
 	invalidAccessToken : function (req, res) {
 		res.status(403).send({ 
 			error : "Invalid access token.",
-			description : "Check out https://docs.systemapic.com/ for details on the API."
+			description : "Check out https://github.com/mapic/mapic for details on the API."
 		});
 		api.error.log('Invalid access token.');
 	},
@@ -54,7 +54,7 @@ module.exports = api.error = {
 	unauthorized : function (req, res) {
 		res.status(403).send({ 
 			error : "Your request was not authorized.",
-			description : "Check out https://docs.systemapic.com/ for details on the API."
+			description : "Check out https://github.com/mapic/mapic for details on the API."
 		});
 
 		api.error.log('unauthorized');
@@ -63,7 +63,7 @@ module.exports = api.error = {
 	missingInformation : function (req, res) {
 		console.log('api.error.missingInformation');
 		
-		var message = 'Missing information. Check out https://docs.systemapic.com/ for details on the API.';
+		var message = 'Missing information. Check out https://github.com/mapic/mapic for details on the API.';
 
 		res.status(400).json({ 
 			error : message 
@@ -127,7 +127,6 @@ module.exports = api.error = {
 		api.slack._send({
 			text : text,
 			channel : api.config.slack.errorChannel,
-			icon : 'http://systemapic.com/wp-content/uploads/systemapic-color-logo-circle-error.png'
 		});
 
 		// todo: slack, ga.js, local log, etc.
@@ -154,7 +153,6 @@ module.exports = api.error = {
 		api.slack._send({
 			text : text,
 			channel : api.config.slack.errorChannel,
-			icon : 'http://systemapic.com/wp-content/uploads/systemapic-color-logo-circle-error.png'
 		});
 		res && res.send(); // no feedback
 	},

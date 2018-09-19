@@ -89,7 +89,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['name']
@@ -120,7 +120,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['project_id']
@@ -164,7 +164,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['username', 'project_slug']
@@ -220,7 +220,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['project_id', 'user_access_token']
@@ -244,7 +244,7 @@ module.exports = function(app) {
     * {
     *   "status": {
     *     "versions": {
-    *       "systemapic_api": "1.3.5",
+    *       "mapic_api": "1.3.5",
     *       "postgis": "POSTGIS=2.1.7 r13414 GEOS=3.4.2-CAPI-1.8.2 r3921 PROJ=Rel. 4.8.0, 6 March 2012 GDAL=GDAL 1.10.1, released 2013/08/26 LIBXML=2.9.1 LIBJSON=UNKNOWN TOPOLOGY RASTER",
     *       "postgres": "PostgreSQL 9.3.9 on x86_64-unknown-linux-gnu, compiled by gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2, 64-bit",
     *       "mongodb": "3.2.1",
@@ -279,7 +279,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['username and email', 'password']
@@ -536,7 +536,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['file_id']
@@ -660,7 +660,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['project_id']
@@ -736,7 +736,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['access', 'project']
@@ -791,7 +791,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['access', 'project']
@@ -818,7 +818,7 @@ module.exports = function(app) {
     // list users
     app.get('/v2/users/list', checkAccess, api.user.listUsers, errorHandler);
 
-    
+
 
     /**
     * @api {post} /v2/hashes Set project hash
@@ -856,7 +856,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['project_id', 'saveState', 'hash', 'hash.position', 'hash.layers', 'hash.id']
@@ -899,7 +899,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['project_id', 'id']
@@ -943,7 +943,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['image_id', 'resumableIdentifier']
@@ -1255,7 +1255,7 @@ module.exports = function(app) {
     * @apiErrorExample {json} Error-Response:
     * Error 422: Missing type parameter or database_name and table_name for postgis type
     * {
-    *    "error": "Missing information. Check out https://docs.systemapic.com/ for details on the API."
+    *    "error": "Missing information. Check out https://github.com/mapic/mapic for details on the API."
     * }
     * @apiError {json} Missing required fields. (422)
     * @apiErrorExample {json} Error-Response:
@@ -1296,7 +1296,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['users', 'dataset']
@@ -1367,7 +1367,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['file_id']
@@ -1379,7 +1379,7 @@ module.exports = function(app) {
     * Error 404: Not found
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "404"
     *   }
     * }
@@ -1457,7 +1457,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['file_id', 'project_id']
@@ -1507,7 +1507,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['layer_id', 'project_id']
@@ -1562,7 +1562,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['project']
@@ -1699,7 +1699,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['layer']
@@ -1750,7 +1750,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['layer_id', 'file_id']
@@ -1851,7 +1851,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['uuid']
@@ -1936,7 +1936,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ["username", "firstname", "lastname", "email", "password"]
@@ -1952,6 +1952,7 @@ module.exports = function(app) {
     // =====================================
     app.post('/v2/users/delete', checkAccess, api.user.deleteUser, errorHandler);
 
+    app.post('/v2/users/promote', checkAccess, api.user.promote, errorHandler);
 
 
     app.post('/v2/layers/getLayer', checkAccess, api.layer.getLayer, errorHandler);
@@ -1973,7 +1974,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['email']
@@ -2003,7 +2004,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['username']
@@ -2034,7 +2035,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['emails', 'customMessage', 'access']
@@ -2079,7 +2080,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['invite_token']
@@ -2119,7 +2120,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['contact']
@@ -2178,7 +2179,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['user']
@@ -2200,13 +2201,13 @@ module.exports = function(app) {
     * @apiParam {Object} access Access object
     * @apiSuccess {String} link Invite link
     * @apiSuccessExample {json} Success-Response:
-    * https://dev3.systemapic.com/invite/7Tf7Bc8
+    * https://maps.mapic.io/invite/7Tf7Bc8
     * @apiError {json} Bad_request access does not exist in request body (400)
     * @apiErrorExample {json} Error-Response:
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['access']
@@ -2235,7 +2236,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['email']
@@ -2275,7 +2276,7 @@ module.exports = function(app) {
     * Error 400: Bad request
     * {
     *    "error": {
-    *       "message": "Missing information. Check out https://docs.systemapic.com/ for details on the API.",
+    *       "message": "Missing information. Check out https://github.com/mapic/mapic for details on the API.",
     *       "code": "400",
     *       "errors": {
     *           "missingRequiredFields": ['token', 'password']

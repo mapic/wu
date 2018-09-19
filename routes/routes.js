@@ -1955,6 +1955,14 @@ module.exports = function(app) {
     app.post('/v2/users/promote', checkAccess, api.user.promote, errorHandler);
 
 
+
+
+
+
+
+
+
+
     app.post('/v2/layers/getLayer', checkAccess, api.layer.getLayer, errorHandler);
 
     /**

@@ -36,6 +36,10 @@ var mapnikOmnivore = require('mapnik-omnivore');
 var errors = require('../shared/errors');
 var httpStatus = require('http-status');
 
+const noAccessMessage = {error : 'Unathorized access. Ask your colleague to give you more privileges.'};
+const errorMessage = {error : 'Something went wrong. See https://github.com/mapic/mapic for more information or reporting issues.'};
+const noUserMessage = {error : 'No such user exists.'};
+
 // api
 var api = module.parent.exports;
 
@@ -43,8 +47,6 @@ var api = module.parent.exports;
 module.exports = api.user = { 
 
     listUsers : function (req, res) {
-
-        const noAccessMessage = {error : 'Unathorized access. Ask your colleague to give you more privileges.'};
 
         if (!req.user) {
             res.status(400);
@@ -65,7 +67,52 @@ module.exports = api.user = {
 
     },
 
-    
+    promote : function (req, res, next) {
+
+        var options = req.body;
+        var email = options.email;
+
+        // not authenticated
+        if (!req.user) {
+            res.status(400);
+            return res.send(noAccessMessage);
+        }
+
+        // only super users allowed
+        if (!req.user.access.super) {
+            res.status(400);
+            return res.send(noAccessMessage);
+        }
+
+        User
+        .findOne({'local.email' : email})
+        .exec(function (err, user) {
+            if (err) {
+                res.status(400);
+                return res.send(errorMessage);
+            }
+            if (!user) {
+                res.status(400);
+                return res.send(noUserMessage);
+            }
+
+            // mark super
+            user.access.super = true;
+
+            // save
+            user.save(function (err) {
+                if (err) {
+                    res.status(400);
+                    return res.send(errorMessage);
+                }
+
+                res.send(user);
+
+            });
+
+        });
+
+    },
 
 
     ensureAdminUser : function (done) {

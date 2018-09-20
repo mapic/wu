@@ -84,6 +84,8 @@ module.exports = api.email = {
 		// var inviter = req.user.firstName + req.user.lastName;
 		// todo: SSL
 
+		console.log('sendPasswordResetEmail', user);
+
 		var name           = user.firstName + ' ' + user.lastName;
 		var email          = user.getEmail();
 		var token          = api.auth.setPasswordResetToken(user);

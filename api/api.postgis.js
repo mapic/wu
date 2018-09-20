@@ -505,10 +505,12 @@ module.exports = api.postgis = {
         if (!prj) return done(null, false);
 
         fs.readFile(prj, function (err, prj4) {
+            if (err || !prj4) return api.postgis._fetchSrid(prj4, done);
+            
             var srid = srs.parse(prj4);
 
             // if failed, ask boundlessgeo (fml)
-            if (err || !srid.srid) return api.postgis._fetchSrid(prj4, done);
+            if (!srid.srid) return api.postgis._fetchSrid(prj4, done);
 
             done(err, srid.srid);
         });

@@ -46,6 +46,10 @@ module.exports = api.token = {
 	// middleware for routes
 	authenticate : function (req, res, next) {
 		var access_token = req.body.access_token || req.query.access_token;
+		
+		if (!access_token || access_token == "undefined") {
+			console.log('undefined access_token! typeof req.body', typeof req.body, typeof req.query);
+		}
 		api.token._authenticate(access_token, function (err, user) {
 			if (err) {
 				return next({
@@ -70,7 +74,7 @@ module.exports = api.token = {
 		var access_token = req.data.access_token;	
 		api.token._authenticate(access_token, function (err, user) {
 			if (err) return done(err);
-			if (!user) return done(new Error('Invalid access token.'));
+			if (!user) return done(new Error('Invalid access token: ' + access_token));
 			done(null, user);
 		});
 	},
@@ -80,7 +84,7 @@ module.exports = api.token = {
 		// verify access_token
 		api.token.check(access_token, function (err, user) {
 			if (err) return done(err);
-			if (!user) return done(new Error('Invalid access token.'));
+			if (!user) return done(new Error('Invalid access token: ' + access_token));
 			User
 			.findOne({_id : user._id})
 			.exec(done);
@@ -111,7 +115,6 @@ module.exports = api.token = {
 		var username = options.username || options.email;
 		var password = options.password;
 		var missingRequiredFields = [];
-
 
 		if (!username) {
 			missingRequiredFields.push('username or email');
@@ -187,6 +190,7 @@ module.exports = api.token = {
 				api.token.createToken(user, function (err, access_token) {
 					done(err, JSON.stringify(access_token));
 				});
+				
 			} else {
 				// return token
 				done(null, access_token);
@@ -287,15 +291,15 @@ module.exports = api.token = {
 	// check if access token is valid
 	check : function (access_token, done) {
 		api.redis.tokens.get(access_token, function (err, token) {
-			if (err) return done(new Error('Invalid access token.'));
-			if (!token) return done(new Error('Invalid access token.'));
+			if (err) return done(new Error('Invalid access token: ' + access_token));
+			if (!token) return done(new Error('Invalid access token: ' + access_token));
 
 			var stored_token = api.utils.parse(token);
 
 			User
 			.findOne({_id : stored_token.user_id})
 			.exec(function (err, user) {
-				if (err || !user) return done(new Error('Invalid access token.'));
+				if (err || !user) return done(new Error('Invalid access token: ' + access_token));
 				done(null, user);
 			});
 		});
@@ -380,6 +384,7 @@ module.exports = api.token = {
 	// utils
 	calculateExpirationDate : function (duration) {
 		var duration = duration || api.config.token.expiresIn;
+		var expiration = new Date(new Date().getTime() + (duration * 1000));
 		return new Date(new Date().getTime() + (duration * 1000));
 	},
 	generateToken : function (len) {

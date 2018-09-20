@@ -1059,8 +1059,6 @@ module.exports = api.postgis = {
             exec(cmd, {maxBuffer: 1024 * 50000}, function (err, stdout) {
                 if (err) console.log('err: ', err);
 
-                console.log('import raster, stdout: ', stdout);
-
                 var endTime = new Date().getTime();
 
                 // set err on upload status

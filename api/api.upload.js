@@ -78,13 +78,15 @@ module.exports = api.upload = {
 		console.log('=====================');
 		console.log('api.upload.upload');
 
+		// console.log('req:', req)
+
 		if (!req.files || !req.files.data) {
 			console.log('MISSING FILES!!!');
 			console.log('MISSING FILES!!!');
 			console.log('MISSING FILES!!!');
 			console.log('MISSING FILES!!!');
 			console.log('MISSING FILES!!!');
-			return api.error.missingInformation(res, 'Missing file.');
+			return api.error._missingInformation(res, 'Missing files. Please add data using FORM parameter.');
 		}
 		
 		var files = req.files;

@@ -34,7 +34,11 @@ module.exports = function () {
 
     console.log('Error: ', err);
 
-    slackMessage.text = util.format("Error in request: %s with body %s", req.originalUrl || slackMessage.action, JSON.stringify(req.body));
+    var body = JSON.stringify(req.body);
+    if (_.size(body) > 1000) body = 'No large to display';
+    slackMessage.text = util.format("Error in request: %s with body %s", req.originalUrl || slackMessage.action, body);
+
+
     console.log("SLACKMESSAGE: ", slackMessage.text);
     api.slack._send(slackMessage);
 

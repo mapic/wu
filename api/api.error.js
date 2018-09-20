@@ -72,6 +72,17 @@ module.exports = api.error = {
 		api.error.log(message);
 	},
 
+	_missingInformation : function (res, message) {
+
+		var message = message || 'Missing information. Check out https://github.com/mapic/mapic for details on the API.';
+
+		res.status(400).json({ 
+			error : message 
+		});
+		
+		api.error.log(message);
+	},
+
 	general : function (req, res, err) {
 		console.log('api.error.general:', err, api.error.pretty(err));
 

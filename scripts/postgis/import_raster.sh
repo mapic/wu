@@ -25,9 +25,23 @@ TILESIZE="128x128"
 
 # import raster
 set -o pipefail # needed to get an error if raster2pgsql errors out
+# raster2pgsql \
+# 	-s 3857 -I -C -Y \
+# 	-t ${TILESIZE} \
+#     -l 4,32,128 \
+# 	${RASTERFILE} $TABLENAME |
+# 	psql -q --set ON_ERROR_STOP=1
+
+# debugging
+# raster2pgsql \
+#     -s 3857 -I -C -Y \
+#     -l 4,32,128 \
+#     ${RASTERFILE} $TABLENAME |
+#     psql -q --set ON_ERROR_STOP=1
+
+
+echo "raster2pgsql without tileize etc"
 raster2pgsql \
-	-s 3857 -I -C -Y \
-	-t ${TILESIZE} \
-    -l 4,32,128 \
-	${RASTERFILE} $TABLENAME |
-	psql -q --set ON_ERROR_STOP=1
+    -s 3857 -I -C -Y \
+    ${RASTERFILE} $TABLENAME |
+    psql -q --set ON_ERROR_STOP=1

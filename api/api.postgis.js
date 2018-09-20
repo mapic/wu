@@ -44,6 +44,7 @@ var proj4 = require('proj4');
 var gdal = require('gdal');
 
 var debug = process.env.MAPIC_DEBUG;
+var debug = true;
 
 
 // error messages
@@ -1055,8 +1056,10 @@ module.exports = api.postgis = {
 
             // import to postgis
             var startTime = new Date().getTime();
-            exec(cmd, {maxBuffer: 1024 * 50000}, function (err) {
+            exec(cmd, {maxBuffer: 1024 * 50000}, function (err, stdout) {
                 if (err) console.log('err: ', err);
+
+                console.log('import raster, stdout: ', stdout);
 
                 var endTime = new Date().getTime();
 

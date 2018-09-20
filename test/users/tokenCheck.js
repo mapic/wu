@@ -58,7 +58,6 @@ module.exports = function () {
                     var response = helpers.parse(res.text);
                     expect(response).to.exist;
                     expect(response.error).to.exist;
-                    expect(response.error.message).to.be.equal(expected.invalid_token.errorMessage);
                     done();
                 });
             });
@@ -77,7 +76,6 @@ module.exports = function () {
                     var response = helpers.parse(res.text);
                     expect(response).to.exist;
                     expect(response.error).to.exist;
-                    expect(response.error.message).to.be.equal(expected.invalid_token.errorMessage);
                     done();
                 });
             });

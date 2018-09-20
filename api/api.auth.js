@@ -44,7 +44,7 @@ var api = module.parent.exports;
 module.exports = api.auth = { 
 
 	forgotPassword : function (req, res) {
-		console.log('Forgot password');
+		console.log('Forgot password', req.body);
 
 		// get email
 		var email = req.body.email;

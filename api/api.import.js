@@ -27,14 +27,12 @@ var dive 	= require('dive');
 var async 	= require('async');
 var carto 	= require('carto');
 var crypto      = require('crypto');
-var fspath 	= require('path');
 var request 	= require('request');
 var nodepath    = require('path');
 var formidable  = require('formidable');
 var nodemailer  = require('nodemailer');
 var uploadProgress = require('node-upload-progress');
 var mapnikOmnivore = require('mapnik-omnivore');
-
 var ZipInfo = require('infozip');
 
 // resumable.js
@@ -59,6 +57,39 @@ module.exports = api.import = {
 		var use_sockets = options.use_sockets;
 		var addToProject = options.addToProject;
 		var ops = [];
+
+		console.log('api.import.import, uploadStatus', uploadStatus);
+
+		// delete last chunk, so that in case of 
+		// processing error, only last chunk needs
+		// to be uploaded; plus fixes trapped upload bug
+		ops.push(function (callback) {
+
+			var uniqueIdentifier = uploadStatus.uniqueIdentifier;
+			dir.files('/data/tmp', function(err, files) {
+			    if (err) console.log(err);
+				console.log(files);
+
+				var count = 0;
+
+				_.each(files, function (f) {
+					if (_.includes(f, uniqueIdentifier)) {
+						count++;
+					}
+				});
+
+				console.log('count:', count);
+
+				var lastChunkName = 'resumable-' + uniqueIdentifier + '.' + count;
+				var lastChunkPath = '/data/tmp/' + lastChunkName;
+				fs.unlink(lastChunkPath, function (err) {
+					if (err) console.log(err);
+					callback();
+				});
+
+			});
+
+		});
 
 		// import data
 		ops.push(function (callback) {
@@ -233,6 +264,8 @@ module.exports = api.import = {
 		var temporaryPath = files.data.path; // get path
 		var ext = temporaryPath.split('.').reverse()[0].trim(); // get file extension
 		var ops = [];
+
+		console.log('files:', files);
 
 		// set original filename + size
 		options.size = files.data.size;

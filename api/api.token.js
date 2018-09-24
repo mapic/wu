@@ -233,6 +233,8 @@ module.exports = api.token = {
 	// route: check if existing session, returns tokens only
 	checkSession : function (req, res, next) {
 
+		console.log('checkSession!!');
+
 		var ops = [];
 
 		// check for access_token in session
@@ -345,10 +347,10 @@ module.exports = api.token = {
 
 	getPublicUser : function (done) {
 		User
-		.findOne({uuid : 'mapic-public'})
+		.findOne({'local.email' : 'public@mapic.io'})
 		.exec(function (err, public_user) {
 			if (err) return done(err);
-			if (!public_user) return api.token.createPublicUser(done);
+			if (_.isEmpty(public_user)) return api.token.createPublicUser(done);
 			done(null, public_user);
 		});
 	},
@@ -357,11 +359,21 @@ module.exports = api.token = {
 	// have init here than in external scripts
 	createPublicUser : function (done) {
 
+		console.log('##################');
+		console.log('##################');
+		console.log('##################');
+		console.log(' CREATED PUBLIC USER ');
+		console.log('##################');
+		console.log('##################');
+		console.log('##################');
+
+
+
 		// create the user
 		var public_user	= new User();
 		public_user.local.email = 'public@mapic.io';
 		public_user.local.password = 'mapic-public';
-		public_user.uuid = 'mapic-public';
+		public_user.uuid = 'user-' + uuid.v4();
 		public_user.username = 'public';
 		public_user.firstName = 'Mapic';
 		public_user.lastName = 'Public';

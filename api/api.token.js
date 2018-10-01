@@ -348,6 +348,7 @@ module.exports = api.token = {
 	getPublicUser : function (done) {
 		User
 		.findOne({'local.email' : 'public@mapic.io'})
+		// .findOne({uuid: 'mapic-public'})
 		.exec(function (err, public_user) {
 			if (err) return done(err);
 			if (_.isEmpty(public_user)) return api.token.createPublicUser(done);
@@ -374,6 +375,7 @@ module.exports = api.token = {
 		public_user.local.email = 'public@mapic.io';
 		public_user.local.password = 'mapic-public';
 		public_user.uuid = 'user-' + uuid.v4();
+		// public_user.uuid = 'mapic-public';
 		public_user.username = 'public';
 		public_user.firstName = 'Mapic';
 		public_user.lastName = 'Public';

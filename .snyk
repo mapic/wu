@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.8.0
+version: v1.13.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -48,6 +48,8 @@ patch:
         patched: '2017-11-07T09:36:47.615Z'
     - express.oi > socket.io > socket.io-client > engine.io-client > debug > ms:
         patched: '2017-11-07T09:36:47.615Z'
+    - grunt-contrib-watch > tiny-lr > body-parser > debug > ms:
+        patched: '2018-12-08T22:32:59.998Z'
   'npm:debug:20170905':
     - gm > debug:
         patched: '2017-11-07T09:36:47.615Z'
@@ -67,6 +69,8 @@ patch:
         patched: '2017-11-07T09:36:47.615Z'
     - express.oi > socket.io > debug:
         patched: '2017-11-07T09:36:47.615Z'
+    - grunt-contrib-watch > tiny-lr > body-parser > debug:
+        patched: '2018-12-08T22:32:59.998Z'
   'npm:negotiator:20160616':
     - express.io > express > connect > negotiator:
         patched: '2017-11-07T09:36:47.615Z'
@@ -82,3 +86,68 @@ patch:
   'npm:ws:20160104':
     - express.io > socket.io > socket.io-client > ws:
         patched: '2017-11-07T11:07:03.266Z'
+  'npm:hoek:20180212':
+    - grunt-chokidar > chokidar > fsevents > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > hawk > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - grunt-chokidar > chokidar > fsevents > node-pre-gyp > hawk > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > hawk > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - srs > gdal > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - srs > gdal > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - srs > gdal > node-pre-gyp > request > hawk > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > request > hawk > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - documentation > chokidar > fsevents > node-pre-gyp > hawk > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - documentation > chokidar > fsevents > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - srs > gdal > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - grunt-chokidar > chokidar > fsevents > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - documentation > chokidar > fsevents > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - srs > gdal > node-pre-gyp > hawk > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > request > hawk > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - srs > gdal > node-pre-gyp > request > hawk > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > request > hawk > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - srs > gdal > node-pre-gyp > request > hawk > sntp > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > request > hawk > sntp > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > gdal > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > request > hawk > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > request > hawk > sntp > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - documentation > chokidar > fsevents > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - grunt-chokidar > chokidar > fsevents > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - srs > gdal > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'
+    - mapnik-omnivore > srs > gdal > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-12-08T22:32:59.998Z'

@@ -382,6 +382,7 @@ module.exports = api.layer = {
                 'style',
                 'filter',
                 'legends',
+                'legend',
                 'opacity',
                 'zIndex',
                 'data',

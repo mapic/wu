@@ -61,6 +61,7 @@ var layerSchema = mongoose.Schema({
             meta    : String, 
             options : String,       // extra options
         },
+        tile_service : String,
 
         postgis : {
             sql                 : String,

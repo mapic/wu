@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.8.0
+version: v1.12.0
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -82,3 +82,6 @@ patch:
   'npm:ws:20160104':
     - express.io > socket.io > socket.io-client > ws:
         patched: '2017-11-07T11:07:03.266Z'
+  'npm:lodash:20180130':
+    - redis-info > lodash:
+        patched: '2018-07-02T21:57:23.418Z'

@@ -84,6 +84,10 @@ module.exports = api.socket = {
 		// get socket
 		var socket = api.socket.getSocket(options);
 
+		console.log('api.socket: downloadReady')
+		console.log('socket: ', socket);
+		console.log('options: ', options);
+
 		// send to user
 		socket && socket.emit('downloadReady', options.status);
 	},

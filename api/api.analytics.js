@@ -44,6 +44,8 @@ var api = module.parent.exports;
 // exports
 module.exports = api.analytics = {
 
+
+	// receives app.Socket.send('analytics', options); from client
 	event : function (req) {
 
 		var data = req.data;

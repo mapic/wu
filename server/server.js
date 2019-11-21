@@ -115,7 +115,7 @@ console.report = function (msg, event, user) {
 	console.log(msg);
 	api.slack.userEvent({
 		user : user || 'pre-auth',
-		event : event || 'error',
+		event : '[server] ' + event || 'error',
 		description : msg
 	})
 }

@@ -110,27 +110,60 @@ function connect_to_mongo (done) {
 	});
 }
 
+
+console.report = function (msg, event, user) {
+	console.log(msg);
+	api.slack.userEvent({
+		user : user || 'pre-auth',
+		event : event || 'error',
+		description : msg
+	})
+}
+
 // helper fn
 function socket_auth_middleware (socket, next) {
 	try {
-		if (!socket || !socket.headers || !socket.headers.cookie) return next(new Error('No socket, fatal.'));
+		if (!socket || !socket.headers || !socket.headers.cookie) {
+			console.report('Socket error #1: No socket...', 'error');
+			return next(new Error('No socket, fatal.'));
+		}
 		var c = socket.headers.cookie;
 		var session_cookie_raw = _.find(c.split('; '), function (sc) { return _.includes(sc, 'session'); });
-		if (!session_cookie_raw) return next(new Error('No session.'));
+		if (!session_cookie_raw) {
+			console.report('Socket error #2: No session...', 'error');
+			return next(new Error('No session.'));
+		}
 		var session_cookie = session_cookie_raw.split('=')[1];
-		if (!session_cookie) return next(new Error('No session.'));
+		if (!session_cookie) {
+			console.report('Socket error #3: No session...', 'error');
+			return next(new Error('No session.'));
+		}
 		var decoded_cookie = clientSession.util.decode(sessionOptions, session_cookie);
-		if (!decoded_cookie) return next(new Error('Invalid access token.'));
+		if (!decoded_cookie) {
+			console.report('Socket error #4: Invalid access token...', 'error');
+			return next(new Error('Invalid access token.'));
+		}
 		var tokens = decoded_cookie.content ? decoded_cookie.content.tokens : false;
-		if (!tokens || !tokens.access_token) return next(new Error('Invalid access token.')); // public will fail here, returns 500...
+		if (!tokens || !tokens.access_token) {
+			console.report('Socket error #5: Invalid access token...', 'error');
+			return next(new Error('Invalid access token.')); // public will fail here, returns 500...
+		}
+
+		// authenticate 
 		api.token._authenticate(tokens.access_token, function (err, user) {
+			if (err) console.report('Socket error #6: ' + err, 'error');
 			if (err) return next(err);
+
+			// all good
 			socket.session = socket.session || {};
 			socket.session.user_id = user._id;
+			console.report('Socket auth OK.', 'success', user.username);
 			next();
 		});
+
+	// catch other errors
 	} catch (e) {
-		console.log('error ->');
+		console.report('Socket error #7:' + e);
 		console.log(e);
 		next(new Error('Something went wrong.'));
 	}

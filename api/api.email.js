@@ -40,7 +40,7 @@ var api = module.parent.exports;
 
 api.config.skipMail = api.config.skipMail || {};
 
-console.log('api.config:', api.config);
+// console.log('api.config:', api.config);
 
 // exports
 module.exports = api.email = { 

@@ -88,8 +88,17 @@ module.exports = api.socket = {
 		console.log('socket: ', socket);
 		console.log('options: ', options);
 
+		api.slack.userEvent({
+			user : options.user ? options.user.username : 'pre-auth',
+			event : '[server] ' + 'socket:downloadReady',
+			description : JSON.stringify(options.status)
+		});
+
+  	
 		// send to user
-		socket && socket.emit('downloadReady', options.status);
+		if (socket) {
+			socket.emit('downloadReady', options.status);
+		} 
 	},
 
 	uploadDone : function (options) {
@@ -185,20 +194,57 @@ module.exports = api.socket = {
 
 	_getSocket : function (userId) {
 		var session = api.socket._getSession(userId);
+		
+
+		console.log('_getSocket, userId:', userId);
+		console.log('_getSocket, session:', session);
+
+
+
 		if (!session) return;
 		var sock = api.app.io.sockets.sockets[session];
+		
+
+
 		if (!sock) return;
 		return sock;
 	},
 
 	_getSession : function (userId) {
-		var session = _.findKey(api.app.io.handshaken, function (s) {
-			if (!s || !s.session || !s.session.user_id || !userId) return false;
 
+
+		// legacy
+		// var session = _.findKey(api.app.io.handshaken, function (s) {
+		// 	if (!s || !s.session || !s.session.user_id || !userId) return false;
+		// 	return (s.session.user_id.toString() === userId.toString());
+		// });
+		// return session;
+
+
+		// new:
+		// get only latest socket
+		_.each(api.app.io.handshaken, function (value, key) {
+			api.app.io.handshaken[key].session_key_mapic = key;
+		});
+
+		var sessions = _.filter(api.app.io.handshaken, function (s) {
+			if (!s || !s.session || !s.session.user_id || !userId) return false;
 			return (s.session.user_id.toString() === userId.toString());
 		});
-		return session;
+
+		var latest = _.maxBy(sessions, function(s) { 
+			var date_time = new Date(s.time).getTime();
+		  	return date_time;
+		});
+
+		console.log('found latest session:', latest.session_key_mapic);
+
+		// return session;
+		return latest.session_key_mapic;
 	},
+
+
+
 
 	setProcessing : function (process) {
 		api.socket._processing[process.fileUuid] = process;

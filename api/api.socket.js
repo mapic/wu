@@ -194,14 +194,13 @@ module.exports = api.socket = {
 
 	_getSocket : function (userId) {
 		var session = api.socket._getSession(userId);
+		if (!session) return;
 		
 
 		console.log('_getSocket, userId:', userId);
 		console.log('_getSocket, session:', session);
 
 
-
-		if (!session) return;
 		var sock = api.app.io.sockets.sockets[session];
 		
 
@@ -236,6 +235,8 @@ module.exports = api.socket = {
 			var date_time = new Date(s.time).getTime();
 		  	return date_time;
 		});
+
+		if (!latest) return false;
 
 		console.log('found latest session:', latest.session_key_mapic);
 

@@ -178,6 +178,76 @@ module.exports = api.token = {
 
 	},
 
+	createLongToken : function (req, res, next) {
+
+		// details
+		var options = !_.isEmpty(req.query) ? req.query : req.body;
+		var username = options.username || options.email;
+		var password = options.password;
+		var ttl = options.ttl || 31556952; // 1 year
+
+		if (!username || !password) {
+			return res.send({error : 'Please provide USERNAME and PASSWORD query parameters'})
+		}
+
+		var token = {
+			access_token : 'pk.' + api.token.generateToken(40),
+			expires : api.token.calculateExpirationDate(ttl),
+			token_type : 'multipass'
+		};
+
+		User.findOne({$or : [{'local.email' : username}, {username : username}]}).exec(function (err, user) {
+
+			// no user
+			if (!user) {
+				return res.send({error : 'Please provide valid user credentials...'});
+			}
+
+			// check password
+			if (!user.validPassword(password)) {
+				return res.send({error : 'Please provide valid user credentials.'});
+			}
+
+			// save token
+			api.token.set({
+				user : user,
+				token : token
+			}, function (err) {
+
+				res.send({
+					status : 'success', 
+					token : token
+				});
+
+			});
+			
+		});
+
+	},
+
+	destroyLongToken : function (req, res, next) {
+
+		// details
+		var options = !_.isEmpty(req.query) ? req.query : req.body;
+		var ops = [];
+		var token = options.token || options.TOKEN;
+
+		if (!token) {
+			return res.send({error : 'Please provide a TOKEN query parameter'})
+		}
+
+		api.redis.tokens.del(token, function (err) {
+			res.send({
+				status : 'destroy', 
+				token : token,
+				err : err
+			});
+		});
+
+		
+
+	},
+
 	// should always return an access_token (get or create)
 	get_create_token : function (user, done) {
 		api.token.get(user, function (err, access_token) {
@@ -289,6 +359,8 @@ module.exports = api.token = {
 			done(err, token);
 		});
 	},
+
+	
 
 	// check if access token is valid
 	check : function (access_token, done) {

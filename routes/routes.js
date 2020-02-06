@@ -311,6 +311,9 @@ module.exports = function(app) {
     app.get('/v2/users/token', api.token.getTokenFromPassword, errorHandler);
     app.post('/v2/users/token', api.token.getTokenFromPassword, errorHandler);
 
+    app.get('/v2/users/token/create', api.token.createLongToken, errorHandler);
+    app.get('/v2/users/token/destroy', api.token.destroyLongToken, errorHandler);
+
     /**
     * @api {post} /v2/users/token/refresh Refresh access token
     * @apiName refresh_access_token

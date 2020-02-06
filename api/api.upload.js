@@ -449,6 +449,7 @@ module.exports = api.upload = {
 	_setStatusError : function (status, err) {
 	
 		// set error to upload status
+		status = status || {};
 		status.upload_success = false;
 		status.status = 'Failed';
 		status.error = true;

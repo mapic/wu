@@ -741,14 +741,35 @@ module.exports = api.postgis = {
                     error : true,
                     error_text : 'Encoding error. Try LATIN1.'
                 }, function (err) {
-                    // callback(err, 'Shapefile imported successfully.');
 
                     // safe guard, todo: catch more edge cases, make them work
                     done('Encoding error, use utf8.');
                 });
-
-
             }
+
+            if (stdin.indexOf('ERROR:')) {
+                // we have an error which will render dataset useless (yellow only)
+
+                var output = stdin.split('\n');
+                var error_line = _.find(output, function (o) {
+                    return _.includes(o, 'ERROR:'); // returns first line with error text
+                });
+                
+                // set error on status
+                return api.upload.updateStatus(file_id, {   // todo: set err if err
+                    data_type : 'vector',
+                    import_took_ms : endTime - startTime,
+                    table_name : file_id,
+                    database_name : pg_db,
+                    error : true,
+                    error_text : error_line
+                }, function (err) {
+
+                    // return error message to client
+                    done(error_line);
+                });
+            }
+
 
             var endTime = new Date().getTime();
 
@@ -759,9 +780,10 @@ module.exports = api.postgis = {
                 table_name : file_id,
                 database_name : pg_db
             }, function (err) {
-                // callback(err, 'Shapefile imported successfully.');
+                if (err) return done('Error: ' + err);
 
-                done(err, 'Shapefile imported successfully.');
+                // success
+                done(null, 'Shapefile imported successfully.');
             });
         });
 

@@ -555,6 +555,9 @@ module.exports = api.project = {
 
 		// default layer 
 		var layer = _.find(project.layers, function (l) {
+			
+			// use norkart aerial as default
+			return l.title == 'Norkart Aerial';
 
 			console.log('l.data ->', l.data);
 

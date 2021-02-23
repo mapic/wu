@@ -37,6 +37,11 @@ var layerSchema = mongoose.Schema({
     // data source for layer
     // mutually exclusive
     data : {
+        geojson7946 : {
+            geojson     : String,   // json
+            style       : String,   // styling, as json or function 
+            popup       : String,   // html string, content of properties.popup
+        },
         geojson     : String,       // file uuid, file saved on server - needs to be if over 4MB (mongodb limit)
         topojson    : String,       // file uuid ... // simply request, check auth, serve file.
         cartoid     : String,
@@ -51,10 +56,12 @@ var layerSchema = mongoose.Schema({
         cube        : String,
         graph       : String,
         wms         : {
-            source  : String,
-            layers  : [String],
-            meta    : String,
+            source  : String,       // source url
+            layers  : String,       // layers
+            meta    : String, 
+            options : String,       // extra options
         },
+        tile_service : String,
 
         postgis : {
             sql                 : String,

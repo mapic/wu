@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. `dirname $0`/run_in_docker.inc
+# . `dirname $0`/run_in_docker.inc
 
 if [ -z "$2" ]; then
   # TODO: also take schema and column !

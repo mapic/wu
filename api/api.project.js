@@ -551,11 +551,14 @@ module.exports = api.project = {
 
 	setDefaults : function (project, callback) {
 
+		console.log('project', project);
+
 		// default layer 
 		var layer = _.find(project.layers, function (l) {
 			
 			// use norkart aerial as default
 			return l.title == 'Norkart Aerial';
+
 
 			// mapbox, satellite, no labels
 			// return l.data.mapbox == 'systemapic.kcjonn12';

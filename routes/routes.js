@@ -1416,6 +1416,7 @@ module.exports = function(app) {
 
 
 
+    app.post('/v2/data/external', checkAccess, analyticsHandler, api.layer.getExternal, errorHandler); // todo: layer/layers !! make all same...
 
 
 

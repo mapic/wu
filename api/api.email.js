@@ -40,6 +40,8 @@ var api = module.parent.exports;
 
 api.config.skipMail = api.config.skipMail || {};
 
+// console.log('api.config:', api.config);
+
 // exports
 module.exports = api.email = { 
 
@@ -100,10 +102,10 @@ module.exports = api.email = {
 			body 	+= '{';
 			body 	+= '"@context":       "http://schema.org",';
 			body	+= '"@type":          "EmailMessage",';
-			body 	+= '"description":    "You have requested a password reset for Mapic.io. Reset your password now!",';
+			body 	+= '"description":    "You have requested a password reset. Reset your password now!",';
 			body 	+= '"potentialAction": {';
 			body 	+= '"@type": "ViewAction",';
-			body 	+= '"target":   "https://dev.mapic.io/login",';
+			body 	+= '"target":   "' + api.config.portalServer.uri + '",';
 			body	+= '"name": "Reset Password"';
 			body 	+= '},';
 			body 	+= '"publisher": ';
@@ -123,7 +125,7 @@ module.exports = api.email = {
 		    body    +=  '<td style="padding: 10px 0px 10px 0px;" class="logo">';
 		    body    +=  '<table border="0" cellpadding="0" cellspacing="0" width="100%">';
 		    body    +=  '<tr>';
-		    body    +=  '<td width="100" align="center"><a href="http://mapic.io/" target="_blank"><img alt="Logo" src="' + api.config.portalServer.uri + 'images/portal-logo.png' + '" style="display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
+		    body    +=  '<td width="100" align="center"><a href="#" target="_blank"><img alt="Logo" src="' + api.config.portalServer.uri + 'images/' + api.config.mail.templates.invited.logo + '" style="display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
 		    body    +=  '</tr>';
 			body    +=  '</table>';
 			body    +=  '</td>';
@@ -188,8 +190,8 @@ module.exports = api.email = {
 			body    +=  '<table width="500" border="0" cellspacing="0" cellpadding="10" align="center" class="responsive-table">';
 			body    +=  '<tr>';
 		    body    +=  '<td align="center" valign="middle" style="font-size: 12px; line-height: 18px; font-family: helvetica neue, helvetica, \'Open Sans\'; color:#313640; padding: 0px 0px 15px 0px;">';
-			body    +=  '<a class="appleFooter" style="color:#313640;" href="mailto:info@mapic.io">info@mapic.io</a><br>';
-			body    +=  '<a class="original-only" style="color: #313640; text-decoration: none; " href="http:/mapic.io">Powered by Mapic.io</a>';
+			// body    +=  '<a class="appleFooter" style="color:#313640;" href="mailto:info@mapic.io">info@mapic.io</a><br>';
+			// body    +=  '<a class="original-only" style="color: #313640; text-decoration: none; " href="http:/mapic.io">Powered by Mapic.io</a>';
 			body    +=  '</td>';
 			body    +=  '</tr>';
 			body    +=  '</table>';
@@ -250,7 +252,8 @@ module.exports = api.email = {
 			body += '<td style="padding: 10px 0px 10px 0px;" class="logo">';
 			body += '<table border="0" cellpadding="0" cellspacing="0" width="100%">';
 			body += '<tr>';
-			body += '<td width="100" align="center"><a href="http://mapic.io/" target="_blank"><img alt="Logo" src="' + api.config.portalServer.uri + 'images/portal-logo.png' + '" style="display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
+			// body += '<td width="100" align="center"><a href="http://mapic.io/" target="_blank"><img alt="Logo" src="' + api.config.portalServer.uri + 'images/portal-logo.png' + '" style="display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
+			body += '<td width="100" align="center"><a href="http://mapic.io/" target="_blank"><img alt="Logo" src="data:image/png;base64,' + api.config.logo_base64 + '" style="display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
 			body += '</tr>';
 			body += '</table>';
 			body += '</td>';
@@ -369,17 +372,17 @@ module.exports = api.email = {
 			body  += '{';
 			body  += '"@context":       "http://schema.org",';
 			body  += '"@type":          "EmailMessage",';
-			body  += '"description":    "Welcome to Mapic",';
+			body  += '"description":    "' + subject + '",';
 			body  += '"potentialAction": {';
 			body  += '"@type": "ViewAction",';
-			body  += '"target":   "http://mapic.io/",';
-			body  += '"name": "Your access details for Mapic"';
+			body  += '"target":   "' + api.config.portalServer.uri + '",';
+			body  += '"name": "' + title + '"';
 			body  += '},';
 			body  += '"publisher": ';
 			body  += '{';
 			body  += '"@type": "Organization",';
 			body  += '"name": "Mapic",';
-			body  += '"url": "http://mapic.io"';
+			body  += '"url": "' + api.config.portalServer.uri +'"';
 			body  += '}';
 			body  += '}';
 			body  += '</script>';
@@ -393,7 +396,7 @@ module.exports = api.email = {
 			body += '<table border="0" cellpadding="0" cellspacing="0" width="100%">';
 			body += '<tr>';
 			// body += '<td width="100" align="center"><a href="http://mapic.io/" target="_blank"><img alt="Logo" src="' + logo + '" style="display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
-			body += '<td width="100" align="center"><a href="http://mapic.io/" target="_blank"><div alt="Logo" style="background-image:' + api.config.portalServer.uri + 'images/portal-logo.png' + ';display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
+			body += '<td width="100" align="center"><a href="http://mapic.io/" target="_blank"><div alt="Logo" style="background-image:' + api.config.portalServer.uri + 'images/' + api.config.mail.templates.invited.logo + ';display: block; height: 100px; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
 			body += '</tr>';
 			body += '</table>';
 			body += '</td>';
@@ -435,6 +438,8 @@ module.exports = api.email = {
 			body += '</tr>';
 		body += '<tr>';
 			body += '<td align="center" style="padding: 0px 0px 25px 0px; font-size: 12px; line-height: 20px; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #313640;"><span style="font-style: italic;">';
+			body += '<a href="'+button_link+'" font-size: 10px">'+button_link+'</a>';
+			body += '<br><br>';
 			body += 'If you think you have received this email in error, <br>no further action is required.';
 			body += '</span>';
 			body += '</td>';
@@ -458,8 +463,8 @@ module.exports = api.email = {
 			body += '<table width="500" border="0" cellspacing="0" cellpadding="10" align="center" class="responsive-table">';
 			body += '<tr>';
 			body += '<td align="center" valign="middle" style="font-size: 12px; line-height: 18px; font-family: helvetica neue, helvetica, \'Open Sans\'; color:#313640; padding: 0px 0px 15px 0px;">';
-			body += '<a class="original-only" style="color: #313640; text-decoration: none; " href="http://mapic.io">Powered by Mapic.io</a><br>';
-			body += '<a class="appleFooter" style="color:#313640;" href="mailto:info@mapic.io">info@mapic.io</a>';
+			// body += '<a class="original-only" style="color: #313640; text-decoration: none; " href="http://mapic.io">Powered by Mapic.io</a><br>';
+			// body += '<a class="appleFooter" style="color:#313640;" href="mailto:info@mapic.io">info@mapic.io</a>';
 			body += '</td>';
 			body += '</tr>';
 			body += '</table>';
@@ -516,17 +521,17 @@ module.exports = api.email = {
 			body  += '{';
 			body  += '"@context":       "http://schema.org",';
 			body  += '"@type":          "EmailMessage",';
-			body  += '"description":    "Welcome to Mapic",';
+			body  += '"description":    "' + subject + '",';
 			body  += '"potentialAction": {';
 			body  += '"@type": "ViewAction",';
-			body  += '"target":   "http://mapic.io/",';
-			body  += '"name": "Your access details for Mapic"';
+			body  += '"target":   "' + api.config.portalServer.uri + '",';
+			body  += '"name": "' + title + '"';
 			body  += '},';
 			body  += '"publisher": ';
 			body  += '{';
 			body  += '"@type": "Organization",';
 			body  += '"name": "Mapic",';
-			body  += '"url": "http://mapic.io"';
+			body  += '"url": "' + api.config.portalServer.uri +'"';
 			body  += '}';
 			body  += '}';
 			body  += '</script>';
@@ -539,8 +544,7 @@ module.exports = api.email = {
 			body += '<td style="padding: 10px 0px 10px 0px;" class="logo">';
 			body += '<table border="0" cellpadding="0" cellspacing="0" width="100%">';
 			body += '<tr>';
-			// body += '<td width="100" align="center"><a href="http://mapic.io/" target="_blank"><div alt="Logo" style="background-image:' + bg_logo + ';display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
-			body += '<td width="100" align="center"><a href="http://mapic.io/" target="_blank"><img alt="Logo" src="' + api.config.portalServer.uri + 'images/portal-logo.png' + '" style="display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
+			body += '<td width="100" align="center"><a href="' + api.config.portalServer.uri + '" target="_blank"><img alt="Logo" src="' + api.config.portalServer.uri + 'images/' + api.config.mail.templates.invited.logo + '" style="display: block; height: 100px; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
 			body += '</tr>';
 			body += '</table>';
 			body += '</td>';
@@ -582,6 +586,8 @@ module.exports = api.email = {
 			body += '</tr>';
 		body += '<tr>';
 			body += '<td align="center" style="padding: 0px 0px 25px 0px; font-size: 12px; line-height: 20px; font-family: \'Open Sans\', helvetica neue, helvetica; color: #313640;"><span style="font-style: italic;">';
+			body += '<a href="'+button_link+'" font-size: 10px">'+button_link+'</a>';
+			body += '<br><br>';
 			body += 'If you think you have received this email in error, <br>no further action is required.';
 			body += '</span>';
 			body += '</td>';
@@ -605,8 +611,8 @@ module.exports = api.email = {
 			body += '<table width="500" border="0" cellspacing="0" cellpadding="10" align="center" class="responsive-table">';
 			body += '<tr>';
 			body += '<td align="center" valign="middle" style="font-size: 12px; line-height: 18px; font-family: helvetica neue, helvetica, \'Open Sans\'; color:#313640; padding: 0px 0px 15px 0px;">';
-			body += '<a class="original-only" style="color: #313640; text-decoration: none; " href="http://mapic.io">Powered by Mapic.io</a><br>';
-			body += '<a class="appleFooter" style="color:#313640;" href="mailto:info@mapic.io">info@mapic.io</a>';
+			// body += '<a class="original-only" style="color: #313640; text-decoration: none; " href="http://mapic.io">Powered by Mapic.io</a><br>';
+			// body += '<a class="appleFooter" style="color:#313640;" href="mailto:info@mapic.io">info@mapic.io</a>';
 			body += '</td>';
 			body += '</tr>';
 			body += '</table>';
@@ -794,8 +800,8 @@ module.exports = api.email = {
 			body  += '"description":    "Welcome to Mapic",';
 			body  += '"potentialAction": {';
 			body  += '"@type": "ViewAction",';
-			body  += '"target":   "http://mapic.io/",';
-			body  += '"name": "Your access details for Mapic"';
+			body  += '"target":   "' + api.config.portalServer.uri + '",';
+			body  += '"name": "Your access details"';
 			body  += '},';
 			body  += '"publisher": ';
 			body  += '{';
@@ -814,7 +820,7 @@ module.exports = api.email = {
 			body += '<td style="padding: 10px 0px 10px 0px;" class="logo">';
 			body += '<table border="0" cellpadding="0" cellspacing="0" width="100%">';
 			body += '<tr>';
-			body += '<td width="100" align="center"><a href="http://mapic.io/" target="_blank"><img alt="Logo" src="' + api.config.portalServer.uri + 'images/portal-logo.png' + '" style="display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
+			body += '<td width="100" align="center"><a href="#" target="_blank"><img alt="Logo" src="' + api.config.portalServer.uri + 'images/' + api.config.mail.templates.invited.logo + '" style="display: block; font-family: helvetica neue, helvetica, \'Open Sans\'; color: #BFC2C8; font-size: 16px;" border="0"></a></td>';
 			body += '</tr>';
 			body += '</table>';
 			body += '</td>';
@@ -880,8 +886,8 @@ module.exports = api.email = {
 			body += '<tr>';
 			body += '<td align="center" valign="middle" style="font-size: 12px; line-height: 18px; font-family: helvetica neue, helvetica, \'Open Sans\'; color:#313640; padding: 0px 0px 15px 0px;">';
 			// body += 'If you think you have received this email in error, no further action is required.<br>';
-			body += '<a class="original-only" style="color: #313640; text-decoration: none; " href="http://mapic.io">Powered by Mapic.io</a><br>';
-			body += '<a class="appleFooter" style="color:#313640;" href="mailto:info@mapic.io">info@mapic.io</a>';
+			// body += '<a class="original-only" style="color: #313640; text-decoration: none; " href="http://mapic.io">Powered by Mapic.io</a><br>';
+			// body += '<a class="appleFooter" style="color:#313640;" href="mailto:info@mapic.io">info@mapic.io</a>';
 			body += '</td>';
 			body += '</tr>';
 			body += '</table>';

@@ -382,6 +382,7 @@ module.exports = api.layer = {
                 'style',
                 'filter',
                 'legends',
+                'legend',
                 'opacity',
                 'zIndex',
                 'data',
@@ -838,6 +839,18 @@ module.exports = api.layer = {
 
     getWMSLayers : function (req, res) {
         res.send({wms : 'debug'});
+    },
+
+    getExternal : function (req, res) {
+
+        var url = req.body.url;
+        if (!url) return res.send('Error, invalid url.');
+
+        request(url, (err, result, body) => {
+            if (err) return res.send(err);
+            res.send(body);
+        });
+
     },
 };
 

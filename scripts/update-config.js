@@ -19,6 +19,16 @@ var MAPIC_LOGIN_LOGO = process.env.MAPIC_LOGIN_LOGO;
 console.log('env:');
 console.log(process.env);
 
+
+console.log('$##############################33');
+console.log('$##############################33');
+console.log('$##############################33');
+console.log('$##############################33');
+console.log('$##############################33');
+console.log('$##############################33');
+console.log('$##############################33');
+console.log('refresh-config.js');
+
 // read config
 var engineConfig = require(ENGINE_DEFAULT_CONFIG_PATH);
 engineConfig.serverConfig.mongo.url =  'mongodb://' + MAPIC_MONGO_USER + ':' + MAPIC_MONGO_AUTH + '@mongo/' + MAPIC_MONGO_DB;
@@ -66,6 +76,7 @@ engineConfig.serverConfig.slack.baseurl = engineConfig.serverConfig.portalServer
 // nodemailer
 engineConfig.serverConfig.nodemailer.auth.user = MAPIC_NODEMAILER_USER;
 engineConfig.serverConfig.nodemailer.auth.pass = MAPIC_NODEMAILER_AUTH;
+engineConfig.serverConfig.logo_base64 = MAPIC_LOGIN_LOGO;
 
 // write config
 var engineJsonStr = 'module.exports = ' + JSON.stringify(engineConfig, null, 2);

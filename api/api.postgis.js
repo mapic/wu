@@ -198,7 +198,7 @@ module.exports = api.postgis = {
             };
 
             console.log('  - using layer');
-            console.log('opts:', opts);
+            // console.log('opts:', opts);
 
             // get dataset
             api.postgis.downloadDataset(opts, callback);
@@ -214,14 +214,25 @@ module.exports = api.postgis = {
                 file_id : layer_id
             };
 
+            console.log(' - download ready');
+            console.log('status: ', status);
+
             // set download status
             api.postgis._setDownloadProgress(status);
 
             // send socket notification if subscribed
-            if (options.socket_notification) api.socket.downloadReady({
-                user : req.user,
-                status : status
-            });
+            if (options.socket_notification) {
+
+                console.log('sending socket notification')
+
+                api.socket.downloadReady({
+                    user : req.user,
+                    status : status
+                });
+            } else {
+                console.log(' - no socket_notification ??')
+                console.log('options:', options);
+            }
 
             // send to slack-monitor
             api.analytics.downloadedDataset({

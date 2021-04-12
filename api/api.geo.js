@@ -187,7 +187,7 @@ module.exports = api.geo = {
         // find vector types
         var isPoint     = (options.style.point && options.style.point.enabled);
         var isPolygon   = (options.style.polygon && options.style.polygon.enabled);
-        var isLine  = (options.style.line && options.style.line.enabled);
+        var isLine      = (options.style.line && options.style.line.enabled);
 
         // style
         var style = {
@@ -251,8 +251,20 @@ module.exports = api.geo = {
         style.headers += targetCarto.headers;
         style.layer += targetCarto.style;
 
+        // handle interpolated points
+        if (this._isInterpolated(options)) {
+            var interpolatedCarto = api.geo.buildCarto_interpolated(options);
+            style.headers += interpolatedCarto.headers;
+            style.layer += interpolatedCarto.style;
+        }
+
         return style;
 
+    },
+
+    _isInterpolated : function (options) {
+        var isInterpolated = (options.style.point.interpolated && options.style.point.interpolated.column && options.style.point.interpolated.column != '' && options.style.point.interpolated.column != 'false' && options.style.point.interpolated.column != false);
+        return isInterpolated;
     },
 
     _createPolygonCarto : function (options, style) {
@@ -459,6 +471,24 @@ module.exports = api.geo = {
 
         return css;
 
+    },
+
+    buildCarto_interpolated : function (options) {
+
+        var css = {
+            headers : '',
+            style   : ''
+        };
+
+        // options.style.point.interpolated.column
+        var column = options.style.point.interpolated.column;
+
+        // add headers -> @interpolated: [interpolat];
+        css.headers += '@interpolated: [' + column + '];\n';
+
+        css.style += "\t[@interpolated > 0] { marker-file: url('./square.svg'); marker-transform: rotate(45); }\n"
+
+        return css;
     },
 
 

@@ -263,7 +263,13 @@ module.exports = api.geo = {
     },
 
     _isInterpolated : function (options) {
-        var isInterpolated = (options.style.point.interpolated && options.style.point.interpolated.column && options.style.point.interpolated.column != '' && options.style.point.interpolated.column != 'false' && options.style.point.interpolated.column != false);
+        var isInterpolated = (  options.style.point.interpolated && 
+                                options.style.point.interpolated.column && 
+                                options.style.point.interpolated.column != '' && 
+                                options.style.point.interpolated.column != 'false' && 
+                                options.style.point.interpolated.column != false && 
+                                options.style.point.interpolated.column != '-' && 
+                                options.style.point.interpolated.column != 'Disabled');
         return isInterpolated;
     },
 

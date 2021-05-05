@@ -1960,7 +1960,7 @@ module.exports = function(app) {
     app.post('/v2/users/promote', checkAccess, api.user.promote, errorHandler);
 
 
-
+    app.post('/v2/users/updateUsername', checkAccess, api.user.updateUsername, errorHandler);
 
 
 

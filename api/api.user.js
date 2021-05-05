@@ -1242,6 +1242,51 @@ module.exports = api.user = {
         return queries;
     },
 
+    updateUsername : function (req, res, next) {
+
+        var username = req.body.username;
+        var uuid = req.body.uuid;
+
+        console.log('### updateUsername:')
+        console.log('username:', username);
+        console.log('uuid:', uuid);
+
+
+        if (!username || !uuid) return next('Missing data.');
+
+        console.log('checking user')
+
+
+        User
+        .findOne({uuid : uuid}) 
+        .exec(function (err, user) {
+            console.log('checked:', err, user);
+
+            if (err || !user) return next('No user or other err.');
+
+            // edit username
+            user.username = username;
+
+            // save
+            user.save(function (err) {
+                console.log('saved: ', err);
+                if (err) {
+                    res.status(400);
+                    return res.send('Error');
+                }
+
+                console.log('saved user:', user);
+
+                res.send(user);
+
+            });
+
+
+        });
+
+
+    },
+
 
     // check unique email
     checkUniqueEmail : function (req, res, next) {

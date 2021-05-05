@@ -24,35 +24,21 @@ var config  = require('../config.js').serverConfig;
 // connect to our database
 mongoose.connect(config.mongo.url); 
 
+const PREV_USERNAME = 'knutole2';
+const NEW_USERNAME = 'knutole3';
 
 User
-// .find()
-// .findOne({'local.email' : 'frano@globesar.com'})
-.findOne({'local.email' : 'knutole@systemapic.com'})
+.findOne({username : PREV_USERNAME})
 .exec(function (err, user) {
 	console.log(err, user);
+	if (!user) return console.log('No such user:', PREV_USERNAME)
 
-	user.access.account_type = 'super';
-	user.markModified('access');
-
-	user.save(function () {
 		
+	user.username = NEW_USERNAME;
+
+	user.save(function (err) {
+		console.log(err);
 	})
 
-	// users.forEach(function (u) {
-		// console.log(u.local.email);
-
-		// if (u.local.email == 'oyvind.lier@sweco,no') {
-		// 	console.log('SWECO!', u);
-		// 	// u.local.email = 'oyvind.lier@sweco.no';
-		// 	// u.save(function (err) {
-		// 	// 	console.log('saved!');
-		// 	// 	process.exit(0);
-		// 	// })
-		// }
-
-
-	// });
-	
 
 });

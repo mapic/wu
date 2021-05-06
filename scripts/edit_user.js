@@ -24,8 +24,8 @@ var config  = require('../config.js').serverConfig;
 // connect to our database
 mongoose.connect(config.mongo.url); 
 
-const PREV_USERNAME = 'knutole2';
-const NEW_USERNAME = 'knutole3';
+const PREV_USERNAME = 'frano';
+const NEW_USERNAME = 'edi';
 
 User
 .findOne({username : PREV_USERNAME})

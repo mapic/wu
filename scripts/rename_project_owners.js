@@ -25,8 +25,8 @@ var config  = require('../config.js').serverConfig;
 // connect to our database
 mongoose.connect(config.mongo.url); 
 
-const FROM_NAME = 'knutole2';    // current project owner name
-const TO_NAME = 'knutole3';     // future project owner name
+const FROM_NAME = 'frano';    // current project owner name
+const TO_NAME = 'edi';     // future project owner name
 
 Project
 .find({createdByUsername : FROM_NAME})

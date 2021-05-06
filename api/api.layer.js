@@ -390,7 +390,8 @@ module.exports = api.layer = {
                 'filter_mask',
                 'options',
                 'defo_rasters',
-                'layer_type'
+                'layer_type',
+                'custom_zindex'
             ];
             var ops = [];
 

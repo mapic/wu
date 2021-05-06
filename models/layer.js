@@ -33,6 +33,7 @@ var layerSchema = mongoose.Schema({
     options     : String, // JSON of custom options
     layer_type  : String, // eg. defo_raster
     defo_rasters : [String],
+    custom_zindex : Number,
 
     // data source for layer
     // mutually exclusive
